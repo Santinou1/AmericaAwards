@@ -3,17 +3,47 @@
 ### Verificar API
 GET http://localhost:3000/
 
-## Usuarios
+## Creación Inicial
 
-### Obtener Todos los Usuarios
+### Crear Primer Usuario Administrador (Solo funciona una vez)
+POST http://localhost:3000/api/usuarios/primer-admin
+Content-Type: application/json
+
+{
+    "nombre": "Admin Principal",
+    "email": "admin@empresa.com",
+    "password": "admin123456"
+}
+
+## Autenticación
+
+### Login Usuario
+POST http://localhost:3000/api/auth
+Content-Type: application/json
+
+{
+    "email": "admin@empresa.com",
+    "password": "admin123456"
+}
+
+### Obtener Usuario Autenticado
+GET http://localhost:3000/api/auth
+x-auth-token: {{authToken}}
+
+## Usuarios (Requieren autenticación)
+
+### Obtener Todos los Usuarios (Solo Admin)
 GET http://localhost:3000/api/usuarios
+x-auth-token: {{authToken}}
 
-### Obtener Usuario por ID
+### Obtener Usuario por ID (Admin o mismo usuario)
 GET http://localhost:3000/api/usuarios/{{userId}}
+x-auth-token: {{authToken}}
 
-### Crear Usuario Empleado Básico
+### Crear Usuario (Solo Admin)
 POST http://localhost:3000/api/usuarios
 Content-Type: application/json
+x-auth-token: {{authToken}}
 
 {
     "nombre": "Juan Pérez",
@@ -22,98 +52,39 @@ Content-Type: application/json
     "rol": "empleado"
 }
 
-### Crear Usuario Empleado con Puntos Iniciales
-POST http://localhost:3000/api/usuarios
-Content-Type: application/json
-
-{
-    "nombre": "Ana Martínez",
-    "email": "ana@empresa.com",
-    "password": "ana123456",
-    "rol": "empleado",
-    "saldo_puntos_canjeables": 100,
-    "saldo_puntos_transferibles": 50
-}
-
-### Crear Usuario Administrador
-POST http://localhost:3000/api/usuarios
-Content-Type: application/json
-
-{
-    "nombre": "Admin User",
-    "email": "admin@empresa.com",
-    "password": "admin123456",
-    "rol": "administrador",
-    "saldo_puntos_canjeables": 500,
-    "saldo_puntos_transferibles": 200
-}
-
-### Actualizar Usuario
+### Actualizar Usuario (Admin o mismo usuario)
 PUT http://localhost:3000/api/usuarios/{{userId}}
 Content-Type: application/json
+x-auth-token: {{authToken}}
 
 {
     "nombre": "Juan Pérez Actualizado",
-    "email": "juan.actualizado@empresa.com",
-    "saldo_puntos_canjeables": 150,
-    "saldo_puntos_transferibles": 75
+    "email": "juan.actualizado@empresa.com"
 }
 
-### Actualizar Solo Nombre de Usuario
-PUT http://localhost:3000/api/usuarios/{{userId}}
-Content-Type: application/json
-
-{
-    "nombre": "Nuevo Nombre"
-}
-
-### Actualizar Contraseña de Usuario
-PUT http://localhost:3000/api/usuarios/{{userId}}
-Content-Type: application/json
-
-{
-    "password": "nueva123456"
-}
-
-### Actualizar Saldos de Usuario
-PUT http://localhost:3000/api/usuarios/{{userId}}
-Content-Type: application/json
-
-{
-    "saldo_puntos_canjeables": 200,
-    "saldo_puntos_transferibles": 100
-}
-
-### Eliminar Usuario
+### Eliminar Usuario (Solo Admin)
 DELETE http://localhost:3000/api/usuarios/{{userId}}
+x-auth-token: {{authToken}}
 
-### Crear Usuario - Validación Email Duplicado
+### Ejemplos de Errores
+
+### Intento de Crear Usuario sin Token
 POST http://localhost:3000/api/usuarios
 Content-Type: application/json
 
 {
-    "nombre": "Usuario Duplicado",
-    "email": "juan@empresa.com",
-    "password": "test123456"
+    "nombre": "Usuario Sin Token",
+    "email": "usuario@empresa.com",
+    "password": "123456abc"
 }
 
-### Crear Usuario - Datos Inválidos
+### Intento de Crear Usuario con Rol Empleado (No Admin)
 POST http://localhost:3000/api/usuarios
 Content-Type: application/json
+x-auth-token: {{tokenEmpleado}}
 
 {
-    "nombre": "",
-    "email": "correo-invalido",
-    "password": "123",
-    "rol": "rol-invalido"
-}
-
-### Actualizar Usuario - Datos Inválidos
-PUT http://localhost:3000/api/usuarios/{{userId}}
-Content-Type: application/json
-
-{
-    "email": "correo-invalido",
-    "rol": "rol-invalido",
-    "saldo_puntos_canjeables": -100
+    "nombre": "Intento No Autorizado",
+    "email": "intento@empresa.com",
+    "password": "123456abc"
 }

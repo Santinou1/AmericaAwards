@@ -2,20 +2,17 @@ const express = require('express');
 const router = express.Router();
 const usuarioController = require('../controllers/usuarioController');
 const { validarCreacionUsuario, validarActualizacionUsuario } = require('../middleware/validacion');
+const auth = require('../middleware/auth');
+const { isAdmin, isSameUserOrAdmin } = require('../middleware/checkRole');
 
-// Crear usuario
-router.post('/', validarCreacionUsuario, usuarioController.crearUsuario);
+// Ruta pública para crear el primer usuario administrador (solo funciona si no hay usuarios)
+router.post('/primer-admin', validarCreacionUsuario, usuarioController.crearPrimerAdmin);
 
-// Obtener todos los usuarios
-router.get('/', usuarioController.obtenerUsuarios);
-
-// Obtener un usuario específico
-router.get('/:id', usuarioController.obtenerUsuario);
-
-// Actualizar usuario
-router.put('/:id', validarActualizacionUsuario, usuarioController.actualizarUsuario);
-
-// Eliminar usuario
-router.delete('/:id', usuarioController.eliminarUsuario);
+// Rutas protegidas
+router.post('/', [auth, isAdmin, validarCreacionUsuario], usuarioController.crearUsuario);
+router.get('/', [auth, isAdmin], usuarioController.obtenerUsuarios); // Agregado isAdmin
+router.get('/:id', [auth, isSameUserOrAdmin], usuarioController.obtenerUsuario);
+router.put('/:id', [auth, isSameUserOrAdmin, validarActualizacionUsuario], usuarioController.actualizarUsuario);
+router.delete('/:id', [auth, isAdmin], usuarioController.eliminarUsuario);
 
 module.exports = router;

@@ -1,6 +1,75 @@
 const bcrypt = require('bcryptjs');
 const { validationResult } = require('express-validator');
 const Usuario = require('../models/Usuario');
+const jwt = require('jsonwebtoken');
+
+
+// Nuevo método para crear el primer administrador
+exports.crearPrimerAdmin = async (req, res) => {
+  try {
+    // Verificar si ya existe algún usuario
+    const existenUsuarios = await Usuario.countDocuments();
+    if (existenUsuarios > 0) {
+      return res.status(400).json({ msg: 'Ya existe al menos un usuario. Use la ruta normal de registro.' });
+    }
+
+    // Verificar errores de validación
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { nombre, email, password } = req.body;
+
+    // Crear nuevo usuario administrador
+    const usuario = new Usuario({
+      nombre,
+      email,
+      password,
+      rol: 'administrador',
+      saldo_puntos_canjeables: 0,
+      saldo_puntos_transferibles: 0
+    });
+
+    // Encriptar contraseña
+    const salt = await bcrypt.genSalt(10);
+    usuario.password = await bcrypt.hash(password, salt);
+
+    // Guardar usuario
+    await usuario.save();
+
+    // Crear y firmar el JWT
+    const payload = {
+      usuario: {
+        id: usuario._id,
+        nombre: usuario.nombre,
+        email: usuario.email,
+        rol: usuario.rol
+      }
+    };
+
+    // Firmar el JWT
+    const token = jwt.sign(payload, process.env.JWT_SECRET, {
+      expiresIn: '8h'
+    });
+
+    // Enviar respuesta
+    res.status(201).json({
+      msg: 'Administrador creado exitosamente',
+      token,
+      usuario: {
+        id: usuario._id,
+        nombre: usuario.nombre,
+        email: usuario.email,
+        rol: usuario.rol
+      }
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ msg: 'Error en el servidor' });
+  }
+};
+
 
 exports.crearUsuario = async (req, res) => {
   try {

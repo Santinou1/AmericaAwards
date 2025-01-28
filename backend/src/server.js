@@ -14,6 +14,7 @@ conectarDB();
 
 // Rutas
 app.use('/api/usuarios', require('./routes/usuarioRoutes'));
+app.use('/api/auth', require('./routes/authRoutes'));
 
 // Ruta de prueba
 app.get('/', (req, res) => {
