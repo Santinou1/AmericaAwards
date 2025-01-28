@@ -77,6 +77,42 @@ Campos:
 - estado: String (enum: ['pendiente', 'aprobado', 'rechazado'])
 ```
 
+## Endpoints de la API
+
+### Usuarios
+
+#### Crear Usuario
+- **URL**: `/api/usuarios`
+- **Método**: `POST`
+- **Body**:
+  ```json
+  {
+    "nombre": "string",
+    "email": "string",
+    "password": "string",
+    "rol": "empleado|administrador" (opcional)
+  }
+  ```
+- **Respuesta Exitosa**:
+  ```json
+  {
+    "msg": "Usuario creado exitosamente",
+    "usuario": {
+      "id": "string",
+      "nombre": "string",
+      "email": "string",
+      "rol": "string",
+      "saldo_puntos_canjeables": 0,
+      "saldo_puntos_transferibles": 0
+    }
+  }
+  ```
+- **Validaciones**:
+  - Nombre: Requerido
+  - Email: Debe ser válido y único
+  - Password: Mínimo 6 caracteres, debe contener al menos un número
+  - Rol: Debe ser 'empleado' o 'administrador'
+
 ## Relaciones entre Modelos
 
 - Los usuarios están relacionados con las transferencias tanto como emisores como receptores
@@ -91,3 +127,5 @@ Campos:
 - **Mongoose**: ODM para MongoDB
 - **Cors**: Middleware para habilitar CORS
 - **Dotenv**: Manejo de variables de entorno
+- **bcryptjs**: Encriptación de contraseñas
+- **express-validator**: Validación de datos de entrada

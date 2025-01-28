@@ -1,0 +1,119 @@
+# API de Sistema de Gamificación Laboral
+
+### Verificar API
+GET http://localhost:3000/
+
+## Usuarios
+
+### Obtener Todos los Usuarios
+GET http://localhost:3000/api/usuarios
+
+### Obtener Usuario por ID
+GET http://localhost:3000/api/usuarios/{{userId}}
+
+### Crear Usuario Empleado Básico
+POST http://localhost:3000/api/usuarios
+Content-Type: application/json
+
+{
+    "nombre": "Juan Pérez",
+    "email": "juan@empresa.com",
+    "password": "123456abc",
+    "rol": "empleado"
+}
+
+### Crear Usuario Empleado con Puntos Iniciales
+POST http://localhost:3000/api/usuarios
+Content-Type: application/json
+
+{
+    "nombre": "Ana Martínez",
+    "email": "ana@empresa.com",
+    "password": "ana123456",
+    "rol": "empleado",
+    "saldo_puntos_canjeables": 100,
+    "saldo_puntos_transferibles": 50
+}
+
+### Crear Usuario Administrador
+POST http://localhost:3000/api/usuarios
+Content-Type: application/json
+
+{
+    "nombre": "Admin User",
+    "email": "admin@empresa.com",
+    "password": "admin123456",
+    "rol": "administrador",
+    "saldo_puntos_canjeables": 500,
+    "saldo_puntos_transferibles": 200
+}
+
+### Actualizar Usuario
+PUT http://localhost:3000/api/usuarios/{{userId}}
+Content-Type: application/json
+
+{
+    "nombre": "Juan Pérez Actualizado",
+    "email": "juan.actualizado@empresa.com",
+    "saldo_puntos_canjeables": 150,
+    "saldo_puntos_transferibles": 75
+}
+
+### Actualizar Solo Nombre de Usuario
+PUT http://localhost:3000/api/usuarios/{{userId}}
+Content-Type: application/json
+
+{
+    "nombre": "Nuevo Nombre"
+}
+
+### Actualizar Contraseña de Usuario
+PUT http://localhost:3000/api/usuarios/{{userId}}
+Content-Type: application/json
+
+{
+    "password": "nueva123456"
+}
+
+### Actualizar Saldos de Usuario
+PUT http://localhost:3000/api/usuarios/{{userId}}
+Content-Type: application/json
+
+{
+    "saldo_puntos_canjeables": 200,
+    "saldo_puntos_transferibles": 100
+}
+
+### Eliminar Usuario
+DELETE http://localhost:3000/api/usuarios/{{userId}}
+
+### Crear Usuario - Validación Email Duplicado
+POST http://localhost:3000/api/usuarios
+Content-Type: application/json
+
+{
+    "nombre": "Usuario Duplicado",
+    "email": "juan@empresa.com",
+    "password": "test123456"
+}
+
+### Crear Usuario - Datos Inválidos
+POST http://localhost:3000/api/usuarios
+Content-Type: application/json
+
+{
+    "nombre": "",
+    "email": "correo-invalido",
+    "password": "123",
+    "rol": "rol-invalido"
+}
+
+### Actualizar Usuario - Datos Inválidos
+PUT http://localhost:3000/api/usuarios/{{userId}}
+Content-Type: application/json
+
+{
+    "email": "correo-invalido",
+    "rol": "rol-invalido",
+    "saldo_puntos_canjeables": -100
+}
