@@ -22,43 +22,44 @@ POST http://localhost:3000/api/auth
 Content-Type: application/json
 
 {
-    "email": "admin@empresa.com",
-    "password": "admin123456"
+    "email": "luis@empresa.com",
+    "password": "123456abc"
 }
 
 ### Obtener Usuario Autenticado
 GET http://localhost:3000/api/auth
-x-auth-token: {{authToken}}
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoiNjc5ZDE5NmIxYTJhZmU4YmIzMjE4NmYyIiwibm9tYnJlIjoiQWRtaW4gUHJpbmNpcGFsIiwiZW1haWwiOiJhZG1pbkBlbXByZXNhLmNvbSIsInJvbCI6ImFkbWluaXN0cmFkb3IifSwiaWF0IjoxNzM4MzQ4OTkxLCJleHAiOjE3MzgzNzc3OTF9.1jynEdseBWabFKkyFyV8woruaWigSxJCvwfa3REMFDA
 
 ## Usuarios (Requieren autenticación)
 
 ### Obtener Todos los Usuarios (Solo Admin)
 GET http://localhost:3000/api/usuarios
-x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoiNjc5Y2Q1ZDJiNWQzMjZiZmE3ZTJmNGM4Iiwibm9tYnJlIjoiQWRtaW4gUHJpbmNpcGFsIiwiZW1haWwiOiJhZG1pbkBlbXByZXNhLmNvbSIsInJvbCI6ImFkbWluaXN0cmFkb3IifSwiaWF0IjoxNzM4MzMxNjAyLCJleHAiOjE3MzgzNjA0MDJ9.3Yc973SOryyrrNEa8atDKSIMbx_LPgGxdFXfeAE0484
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoiNjc5ZDE5NmIxYTJhZmU4YmIzMjE4NmYyIiwibm9tYnJlIjoiQWRtaW4gUHJpbmNpcGFsIiwiZW1haWwiOiJhZG1pbkBlbXByZXNhLmNvbSIsInJvbCI6ImFkbWluaXN0cmFkb3IifSwiaWF0IjoxNzM4MzQ4OTkxLCJleHAiOjE3MzgzNzc3OTF9.1jynEdseBWabFKkyFyV8woruaWigSxJCvwfa3REMFDA
 
 ### Obtener Usuario por ID (Admin o mismo usuario)
-GET http://localhost:3000/api/usuarios/{{userId}}
-x-auth-token: {{authToken}}
+GET http://localhost:3000/api/usuarios/679d196b1a2afe8bb32186f2
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoiNjc5ZDE5NmIxYTJhZmU4YmIzMjE4NmYyIiwibm9tYnJlIjoiQWRtaW4gUHJpbmNpcGFsIiwiZW1haWwiOiJhZG1pbkBlbXByZXNhLmNvbSIsInJvbCI6ImFkbWluaXN0cmFkb3IifSwiaWF0IjoxNzM4MzQ4OTkxLCJleHAiOjE3MzgzNzc3OTF9.1jynEdseBWabFKkyFyV8woruaWigSxJCvwfa3REMFDA
 
 ### Crear Usuario (Solo Admin)
 POST http://localhost:3000/api/usuarios
 Content-Type: application/json
-x-auth-token: {{authToken}}
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoiNjc5ZDE5NmIxYTJhZmU4YmIzMjE4NmYyIiwibm9tYnJlIjoiQWRtaW4gUHJpbmNpcGFsIiwiZW1haWwiOiJhZG1pbkBlbXByZXNhLmNvbSIsInJvbCI6ImFkbWluaXN0cmFkb3IifSwiaWF0IjoxNzM4MzQ4OTkxLCJleHAiOjE3MzgzNzc3OTF9.1jynEdseBWabFKkyFyV8woruaWigSxJCvwfa3REMFDA
 
 {
-    "nombre": "Juan Pérez",
-    "email": "juan@empresa.com",
+    "nombre": "luis",
+    "email": "luis@empresa.com",
     "password": "123456abc",
     "rol": "empleado"
 }
 
 ### Actualizar Usuario (Admin o mismo usuario)
-PUT http://localhost:3000/api/usuarios/679cd681b5d326bfa7e2f4d1
+PUT http://localhost:3000/api/usuarios/679d1a6b1a2afe8bb32186fb
 Content-Type: application/json
-x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoiNjc5Y2Q1ZDJiNWQzMjZiZmE3ZTJmNGM4Iiwibm9tYnJlIjoiQWRtaW4gUHJpbmNpcGFsIiwiZW1haWwiOiJhZG1pbkBlbXByZXNhLmNvbSIsInJvbCI6ImFkbWluaXN0cmFkb3IifSwiaWF0IjoxNzM4MzMxNjAyLCJleHAiOjE3MzgzNjA0MDJ9.3Yc973SOryyrrNEa8atDKSIMbx_LPgGxdFXfeAE0484
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoiNjc5ZDE5NmIxYTJhZmU4YmIzMjE4NmYyIiwibm9tYnJlIjoiQWRtaW4gUHJpbmNpcGFsIiwiZW1haWwiOiJhZG1pbkBlbXByZXNhLmNvbSIsInJvbCI6ImFkbWluaXN0cmFkb3IifSwiaWF0IjoxNzM4MzQ4OTkxLCJleHAiOjE3MzgzNzc3OTF9.1jynEdseBWabFKkyFyV8woruaWigSxJCvwfa3REMFDA
 
 {
-   "saldo_puntos_canjeables": 1000
+   "saldo_puntos_canjeables": 1000,
+   "saldo_puntos_transferibles": 5000
 }
 
 ### Eliminar Usuario (Solo Admin)
@@ -70,17 +71,17 @@ x-auth-token: {{authToken}}
 ### Realizar Transferencia
 POST http://localhost:3000/api/transferencias
 Content-Type: application/json
-x-auth-token: {{authToken}}
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoiNjc5ZDFhNmIxYTJhZmU4YmIzMjE4NmZiIiwibm9tYnJlIjoiSnVhbiBQw6lyZXoiLCJlbWFpbCI6Imp1YW5AZW1wcmVzYS5jb20iLCJyb2wiOiJlbXBsZWFkbyJ9LCJpYXQiOjE3MzgzNDkyODksImV4cCI6MTczODM3ODA4OX0.yjIxl4a2cs-B6EHw7bIJxKP4dW0aKg8wZnbH2mKobHE
 
 {
-    "receptor_id": "{{receptorId}}",
-    "puntos": 50,
+    "receptor_id": "679d1aba1a2afe8bb3218701",
+    "puntos": 1000,
     "mensaje": "¡Gracias por tu ayuda en el proyecto!"
 }
 
 ### Obtener Mis Transferencias
 GET http://localhost:3000/api/transferencias/mis-transferencias
-x-auth-token: {{authToken}}
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoiNjc5ZDFhNmIxYTJhZmU4YmIzMjE4NmZiIiwibm9tYnJlIjoiSnVhbiBQw6lyZXoiLCJlbWFpbCI6Imp1YW5AZW1wcmVzYS5jb20iLCJyb2wiOiJlbXBsZWFkbyJ9LCJpYXQiOjE3MzgzNDkyODksImV4cCI6MTczODM3ODA4OX0.yjIxl4a2cs-B6EHw7bIJxKP4dW0aKg8wZnbH2mKobHE
 
 ### Obtener Todas las Transferencias (Solo Admin)
 GET http://localhost:3000/api/transferencias
@@ -93,13 +94,13 @@ GET http://localhost:3000/api/premios
 x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoiNjc5Y2Q1ZDJiNWQzMjZiZmE3ZTJmNGM4Iiwibm9tYnJlIjoiQWRtaW4gUHJpbmNpcGFsIiwiZW1haWwiOiJhZG1pbkBlbXByZXNhLmNvbSIsInJvbCI6ImFkbWluaXN0cmFkb3IifSwiaWF0IjoxNzM4MzMxNjAyLCJleHAiOjE3MzgzNjA0MDJ9.3Yc973SOryyrrNEa8atDKSIMbx_LPgGxdFXfeAE0484
 
 ### Obtener Premio por ID
-GET http://localhost:3000/api/premios/{{premioId}}
-x-auth-token: {{authToken}}
+GET http://localhost:3000/api/premios/679d1b4c1a2afe8bb321870f
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoiNjc5Y2Q1ZDJiNWQzMjZiZmE3ZTJmNGM4Iiwibm9tYnJlIjoiQWRtaW4gUHJpbmNpcGFsIiwiZW1haWwiOiJhZG1pbkBlbXByZXNhLmNvbSIsInJvbCI6ImFkbWluaXN0cmFkb3IifSwiaWF0IjoxNzM4MzMxNjAyLCJleHAiOjE3MzgzNjA0MDJ9.3Yc973SOryyrrNEa8atDKSIMbx_LPgGxdFXfeAE0484
 
 ### Crear Premio (Solo Admin)
 POST http://localhost:3000/api/premios
 Content-Type: application/json
-x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoiNjc5Y2Q1ZDJiNWQzMjZiZmE3ZTJmNGM4Iiwibm9tYnJlIjoiQWRtaW4gUHJpbmNpcGFsIiwiZW1haWwiOiJhZG1pbkBlbXByZXNhLmNvbSIsInJvbCI6ImFkbWluaXN0cmFkb3IifSwiaWF0IjoxNzM4MzMxNjAyLCJleHAiOjE3MzgzNjA0MDJ9.3Yc973SOryyrrNEa8atDKSIMbx_LPgGxdFXfeAE0484
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoiNjc5ZDE5NmIxYTJhZmU4YmIzMjE4NmYyIiwibm9tYnJlIjoiQWRtaW4gUHJpbmNpcGFsIiwiZW1haWwiOiJhZG1pbkBlbXByZXNhLmNvbSIsInJvbCI6ImFkbWluaXN0cmFkb3IifSwiaWF0IjoxNzM4MzQ4OTkxLCJleHAiOjE3MzgzNzc3OTF9.1jynEdseBWabFKkyFyV8woruaWigSxJCvwfa3REMFDA
 
 {
     "nombre": "Chocolate",
@@ -109,9 +110,9 @@ x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoiNjc5Y
 }
 
 ### Actualizar Premio (Solo Admin)
-PUT http://localhost:3000/api/premios/{{premioId}}
+PUT http://localhost:3000/api/premios/679d1b4c1a2afe8bb321870f
 Content-Type: application/json
-x-auth-token: {{authToken}}
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoiNjc5ZDE5NmIxYTJhZmU4YmIzMjE4NmYyIiwibm9tYnJlIjoiQWRtaW4gUHJpbmNpcGFsIiwiZW1haWwiOiJhZG1pbkBlbXByZXNhLmNvbSIsInJvbCI6ImFkbWluaXN0cmFkb3IifSwiaWF0IjoxNzM4MzQ4OTkxLCJleHAiOjE3MzgzNzc3OTF9.1jynEdseBWabFKkyFyV8woruaWigSxJCvwfa3REMFDA
 
 {
     "nombre": "Día Libre Premium",
@@ -129,25 +130,25 @@ x-auth-token: {{authToken}}
 ### Realizar Canje de Premio
 POST http://localhost:3000/api/canjes
 Content-Type: application/json
-x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoiNjc5Y2Q2ODFiNWQzMjZiZmE3ZTJmNGQxIiwibm9tYnJlIjoiQ2FybGl0b3MgSm9zZSIsImVtYWlsIjoiY2FybGl0b3Nqb3NlQGVtcHJlc2EuY29tIiwicm9sIjoiZW1wbGVhZG8ifSwiaWF0IjoxNzM4MzMxODQ2LCJleHAiOjE3MzgzNjA2NDZ9.Mn9hTP-a2LEyF6Ns6lzJ0eEULOaiw5j6GuAaQKo8eE4
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoiNjc5ZDFhYmExYTJhZmU4YmIzMjE4NzAxIiwibm9tYnJlIjoibHVpcyIsImVtYWlsIjoibHVpc0BlbXByZXNhLmNvbSIsInJvbCI6ImVtcGxlYWRvIn0sImlhdCI6MTczODM1MDEyNywiZXhwIjoxNzM4Mzc4OTI3fQ.WR_7LG5GJXs0aFBklR0l2SxQI_eqFmq7AM166BT-0Pc
 
 {
-    "premio_id": "679ce584b013fc3d63f78e02",
+    "premio_id": "679d1b4c1a2afe8bb321870f",
     "cantidad": 1
 }
 
 ### Obtener Mis Canjes
 GET http://localhost:3000/api/canjes/mis-canjes
-x-auth-token: {{authToken}}
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoiNjc5ZDFhYmExYTJhZmU4YmIzMjE4NzAxIiwibm9tYnJlIjoibHVpcyIsImVtYWlsIjoibHVpc0BlbXByZXNhLmNvbSIsInJvbCI6ImVtcGxlYWRvIn0sImlhdCI6MTczODM1MDEyNywiZXhwIjoxNzM4Mzc4OTI3fQ.WR_7LG5GJXs0aFBklR0l2SxQI_eqFmq7AM166BT-0Pc
 
 ### Obtener Todos los Canjes (Solo Admin)
 GET http://localhost:3000/api/canjes
-x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoiNjc5Y2Q1ZDJiNWQzMjZiZmE3ZTJmNGM4Iiwibm9tYnJlIjoiQWRtaW4gUHJpbmNpcGFsIiwiZW1haWwiOiJhZG1pbkBlbXByZXNhLmNvbSIsInJvbCI6ImFkbWluaXN0cmFkb3IifSwiaWF0IjoxNzM4MzMxNjAyLCJleHAiOjE3MzgzNjA0MDJ9.3Yc973SOryyrrNEa8atDKSIMbx_LPgGxdFXfeAE0484
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoiNjc5ZDE5NmIxYTJhZmU4YmIzMjE4NmYyIiwibm9tYnJlIjoiQWRtaW4gUHJpbmNpcGFsIiwiZW1haWwiOiJhZG1pbkBlbXByZXNhLmNvbSIsInJvbCI6ImFkbWluaXN0cmFkb3IifSwiaWF0IjoxNzM4MzQ4OTkxLCJleHAiOjE3MzgzNzc3OTF9.1jynEdseBWabFKkyFyV8woruaWigSxJCvwfa3REMFDA
 
 ### Aprobar Canje (Solo Admin)
-PUT http://localhost:3000/api/canjes/679ce5dab013fc3d63f78e10/estado
+PUT http://localhost:3000/api/canjes/679d1e3d1a2afe8bb3218723/estado
 Content-Type: application/json
-x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoiNjc5Y2Q1ZDJiNWQzMjZiZmE3ZTJmNGM4Iiwibm9tYnJlIjoiQWRtaW4gUHJpbmNpcGFsIiwiZW1haWwiOiJhZG1pbkBlbXByZXNhLmNvbSIsInJvbCI6ImFkbWluaXN0cmFkb3IifSwiaWF0IjoxNzM4MzMxNjAyLCJleHAiOjE3MzgzNjA0MDJ9.3Yc973SOryyrrNEa8atDKSIMbx_LPgGxdFXfeAE0484
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoiNjc5ZDE5NmIxYTJhZmU4YmIzMjE4NmYyIiwibm9tYnJlIjoiQWRtaW4gUHJpbmNpcGFsIiwiZW1haWwiOiJhZG1pbkBlbXByZXNhLmNvbSIsInJvbCI6ImFkbWluaXN0cmFkb3IifSwiaWF0IjoxNzM4MzQ4OTkxLCJleHAiOjE3MzgzNzc3OTF9.1jynEdseBWabFKkyFyV8woruaWigSxJCvwfa3REMFDA
 
 {
     "estado": "aprobado"
