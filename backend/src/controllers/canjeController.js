@@ -90,3 +90,57 @@ exports.obtenerTodosCanjes = async (req, res) => {
     res.status(500).json({ msg: 'Error al obtener los canjes' });
   }
 };
+
+// Nuevo método para actualizar el estado del canje
+exports.actualizarEstadoCanje = async (req, res) => {
+  const errores = validationResult(req);
+  if (!errores.isEmpty()) {
+    return res.status(400).json({ errores: errores.array() });
+  }
+
+  try {
+    const { estado } = req.body;
+    const canjeId = req.params.id;
+
+    // Verificar que el canje existe
+    const canje = await Canje.findById(canjeId)
+      .populate('usuario_id')
+      .populate('premio_id');
+
+    if (!canje) {
+      return res.status(404).json({ msg: 'Canje no encontrado' });
+    }
+
+    // Si el canje ya fue procesado, no permitir cambios
+    if (canje.estado !== 'pendiente') {
+      return res.status(400).json({ msg: 'Este canje ya fue procesado anteriormente' });
+    }
+
+    // Si se rechaza el canje, devolver los puntos y el stock
+    if (estado === 'rechazado') {
+      const costoTotal = canje.premio_id.costo_puntos * canje.cantidad;
+      
+      // Devolver puntos al usuario
+      await Usuario.findByIdAndUpdate(canje.usuario_id._id, {
+        $inc: { saldo_puntos_canjeables: costoTotal }
+      });
+
+      // Devolver stock al premio
+      await Premio.findByIdAndUpdate(canje.premio_id._id, {
+        $inc: { stock: canje.cantidad }
+      });
+    }
+
+    // Actualizar estado del canje
+    canje.estado = estado;
+    await canje.save();
+
+    res.json({
+      msg: `Canje ${estado} exitosamente`,
+      canje
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ msg: 'Error al actualizar el estado del canje' });
+  }
+};

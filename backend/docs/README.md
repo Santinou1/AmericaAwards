@@ -53,7 +53,7 @@ proyecto/
 - [Autenticación y Seguridad](./api/auth.md)
 - [Sistema de Transferencias](./api/transferencias.md)
 - [Sistema de Premios](./api/premios.md)
-- [Sistema de Canjes](./api/canjes.md)
+- [Sistema de Canjes y Aprobaciones](./api/canjes.md)
 
 ### Frontend
 - [Guía de Implementación](./front/README.md)
@@ -87,7 +87,8 @@ proyecto/
 - Canje de puntos por premios
 - Verificación de saldo y stock
 - Historial de canjes
-- Estado de solicitudes
+- Proceso de aprobación/rechazo por administradores
+- Gestión automática de devoluciones en caso de rechazo
 
 ## Roles y Permisos
 
@@ -95,7 +96,8 @@ proyecto/
 - Gestión completa de usuarios
 - Gestión del catálogo de premios
 - Acceso a todos los historiales
-- Aprobación de canjes (opcional)
+- Aprobación o rechazo de canjes
+- Gestión de estados de canjes
 
 ### Usuario
 - Ver y actualizar su información

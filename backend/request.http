@@ -1,4 +1,4 @@
-# API de Sistema de Gamificación Laboral
+### API de Sistema de Gamificación Laboral
 
 ### Verificar API
 GET http://localhost:3000/
@@ -34,7 +34,7 @@ x-auth-token: {{authToken}}
 
 ### Obtener Todos los Usuarios (Solo Admin)
 GET http://localhost:3000/api/usuarios
-x-auth-token: {{authToken}}
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoiNjc5Y2Q1ZDJiNWQzMjZiZmE3ZTJmNGM4Iiwibm9tYnJlIjoiQWRtaW4gUHJpbmNpcGFsIiwiZW1haWwiOiJhZG1pbkBlbXByZXNhLmNvbSIsInJvbCI6ImFkbWluaXN0cmFkb3IifSwiaWF0IjoxNzM4MzMxNjAyLCJleHAiOjE3MzgzNjA0MDJ9.3Yc973SOryyrrNEa8atDKSIMbx_LPgGxdFXfeAE0484
 
 ### Obtener Usuario por ID (Admin o mismo usuario)
 GET http://localhost:3000/api/usuarios/{{userId}}
@@ -53,13 +53,12 @@ x-auth-token: {{authToken}}
 }
 
 ### Actualizar Usuario (Admin o mismo usuario)
-PUT http://localhost:3000/api/usuarios/679cd5f4b5d326bfa7e2f4cb
+PUT http://localhost:3000/api/usuarios/679cd681b5d326bfa7e2f4d1
 Content-Type: application/json
 x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoiNjc5Y2Q1ZDJiNWQzMjZiZmE3ZTJmNGM4Iiwibm9tYnJlIjoiQWRtaW4gUHJpbmNpcGFsIiwiZW1haWwiOiJhZG1pbkBlbXByZXNhLmNvbSIsInJvbCI6ImFkbWluaXN0cmFkb3IifSwiaWF0IjoxNzM4MzMxNjAyLCJleHAiOjE3MzgzNjA0MDJ9.3Yc973SOryyrrNEa8atDKSIMbx_LPgGxdFXfeAE0484
 
 {
-    "saldo_puntos_canjeables": 10000
-
+   "saldo_puntos_canjeables": 1000
 }
 
 ### Eliminar Usuario (Solo Admin)
@@ -91,7 +90,7 @@ x-auth-token: {{authToken}}
 
 ### Obtener Todos los Premios
 GET http://localhost:3000/api/premios
-x-auth-token: {{authToken}}
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoiNjc5Y2Q1ZDJiNWQzMjZiZmE3ZTJmNGM4Iiwibm9tYnJlIjoiQWRtaW4gUHJpbmNpcGFsIiwiZW1haWwiOiJhZG1pbkBlbXByZXNhLmNvbSIsInJvbCI6ImFkbWluaXN0cmFkb3IifSwiaWF0IjoxNzM4MzMxNjAyLCJleHAiOjE3MzgzNjA0MDJ9.3Yc973SOryyrrNEa8atDKSIMbx_LPgGxdFXfeAE0484
 
 ### Obtener Premio por ID
 GET http://localhost:3000/api/premios/{{premioId}}
@@ -100,11 +99,11 @@ x-auth-token: {{authToken}}
 ### Crear Premio (Solo Admin)
 POST http://localhost:3000/api/premios
 Content-Type: application/json
-x-auth-token: {{authToken}}
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoiNjc5Y2Q1ZDJiNWQzMjZiZmE3ZTJmNGM4Iiwibm9tYnJlIjoiQWRtaW4gUHJpbmNpcGFsIiwiZW1haWwiOiJhZG1pbkBlbXByZXNhLmNvbSIsInJvbCI6ImFkbWluaXN0cmFkb3IifSwiaWF0IjoxNzM4MzMxNjAyLCJleHAiOjE3MzgzNjA0MDJ9.3Yc973SOryyrrNEa8atDKSIMbx_LPgGxdFXfeAE0484
 
 {
-    "nombre": "Día Libre",
-    "descripcion": "Un día libre para usar cuando quieras",
+    "nombre": "Chocolate",
+    "descripcion": "Un chocolate",
     "costo_puntos": 1000,
     "stock": 5
 }
@@ -130,20 +129,38 @@ x-auth-token: {{authToken}}
 ### Realizar Canje de Premio
 POST http://localhost:3000/api/canjes
 Content-Type: application/json
-x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoiNjc5Y2Q1ZjRiNWQzMjZiZmE3ZTJmNGNiIiwibm9tYnJlIjoiSnVhbiBQw6lyZXoiLCJlbWFpbCI6Imp1YW5AZW1wcmVzYS5jb20iLCJyb2wiOiJlbXBsZWFkbyJ9LCJpYXQiOjE3MzgzMzE4NzIsImV4cCI6MTczODM2MDY3Mn0.3boSmST_CAcLCkTwemISnQdlfPwJjViRtY7hcTSCeek
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoiNjc5Y2Q2ODFiNWQzMjZiZmE3ZTJmNGQxIiwibm9tYnJlIjoiQ2FybGl0b3MgSm9zZSIsImVtYWlsIjoiY2FybGl0b3Nqb3NlQGVtcHJlc2EuY29tIiwicm9sIjoiZW1wbGVhZG8ifSwiaWF0IjoxNzM4MzMxODQ2LCJleHAiOjE3MzgzNjA2NDZ9.Mn9hTP-a2LEyF6Ns6lzJ0eEULOaiw5j6GuAaQKo8eE4
 
 {
-    "premio_id": "679cda512d662f8757ac2fee",
+    "premio_id": "679ce584b013fc3d63f78e02",
     "cantidad": 1
 }
 
 ### Obtener Mis Canjes
 GET http://localhost:3000/api/canjes/mis-canjes
-x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoiNjc5Y2Q1ZjRiNWQzMjZiZmE3ZTJmNGNiIiwibm9tYnJlIjoiSnVhbiBQw6lyZXoiLCJlbWFpbCI6Imp1YW5AZW1wcmVzYS5jb20iLCJyb2wiOiJlbXBsZWFkbyJ9LCJpYXQiOjE3MzgzMzE4NzIsImV4cCI6MTczODM2MDY3Mn0.3boSmST_CAcLCkTwemISnQdlfPwJjViRtY7hcTSCeek
+x-auth-token: {{authToken}}
 
 ### Obtener Todos los Canjes (Solo Admin)
 GET http://localhost:3000/api/canjes
-x-auth-token: {{authToken}}
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoiNjc5Y2Q1ZDJiNWQzMjZiZmE3ZTJmNGM4Iiwibm9tYnJlIjoiQWRtaW4gUHJpbmNpcGFsIiwiZW1haWwiOiJhZG1pbkBlbXByZXNhLmNvbSIsInJvbCI6ImFkbWluaXN0cmFkb3IifSwiaWF0IjoxNzM4MzMxNjAyLCJleHAiOjE3MzgzNjA0MDJ9.3Yc973SOryyrrNEa8atDKSIMbx_LPgGxdFXfeAE0484
+
+### Aprobar Canje (Solo Admin)
+PUT http://localhost:3000/api/canjes/679ce5dab013fc3d63f78e10/estado
+Content-Type: application/json
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoiNjc5Y2Q1ZDJiNWQzMjZiZmE3ZTJmNGM4Iiwibm9tYnJlIjoiQWRtaW4gUHJpbmNpcGFsIiwiZW1haWwiOiJhZG1pbkBlbXByZXNhLmNvbSIsInJvbCI6ImFkbWluaXN0cmFkb3IifSwiaWF0IjoxNzM4MzMxNjAyLCJleHAiOjE3MzgzNjA0MDJ9.3Yc973SOryyrrNEa8atDKSIMbx_LPgGxdFXfeAE0484
+
+{
+    "estado": "aprobado"
+}
+
+### Rechazar Canje (Solo Admin)
+PUT http://localhost:3000/api/canjes/679ce552b013fc3d63f78df9/estado
+Content-Type: application/json
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoiNjc5Y2Q1ZDJiNWQzMjZiZmE3ZTJmNGM4Iiwibm9tYnJlIjoiQWRtaW4gUHJpbmNpcGFsIiwiZW1haWwiOiJhZG1pbkBlbXByZXNhLmNvbSIsInJvbCI6ImFkbWluaXN0cmFkb3IifSwiaWF0IjoxNzM4MzMxNjAyLCJleHAiOjE3MzgzNjA0MDJ9.3Yc973SOryyrrNEa8atDKSIMbx_LPgGxdFXfeAE0484
+
+{
+    "estado": "rechazado"
+}
 
 ### Ejemplos de Errores
 
@@ -188,7 +205,7 @@ x-auth-token: {{authToken}}
 
 {
     "premio_id": "{{premioId}}",
-    "cantidad": 1,
+    "cantidad": 100,
     "mensaje": "Intento de canje con saldo insuficiente"
 }
 
@@ -201,4 +218,31 @@ x-auth-token: {{authToken}}
     "premio_id": "{{premioId}}",
     "cantidad": 1000,
     "mensaje": "Intento de canje con stock insuficiente"
+}
+
+### Intento de Actualizar Estado de Canje sin ser Admin
+PUT http://localhost:3000/api/canjes/{{canjeId}}/estado
+Content-Type: application/json
+x-auth-token: {{tokenUsuarioNoAdmin}}
+
+{
+    "estado": "aprobado"
+}
+
+### Intento de Actualizar Estado con Valor Inválido
+PUT http://localhost:3000/api/canjes/{{canjeId}}/estado
+Content-Type: application/json
+x-auth-token: {{authToken}}
+
+{
+    "estado": "estado_invalido"
+}
+
+### Intento de Actualizar Estado de Canje ya Procesado
+PUT http://localhost:3000/api/canjes/{{canjeId}}/estado
+Content-Type: application/json
+x-auth-token: {{authToken}}
+
+{
+    "estado": "aprobado"
 }

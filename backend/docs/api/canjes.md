@@ -95,6 +95,38 @@ Sistema de canje de premios que permite a los usuarios intercambiar sus puntos p
   }
   ```
 
+### Actualizar Estado de Canje (Admin)
+- **URL**: `/api/canjes/:id/estado`
+- **Método**: `PUT`
+- **Autenticación**: Requerida
+- **Rol**: Administrador
+- **Body**:
+  ```json
+  {
+    "estado": "aprobado|rechazado"
+  }
+  ```
+- **Respuesta Exitosa**:
+  ```json
+  {
+    "msg": "Canje [aprobado|rechazado] exitosamente",
+    "canje": {
+      "id": "string",
+      "usuario_id": "string",
+      "premio_id": "string",
+      "cantidad": "number",
+      "fecha": "date",
+      "estado": "string"
+    }
+  }
+  ```
+- **Comportamiento**:
+  - Si se rechaza el canje:
+    - Se devuelven los puntos al usuario
+    - Se restaura el stock del premio
+  - Un canje ya procesado no puede cambiar de estado
+  - Solo se permiten los estados "aprobado" o "rechazado"
+
 ## Manejo de Errores
 
 ### Errores Comunes
@@ -121,7 +153,19 @@ Sistema de canje de premios que permite a los usuarios intercambiar sus puntos p
     "msg": "Stock insuficiente"
   }
   ```
-- **404**: Premio no encontrado
+- **400**: Canje ya procesado
+  ```json
+  {
+    "msg": "Este canje ya fue procesado anteriormente"
+  }
+  ```
+- **403**: No autorizado
+  ```json
+  {
+    "msg": "Acceso denegado. Se requiere rol de administrador."
+  }
+  ```
+- **404**: Premio o canje no encontrado
   ```json
   {
     "msg": "Premio no encontrado"

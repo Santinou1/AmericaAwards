@@ -20,4 +20,13 @@ router.get('/mis-canjes', auth, canjeController.obtenerCanjesUsuario);
 // Obtener todos los canjes (solo admin)
 router.get('/', [auth, isAdmin], canjeController.obtenerTodosCanjes);
 
+// Nueva ruta para actualizar estado del canje (solo admin)
+router.put('/:id/estado', [
+  auth,
+  isAdmin,
+  [
+    check('estado', 'Estado no válido').isIn(['aprobado', 'rechazado'])
+  ]
+], canjeController.actualizarEstadoCanje);
+
 module.exports = router;
