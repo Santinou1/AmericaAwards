@@ -13,8 +13,8 @@ function Login(){
             style={{width:'300px',height:'auto',display:'flex',justifySelf:'center',marginBottom:'10px'}}
         />
         <div className='login-container'>
-            
-            <h1>Inicio de sesión</h1>
+          
+            <h1>Inicio de sesión.</h1>
             <label>Correo Electrónico:</label>
             <input></input>
             <label>Contraseña:</label>
