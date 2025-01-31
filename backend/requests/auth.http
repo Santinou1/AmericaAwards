@@ -1,0 +1,27 @@
+@baseUrl = http://localhost:3000/api
+@authToken = {{login.response.body.token}}
+
+### Crear Primer Usuario Administrador (Solo funciona una vez)
+# @name createAdmin
+POST {{baseUrl}}/usuarios/primer-admin
+Content-Type: application/json
+
+{
+    "nombre": "Admin Principal",
+    "email": "admin@empresa.com",
+    "password": "admin123456"
+}
+
+### Login Usuario
+# @name login
+POST {{baseUrl}}/auth
+Content-Type: application/json
+
+{
+    "email": "admin@empresa.com",
+    "password": "admin123456"
+}
+
+### Obtener Usuario Autenticado
+GET {{baseUrl}}/auth
+x-auth-token: {{login.response.body.token}}

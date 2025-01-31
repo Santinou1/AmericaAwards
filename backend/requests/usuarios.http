@@ -1,0 +1,68 @@
+@baseUrl = http://localhost:3000/api
+@authToken = {{login.response.body.token}}
+
+### Obtener Todos los Usuarios (Solo Admin)
+GET {{baseUrl}}/usuarios
+x-auth-token: {{authToken}}
+
+### Obtener Usuario por ID
+GET {{baseUrl}}/usuarios/{{userId}}
+x-auth-token: {{authToken}}
+
+### Crear Usuario (Solo Admin)
+POST {{baseUrl}}/usuarios
+Content-Type: application/json
+x-auth-token: {{authToken}}
+
+{
+    "nombre": "Juan Pérez",
+    "email": "juan@empresa.com",
+    "password": "123456abc",
+    "rol": "empleado"
+}
+
+### Crear Usuario 2 (Solo Admin)
+POST {{baseUrl}}/usuarios
+Content-Type: application/json
+x-auth-token: {{authToken}}
+
+{
+    "nombre": "Carlitos Jose",
+    "email": "Carlitos@empresa.com",
+    "password": "123456abc",
+    "rol": "empleado"
+}
+
+### Actualizar Usuario
+PUT {{baseUrl}}/usuarios/{{userId}}
+Content-Type: application/json
+x-auth-token: {{authToken}}
+
+{
+    "saldo_puntos_canjeables":100,
+    "saldo_puntos_transferibles":1000,
+}
+
+### Actualizar Usuario 2
+PUT {{baseUrl}}/usuarios/{{userId}}
+Content-Type: application/json
+x-auth-token: {{authToken}}
+
+{
+    "saldo_puntos_canjeables":100,
+    "saldo_puntos_transferibles":1000,
+}
+
+### Eliminar Usuario (Solo Admin)
+DELETE {{baseUrl}}/usuarios/{{userId}}
+x-auth-token: {{authToken}}
+
+### Login Usuario
+# @name login
+POST {{baseUrl}}/auth
+Content-Type: application/json
+
+{
+    "email": "admin@empresa.com",
+    "password": "admin123456"
+}

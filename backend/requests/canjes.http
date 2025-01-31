@@ -1,0 +1,85 @@
+@baseUrl = http://localhost:3000/api
+@authToken = {{login.response.body.token}}
+
+### Realizar Canje de Premio
+POST {{baseUrl}}/canjes
+Content-Type: application/json
+x-auth-token: {{authToken}}
+
+{
+    "premio_id": "{{premioId}}",
+    "cantidad": 1
+}
+
+### Obtener Mis Canjes
+GET {{baseUrl}}/canjes/mis-canjes
+x-auth-token: {{authToken}}
+
+### Obtener Todos los Canjes (Solo Admin)
+GET {{baseUrl}}/canjes
+x-auth-token: {{authToken}}
+
+### Aprobar Canje (Solo Admin)
+PUT {{baseUrl}}/canjes/{{canjeId}}/estado
+Content-Type: application/json
+x-auth-token: {{authToken}}
+
+{
+    "estado": "aprobado"
+}
+
+### Rechazar Canje (Solo Admin)
+PUT {{baseUrl}}/canjes/{{canjeId}}/estado
+Content-Type: application/json
+x-auth-token: {{authToken}}
+
+{
+    "estado": "rechazado"
+}
+
+### Error: Canje sin Saldo Suficiente
+POST {{baseUrl}}/canjes
+Content-Type: application/json
+x-auth-token: {{authToken}}
+
+{
+    "premio_id": "{{premioId}}",
+    "cantidad": 100
+}
+
+### Error: Canje con Stock Insuficiente
+POST {{baseUrl}}/canjes
+Content-Type: application/json
+x-auth-token: {{authToken}}
+
+{
+    "premio_id": "{{premioId}}",
+    "cantidad": 1000
+}
+
+### Error: Actualizar Estado sin ser Admin
+PUT {{baseUrl}}/canjes/{{canjeId}}/estado
+Content-Type: application/json
+x-auth-token: {{tokenUsuarioNoAdmin}}
+
+{
+    "estado": "aprobado"
+}
+
+### Error: Actualizar Estado con Valor Inválido
+PUT {{baseUrl}}/canjes/{{canjeId}}/estado
+Content-Type: application/json
+x-auth-token: {{authToken}}
+
+{
+    "estado": "estado_invalido"
+}
+
+### Error: Actualizar Estado de Canje ya Procesado
+PUT {{baseUrl}}/canjes/{{canjeId}}/estado
+Content-Type: application/json
+x-auth-token: {{authToken}}
+
+{
+    "estado": "aprobado"
+}

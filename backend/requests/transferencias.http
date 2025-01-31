@@ -1,0 +1,43 @@
+@baseUrl = http://localhost:3000/api
+@authToken = {{login.response.body.token}}
+
+### Realizar Transferencia
+POST {{baseUrl}}/transferencias
+Content-Type: application/json
+x-auth-token: {{authToken}}
+
+{
+    "receptor_id": "{{receptorId}}",
+    "puntos": 50,
+    "mensaje": "¡Gracias por tu ayuda en el proyecto!"
+}
+
+### Obtener Mis Transferencias
+GET {{baseUrl}}/transferencias/mis-transferencias
+x-auth-token: {{authToken}}
+
+### Obtener Todas las Transferencias (Solo Admin)
+GET {{baseUrl}}/transferencias
+x-auth-token: {{authToken}}
+
+### Error: Transferencia sin Saldo Suficiente
+POST {{baseUrl}}/transferencias
+Content-Type: application/json
+x-auth-token: {{authToken}}
+
+{
+    "receptor_id": "{{receptorId}}",
+    "puntos": 1000000,
+    "mensaje": "Intento de transferencia con saldo insuficiente"
+}
+
+### Error: Transferencia a Sí Mismo
+POST {{baseUrl}}/transferencias
+Content-Type: application/json
+x-auth-token: {{authToken}}
+
+{
+    "receptor_id": "{{userId}}",
+    "puntos": 50,
+    "mensaje": "Intento de auto-transferencia"
+}

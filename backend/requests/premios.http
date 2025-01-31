@@ -1,0 +1,50 @@
+@baseUrl = http://localhost:3000/api
+@authToken = {{login.response.body.token}}
+
+### Obtener Todos los Premios
+GET {{baseUrl}}/premios
+x-auth-token: {{authToken}}
+
+### Obtener Premio por ID
+GET {{baseUrl}}/premios/{{premioId}}
+x-auth-token: {{authToken}}
+
+### Crear Premio (Solo Admin)
+POST {{baseUrl}}/premios
+Content-Type: application/json
+x-auth-token: {{authToken}}
+
+{
+    "nombre": "Día Libre",
+    "descripcion": "Un día libre para usar cuando quieras",
+    "costo_puntos": 1000,
+    "stock": 5
+}
+
+### Actualizar Premio (Solo Admin)
+PUT {{baseUrl}}/premios/{{premioId}}
+Content-Type: application/json
+x-auth-token: {{authToken}}
+
+{
+    "nombre": "Día Libre Premium",
+    "descripcion": "Un día libre con bono adicional",
+    "costo_puntos": 1200,
+    "stock": 3
+}
+
+### Eliminar Premio (Solo Admin)
+DELETE {{baseUrl}}/premios/{{premioId}}
+x-auth-token: {{authToken}}
+
+### Error: Crear Premio sin ser Admin
+POST {{baseUrl}}/premios
+Content-Type: application/json
+x-auth-token: {{tokenUsuarioNoAdmin}}
+
+{
+    "nombre": "Premio No Autorizado",
+    "descripcion": "Intento de crear premio sin ser admin",
+    "costo_puntos": 100,
+    "stock": 1
+}
