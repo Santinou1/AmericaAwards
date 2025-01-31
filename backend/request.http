@@ -53,38 +53,152 @@ x-auth-token: {{authToken}}
 }
 
 ### Actualizar Usuario (Admin o mismo usuario)
-PUT http://localhost:3000/api/usuarios/{{userId}}
+PUT http://localhost:3000/api/usuarios/679cd5f4b5d326bfa7e2f4cb
 Content-Type: application/json
-x-auth-token: {{authToken}}
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoiNjc5Y2Q1ZDJiNWQzMjZiZmE3ZTJmNGM4Iiwibm9tYnJlIjoiQWRtaW4gUHJpbmNpcGFsIiwiZW1haWwiOiJhZG1pbkBlbXByZXNhLmNvbSIsInJvbCI6ImFkbWluaXN0cmFkb3IifSwiaWF0IjoxNzM4MzMxNjAyLCJleHAiOjE3MzgzNjA0MDJ9.3Yc973SOryyrrNEa8atDKSIMbx_LPgGxdFXfeAE0484
 
 {
-    "nombre": "Juan Pérez Actualizado",
-    "email": "juan.actualizado@empresa.com"
+    "saldo_puntos_canjeables": 10000
+
 }
 
 ### Eliminar Usuario (Solo Admin)
 DELETE http://localhost:3000/api/usuarios/{{userId}}
 x-auth-token: {{authToken}}
 
-### Ejemplos de Errores
+## Transferencias (Requieren autenticación)
 
-### Intento de Crear Usuario sin Token
-POST http://localhost:3000/api/usuarios
+### Realizar Transferencia
+POST http://localhost:3000/api/transferencias
 Content-Type: application/json
+x-auth-token: {{authToken}}
 
 {
-    "nombre": "Usuario Sin Token",
-    "email": "usuario@empresa.com",
-    "password": "123456abc"
+    "receptor_id": "{{receptorId}}",
+    "puntos": 50,
+    "mensaje": "¡Gracias por tu ayuda en el proyecto!"
 }
 
-### Intento de Crear Usuario con Rol Empleado (No Admin)
-POST http://localhost:3000/api/usuarios
+### Obtener Mis Transferencias
+GET http://localhost:3000/api/transferencias/mis-transferencias
+x-auth-token: {{authToken}}
+
+### Obtener Todas las Transferencias (Solo Admin)
+GET http://localhost:3000/api/transferencias
+x-auth-token: {{authToken}}
+
+## Premios (Requieren autenticación)
+
+### Obtener Todos los Premios
+GET http://localhost:3000/api/premios
+x-auth-token: {{authToken}}
+
+### Obtener Premio por ID
+GET http://localhost:3000/api/premios/{{premioId}}
+x-auth-token: {{authToken}}
+
+### Crear Premio (Solo Admin)
+POST http://localhost:3000/api/premios
 Content-Type: application/json
-x-auth-token: {{tokenEmpleado}}
+x-auth-token: {{authToken}}
 
 {
-    "nombre": "Intento No Autorizado",
-    "email": "intento@empresa.com",
-    "password": "123456abc"
+    "nombre": "Día Libre",
+    "descripcion": "Un día libre para usar cuando quieras",
+    "costo_puntos": 1000,
+    "stock": 5
+}
+
+### Actualizar Premio (Solo Admin)
+PUT http://localhost:3000/api/premios/{{premioId}}
+Content-Type: application/json
+x-auth-token: {{authToken}}
+
+{
+    "nombre": "Día Libre Premium",
+    "descripcion": "Un día libre con bono adicional",
+    "costo_puntos": 1200,
+    "stock": 3
+}
+
+### Eliminar Premio (Solo Admin)
+DELETE http://localhost:3000/api/premios/{{premioId}}
+x-auth-token: {{authToken}}
+
+## Canjes (Requieren autenticación)
+
+### Realizar Canje de Premio
+POST http://localhost:3000/api/canjes
+Content-Type: application/json
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoiNjc5Y2Q1ZjRiNWQzMjZiZmE3ZTJmNGNiIiwibm9tYnJlIjoiSnVhbiBQw6lyZXoiLCJlbWFpbCI6Imp1YW5AZW1wcmVzYS5jb20iLCJyb2wiOiJlbXBsZWFkbyJ9LCJpYXQiOjE3MzgzMzE4NzIsImV4cCI6MTczODM2MDY3Mn0.3boSmST_CAcLCkTwemISnQdlfPwJjViRtY7hcTSCeek
+
+{
+    "premio_id": "679cda512d662f8757ac2fee",
+    "cantidad": 1
+}
+
+### Obtener Mis Canjes
+GET http://localhost:3000/api/canjes/mis-canjes
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoiNjc5Y2Q1ZjRiNWQzMjZiZmE3ZTJmNGNiIiwibm9tYnJlIjoiSnVhbiBQw6lyZXoiLCJlbWFpbCI6Imp1YW5AZW1wcmVzYS5jb20iLCJyb2wiOiJlbXBsZWFkbyJ9LCJpYXQiOjE3MzgzMzE4NzIsImV4cCI6MTczODM2MDY3Mn0.3boSmST_CAcLCkTwemISnQdlfPwJjViRtY7hcTSCeek
+
+### Obtener Todos los Canjes (Solo Admin)
+GET http://localhost:3000/api/canjes
+x-auth-token: {{authToken}}
+
+### Ejemplos de Errores
+
+### Intento de Transferencia sin Saldo Suficiente
+POST http://localhost:3000/api/transferencias
+Content-Type: application/json
+x-auth-token: {{authToken}}
+
+{
+    "receptor_id": "{{receptorId}}",
+    "puntos": 1000000,
+    "mensaje": "Intento de transferencia con saldo insuficiente"
+}
+
+### Intento de Transferencia a Sí Mismo
+POST http://localhost:3000/api/transferencias
+Content-Type: application/json
+x-auth-token: {{authToken}}
+
+{
+    "receptor_id": "{{userId}}",
+    "puntos": 50,
+    "mensaje": "Intento de auto-transferencia"
+}
+
+### Intento de Crear Premio sin ser Admin
+POST http://localhost:3000/api/premios
+Content-Type: application/json
+x-auth-token: {{tokenUsuarioNoAdmin}}
+
+{
+    "nombre": "Premio No Autorizado",
+    "descripcion": "Intento de crear premio sin ser admin",
+    "costo_puntos": 100,
+    "stock": 1
+}
+
+### Intento de Canje sin Saldo Suficiente
+POST http://localhost:3000/api/canjes
+Content-Type: application/json
+x-auth-token: {{authToken}}
+
+{
+    "premio_id": "{{premioId}}",
+    "cantidad": 1,
+    "mensaje": "Intento de canje con saldo insuficiente"
+}
+
+### Intento de Canje con Stock Insuficiente
+POST http://localhost:3000/api/canjes
+Content-Type: application/json
+x-auth-token: {{authToken}}
+
+{
+    "premio_id": "{{premioId}}",
+    "cantidad": 1000,
+    "mensaje": "Intento de canje con stock insuficiente"
 }

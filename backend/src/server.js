@@ -15,6 +15,9 @@ conectarDB();
 // Rutas
 app.use('/api/usuarios', require('./routes/usuarioRoutes'));
 app.use('/api/auth', require('./routes/authRoutes'));
+app.use('/api/transferencias', require('./routes/transferenciaRoutes'));
+app.use('/api/premios', require('./routes/premioRoutes'));
+app.use('/api/canjes', require('./routes/canjeRoutes')); // Nueva ruta de canjes
 
 // Ruta de prueba
 app.get('/', (req, res) => {

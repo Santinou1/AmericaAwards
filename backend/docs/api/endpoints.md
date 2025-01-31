@@ -37,4 +37,16 @@
 | PUT | /:id | Admin/Usuario | Actualizar usuario |
 | DELETE | /:id | Admin | Eliminar usuario |
 
+## Transferencias
+
+### Gestión de Transferencias
+- **Base URL**: `/api/transferencias`
+- **Headers**: `x-auth-token`
+
+| Método | Ruta | Acceso | Descripción |
+|--------|------|---------|-------------|
+| POST | / | Usuario | Realizar transferencia |
+| GET | /mis-transferencias | Usuario | Ver transferencias propias |
+| GET | / | Admin | Ver todas las transferencias |
+
 [Ver ejemplos completos en requests.http](../requests.http)
