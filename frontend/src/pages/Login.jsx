@@ -1,15 +1,25 @@
 import '../styles/Login.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 function Login() {
     const navigate = useNavigate();
-    const { login, loading, error } = useAuth();
+    const { login, loading, error, user } = useAuth();
     const [credentials, setCredentials] = useState({
         email: '',
         password: ''
     });
+
+    useEffect(() => {
+        if (user) {
+            if (user.rol === 'administrador') {
+                navigate('/admin');
+            } else {
+                navigate('/home');
+            }
+        }
+    }, [user, navigate]);
 
     const handleChange = (e) => {
         setCredentials({
@@ -20,10 +30,7 @@ function Login() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const success = await login(credentials.email, credentials.password);
-        if (success) {
-            navigate('/home');
-        }
+        await login(credentials.email, credentials.password);
     };
 
     return (
