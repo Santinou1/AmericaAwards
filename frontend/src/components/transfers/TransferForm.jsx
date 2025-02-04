@@ -22,7 +22,7 @@ function TransferForm() {
     const loadUsers = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.get('http://localhost:3000/api/usuarios', {
+            const response = await axios.get('http://localhost:3000/api/usuarios/para-transferencias', {
                 headers: { 'x-auth-token': token }
             });
             // Filtrar el usuario actual y ordenar por nombre
@@ -30,9 +30,10 @@ function TransferForm() {
                 .filter(u => u._id !== user.id)
                 .sort((a, b) => a.nombre.localeCompare(b.nombre));
             setUsers(filteredUsers);
+            setError(null);
         } catch (err) {
-            setError('Error al cargar usuarios');
-            console.error(err);
+            console.error('Error al cargar usuarios:', err);
+            setError('Error al cargar usuarios. Por favor, intenta de nuevo.');
         }
     };
 
@@ -53,12 +54,19 @@ function TransferForm() {
                 puntos: 0,
                 mensaje: ''
             });
+            // Recargar los usuarios después de una transferencia exitosa
+            loadUsers();
         } catch (err) {
+            console.error('Error en la transferencia:', err);
             setError(err.response?.data?.msg || 'Error al realizar la transferencia');
         } finally {
             setLoading(false);
         }
     };
+
+    if (users.length === 0 && !error) {
+        return <div>Cargando usuarios...</div>;
+    }
 
     return (
         <div className="transfer-form-container">
@@ -85,7 +93,7 @@ function TransferForm() {
                     <input
                         type="number"
                         value={transfer.puntos}
-                        onChange={(e) => setTransfer({...transfer, puntos: parseInt(e.target.value)})}
+                        onChange={(e) => setTransfer({...transfer, puntos: parseInt(e.target.value) || 0})}
                         min="1"
                         max={user.saldo_puntos_transferibles}
                         required

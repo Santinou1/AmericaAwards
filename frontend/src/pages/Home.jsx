@@ -4,11 +4,13 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import TransferForm from '../components/transfers/TransferForm';
 import TransferHistory from '../components/transfers/TransferHistory';
+import PrizesGrid from '../components/prizes/PrizesGrid';
 
 function Home() {
     const { user, logout } = useAuth();
     const navigate = useNavigate();
     const [showTransferForm, setShowTransferForm] = useState(false);
+    const [showPrizes, setShowPrizes] = useState(false);
 
     useEffect(() => {
         if (!user) {
@@ -45,7 +47,14 @@ function Home() {
             <h2 style={{marginBottom:"0px"}}>
                 Puntos para canjear: <span className="texto-puntos">{user.saldo_puntos_canjeables}</span>
             </h2>
-            <button className='boton-home'>Ver premios</button>
+            <button 
+                className='boton-home'
+                onClick={() => setShowPrizes(!showPrizes)}
+            >
+                {showPrizes ? 'Ocultar premios' : 'Ver premios'}
+            </button>
+
+            {showPrizes && <PrizesGrid />}
 
             <TransferHistory />
 

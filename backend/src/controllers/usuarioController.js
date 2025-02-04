@@ -70,6 +70,17 @@ exports.crearPrimerAdmin = async (req, res) => {
   }
 };
 
+exports.obtenerUsuariosParaTransferencias = async (req, res) => {
+  try {
+    const usuarios = await Usuario.find()
+      .select('nombre email _id') // Solo devolver campos necesarios
+      .sort({ nombre: 1 }); // Ordenar por nombre
+    res.json(usuarios);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ msg: 'Error al obtener usuarios' });
+  }
+};
 
 exports.crearUsuario = async (req, res) => {
   try {
