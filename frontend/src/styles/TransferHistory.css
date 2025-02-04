@@ -1,3 +1,10 @@
+.loading-message {
+    text-align: center;
+    color: #666;
+    padding: 20px;
+    font-style: italic;
+}
+
 .transfer-history-container {
     background: white;
     padding: 20px;

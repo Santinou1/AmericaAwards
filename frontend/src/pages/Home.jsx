@@ -5,12 +5,14 @@ import { useEffect, useState } from 'react';
 import TransferForm from '../components/transfers/TransferForm';
 import TransferHistory from '../components/transfers/TransferHistory';
 import PrizesGrid from '../components/prizes/PrizesGrid';
+import MyExchanges from '../components/exchanges/MyExchanges';
 
 function Home() {
     const { user, logout } = useAuth();
     const navigate = useNavigate();
     const [showTransferForm, setShowTransferForm] = useState(false);
     const [showPrizes, setShowPrizes] = useState(false);
+    const [showExchanges, setShowExchanges] = useState(false);
 
     useEffect(() => {
         if (!user) {
@@ -55,6 +57,15 @@ function Home() {
             </button>
 
             {showPrizes && <PrizesGrid />}
+
+            <button 
+                className='boton-home'
+                onClick={() => setShowExchanges(!showExchanges)}
+            >
+                {showExchanges ? 'Ocultar mis canjes' : 'Ver mis canjes'}
+            </button>
+
+            {showExchanges && <MyExchanges />}
 
             <TransferHistory />
 

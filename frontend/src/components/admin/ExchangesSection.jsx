@@ -17,7 +17,7 @@ function ExchangesSection() {
             const response = await axios.get('http://localhost:3000/api/canjes', {
                 headers: { 'x-auth-token': token }
             });
-            setExchanges(response.data.canjes);
+            setExchanges(response.data.canjes || []);
             setError(null);
         } catch (err) {
             setError('Error al cargar los canjes');
@@ -40,6 +40,13 @@ function ExchangesSection() {
             setError('Error al actualizar el estado del canje');
             console.error(err);
         }
+    };
+
+    const calculateTotalPoints = (exchange) => {
+        if (!exchange?.premio_id?.costo_puntos || !exchange?.cantidad) {
+            return 0;
+        }
+        return exchange.premio_id.costo_puntos * exchange.cantidad;
     };
 
     if (loading) return <div>Cargando canjes...</div>;
@@ -67,21 +74,21 @@ function ExchangesSection() {
                         </thead>
                         <tbody>
                             {exchanges.map(exchange => (
-                                <tr key={exchange._id} className={`status-${exchange.estado}`}>
-                                    <td>{new Date(exchange.fecha).toLocaleString()}</td>
-                                    <td>{exchange.usuario_id.nombre}</td>
-                                    <td>{exchange.premio_id.nombre}</td>
-                                    <td>{exchange.cantidad}</td>
+                                <tr key={exchange._id || Math.random()} className={`status-${exchange.estado || 'pendiente'}`}>
+                                    <td>{exchange.fecha ? new Date(exchange.fecha).toLocaleString() : 'Fecha no disponible'}</td>
+                                    <td>{exchange.usuario_id?.nombre || 'Usuario desconocido'}</td>
+                                    <td>{exchange.premio_id?.nombre || 'Premio no disponible'}</td>
+                                    <td>{exchange.cantidad || 0}</td>
                                     <td className="points-cell">
-                                        {exchange.cantidad * exchange.premio_id.costo_puntos}
+                                        {calculateTotalPoints(exchange)}
                                     </td>
                                     <td>
-                                        <span className={`status-badge ${exchange.estado}`}>
-                                            {exchange.estado}
+                                        <span className={`status-badge ${exchange.estado || 'pendiente'}`}>
+                                            {exchange.estado || 'pendiente'}
                                         </span>
                                     </td>
                                     <td>
-                                        {exchange.estado === 'pendiente' && (
+                                        {(exchange.estado || 'pendiente') === 'pendiente' && (
                                             <div className="action-buttons">
                                                 <button
                                                     className="approve-button"

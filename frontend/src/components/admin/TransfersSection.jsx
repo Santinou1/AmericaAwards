@@ -17,18 +17,34 @@ function TransfersSection() {
             const response = await axios.get('http://localhost:3000/api/transferencias', {
                 headers: { 'x-auth-token': token }
             });
-            setTransfers(response.data.transferencias);
+            setTransfers(response.data.transferencias || []);
             setError(null);
         } catch (err) {
             setError('Error al cargar las transferencias');
             console.error(err);
+            setTransfers([]);
         } finally {
             setLoading(false);
         }
     };
 
-    if (loading) return <div>Cargando transferencias...</div>;
-    if (error) return <div className="error-message">{error}</div>;
+    if (loading) {
+        return (
+            <div className="transfers-section">
+                <h2>Historial de Transferencias</h2>
+                <div className="loading-message">Cargando transferencias...</div>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="transfers-section">
+                <h2>Historial de Transferencias</h2>
+                <div className="error-message">{error}</div>
+            </div>
+        );
+    }
 
     return (
         <div className="transfers-section">
@@ -52,8 +68,8 @@ function TransfersSection() {
                             {transfers.map(transfer => (
                                 <tr key={transfer._id}>
                                     <td>{new Date(transfer.fecha).toLocaleString()}</td>
-                                    <td>{transfer.emisor_id.nombre}</td>
-                                    <td>{transfer.receptor_id.nombre}</td>
+                                    <td>{transfer.emisor_id?.nombre || 'Usuario desconocido'}</td>
+                                    <td>{transfer.receptor_id?.nombre || 'Usuario desconocido'}</td>
                                     <td className="points-cell">{transfer.puntos}</td>
                                     <td>{transfer.mensaje || '-'}</td>
                                 </tr>

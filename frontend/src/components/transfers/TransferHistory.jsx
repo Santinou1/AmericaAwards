@@ -23,18 +23,34 @@ function TransferHistory() {
             const response = await axios.get(`http://localhost:3000/api${endpoint}`, {
                 headers: { 'x-auth-token': token }
             });
-            setTransfers(response.data.transferencias);
+            setTransfers(response.data.transferencias || []); // Asegurar que siempre sea un array
             setError(null);
         } catch (err) {
             setError('Error al cargar el historial de transferencias');
             console.error(err);
+            setTransfers([]); // Establecer un array vacío en caso de error
         } finally {
             setLoading(false);
         }
     };
 
-    if (loading) return <div>Cargando historial...</div>;
-    if (error) return <div className="error-message">{error}</div>;
+    if (loading) {
+        return (
+            <div className="transfer-history-container">
+                <h2>Historial de Transferencias</h2>
+                <div className="loading-message">Cargando historial...</div>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="transfer-history-container">
+                <h2>Historial de Transferencias</h2>
+                <div className="error-message">{error}</div>
+            </div>
+        );
+    }
 
     return (
         <div className="transfer-history-container">
@@ -55,11 +71,11 @@ function TransferHistory() {
                             </div>
                             <div className="transfer-users">
                                 <div className="transfer-user">
-                                    <strong>De:</strong> {transfer.emisor_id.nombre}
+                                    <strong>De:</strong> {transfer.emisor_id?.nombre || 'Usuario desconocido'}
                                 </div>
                                 <div className="transfer-arrow">→</div>
                                 <div className="transfer-user">
-                                    <strong>Para:</strong> {transfer.receptor_id.nombre}
+                                    <strong>Para:</strong> {transfer.receptor_id?.nombre || 'Usuario desconocido'}
                                 </div>
                             </div>
                             {transfer.mensaje && (
@@ -75,4 +91,4 @@ function TransferHistory() {
     );
 }
 
-export default TransferHistory;
+export default TransferHistory

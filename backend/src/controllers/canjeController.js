@@ -67,10 +67,16 @@ exports.realizarCanje = async (req, res) => {
 exports.obtenerCanjesUsuario = async (req, res) => {
   try {
     const canjes = await Canje.find({ usuario_id: req.usuario.id })
-      .populate('premio_id')
+      .populate({
+        path: 'premio_id',
+        match: { _id: { $exists: true } } // Solo incluir premios que existan
+      })
       .sort({ fecha: -1 });
 
-    res.json({ canjes });
+    // Filtrar canjes con premios eliminados
+    const canjesFiltrados = canjes.filter(canje => canje.premio_id !== null);
+
+    res.json({ canjes: canjesFiltrados });
   } catch (error) {
     console.error(error);
     res.status(500).json({ msg: 'Error al obtener los canjes' });
@@ -80,16 +86,29 @@ exports.obtenerCanjesUsuario = async (req, res) => {
 exports.obtenerTodosCanjes = async (req, res) => {
   try {
     const canjes = await Canje.find()
-      .populate('usuario_id', 'nombre email')
-      .populate('premio_id')
+      .populate({
+        path: 'usuario_id',
+        match: { _id: { $exists: true } }, // Solo incluir usuarios que existan
+        select: 'nombre email'
+      })
+      .populate({
+        path: 'premio_id',
+        match: { _id: { $exists: true } } // Solo incluir premios que existan
+      })
       .sort({ fecha: -1 });
 
-    res.json({ canjes });
+    // Filtrar canjes con usuarios o premios eliminados
+    const canjesFiltrados = canjes.filter(canje => 
+      canje.usuario_id !== null && canje.premio_id !== null
+    );
+
+    res.json({ canjes: canjesFiltrados });
   } catch (error) {
     console.error(error);
     res.status(500).json({ msg: 'Error al obtener los canjes' });
   }
 };
+
 
 // Nuevo método para actualizar el estado del canje
 exports.actualizarEstadoCanje = async (req, res) => {
