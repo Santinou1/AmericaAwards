@@ -1,11 +1,14 @@
 import '../styles/Home.css';
-import { useAuth } from '../context/AuthContext.jsx';
+import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import TransferForm from '../components/transfers/TransferForm';
+import TransferHistory from '../components/transfers/TransferHistory';
 
 function Home() {
     const { user, logout } = useAuth();
     const navigate = useNavigate();
+    const [showTransferForm, setShowTransferForm] = useState(false);
 
     useEffect(() => {
         if (!user) {
@@ -29,11 +32,23 @@ function Home() {
                 {user.saldo_puntos_transferibles}/500
             </progress>
             <label>Tienes {500 - user.saldo_puntos_transferibles} puntos por transferir</label>
-            <button className='boton-home'>Transferir puntos</button>
+            
+            <button 
+                className='boton-home'
+                onClick={() => setShowTransferForm(!showTransferForm)}
+            >
+                {showTransferForm ? 'Ocultar formulario' : 'Transferir puntos'}
+            </button>
+
+            {showTransferForm && <TransferForm />}
+            
             <h2 style={{marginBottom:"0px"}}>
                 Puntos para canjear: <span className="texto-puntos">{user.saldo_puntos_canjeables}</span>
             </h2>
             <button className='boton-home'>Ver premios</button>
+
+            <TransferHistory />
+
             <button 
                 className='boton-home' 
                 onClick={() => {

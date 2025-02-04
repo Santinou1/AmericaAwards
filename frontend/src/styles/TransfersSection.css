@@ -1,0 +1,57 @@
+.transfers-section {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.transfers-section h2 {
+    color: #626366;
+    margin-bottom: 20px;
+}
+
+.transfers-table-container {
+    overflow-x: auto;
+}
+
+.transfers-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.transfers-table th,
+.transfers-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.transfers-table th {
+    background-color: #f8f9fa;
+    color: #626366;
+    font-weight: bold;
+}
+
+.transfers-table tr:hover {
+    background-color: #f8f9fa;
+}
+
+.points-cell {
+    color: #FFA500;
+    font-weight: bold;
+}
+
+.no-transfers {
+    text-align: center;
+    color: #666;
+    padding: 20px;
+}
+
+.error-message {
+    color: #ff4444;
+    background-color: #ffe5e5;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
