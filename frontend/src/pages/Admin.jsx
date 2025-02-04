@@ -3,6 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import UsersSection from '../components/admin/UsersSection';
+import PrizesSection from '../components/admin/PrizesSection.jsx';
 
 function Admin() {
     const { user, logout } = useAuth();
@@ -30,7 +31,10 @@ function Admin() {
                             <h2>Usuarios</h2>
                             <p>Gestionar usuarios del sistema</p>
                         </button>
-                        <button className='admin-button'>
+                        <button 
+                            className='admin-button'
+                            onClick={() => setActiveSection('prizes')}
+                        >
                             <h2>Premios</h2>
                             <p>Administrar catálogo de premios</p>
                         </button>
@@ -53,6 +57,7 @@ function Admin() {
                         ← Volver al menú
                     </button>
                     {activeSection === 'users' && <UsersSection />}
+                    {activeSection === 'prizes' && <PrizesSection />}
                 </div>
             )}
             <button 
@@ -68,4 +73,4 @@ function Admin() {
     );
 }
 
-export default Admin;
+export default Admin

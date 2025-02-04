@@ -7,6 +7,8 @@ function UsersSection() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [showCreateForm, setShowCreateForm] = useState(false);
+    const [showEditForm, setShowEditForm] = useState(false);
+    const [selectedUser, setSelectedUser] = useState(null);
     const [newUser, setNewUser] = useState({
         nombre: '',
         email: '',
@@ -55,6 +57,25 @@ function UsersSection() {
             loadUsers();
         } catch (err) {
             setError('Error al crear usuario');
+            console.error(err);
+        }
+    };
+
+    const handleEditUser = async (e) => {
+        e.preventDefault();
+        try {
+            const token = localStorage.getItem('token');
+            const updateData = { ...selectedUser };
+            delete updateData._id; // Remove _id from update data
+            
+            await axios.put(`http://localhost:3000/api/usuarios/${selectedUser._id}`, updateData, {
+                headers: { 'x-auth-token': token }
+            });
+            setShowEditForm(false);
+            setSelectedUser(null);
+            loadUsers();
+        } catch (err) {
+            setError('Error al actualizar usuario');
             console.error(err);
         }
     };
@@ -160,6 +181,73 @@ function UsersSection() {
                 </div>
             )}
 
+            {showEditForm && selectedUser && (
+                <div className="create-user-form">
+                    <h3>Editar Usuario</h3>
+                    <form onSubmit={handleEditUser}>
+                        <div className="form-group">
+                            <label>Nombre:</label>
+                            <input
+                                type="text"
+                                value={selectedUser.nombre}
+                                onChange={(e) => setSelectedUser({...selectedUser, nombre: e.target.value})}
+                                required
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label>Email:</label>
+                            <input
+                                type="email"
+                                value={selectedUser.email}
+                                onChange={(e) => setSelectedUser({...selectedUser, email: e.target.value})}
+                                required
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label>Rol:</label>
+                            <select
+                                value={selectedUser.rol}
+                                onChange={(e) => setSelectedUser({...selectedUser, rol: e.target.value})}
+                            >
+                                <option value="empleado">Empleado</option>
+                                <option value="administrador">Administrador</option>
+                            </select>
+                        </div>
+                        <div className="form-group">
+                            <label>Puntos Canjeables:</label>
+                            <input
+                                type="number"
+                                value={selectedUser.saldo_puntos_canjeables}
+                                onChange={(e) => setSelectedUser({...selectedUser, saldo_puntos_canjeables: parseInt(e.target.value)})}
+                                min="0"
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label>Puntos Transferibles:</label>
+                            <input
+                                type="number"
+                                value={selectedUser.saldo_puntos_transferibles}
+                                onChange={(e) => setSelectedUser({...selectedUser, saldo_puntos_transferibles: parseInt(e.target.value)})}
+                                min="0"
+                            />
+                        </div>
+                        <div className="form-buttons">
+                            <button type="submit">Guardar Cambios</button>
+                            <button 
+                                type="button" 
+                                onClick={() => {
+                                    setShowEditForm(false);
+                                    setSelectedUser(null);
+                                }}
+                                className="cancel-button"
+                            >
+                                Cancelar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            )}
+
             <div className="users-table">
                 <table>
                     <thead>
@@ -181,6 +269,15 @@ function UsersSection() {
                                 <td>{user.saldo_puntos_canjeables}</td>
                                 <td>{user.saldo_puntos_transferibles}</td>
                                 <td>
+                                    <button 
+                                        className="edit-button"
+                                        onClick={() => {
+                                            setSelectedUser(user);
+                                            setShowEditForm(true);
+                                        }}
+                                    >
+                                        Editar
+                                    </button>
                                     <button 
                                         className="delete-button"
                                         onClick={() => handleDeleteUser(user._id)}

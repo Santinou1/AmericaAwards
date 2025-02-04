@@ -1,16 +1,16 @@
-.users-section {
+.prizes-section {
     background: white;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.users-section h2 {
+.prizes-section h2 {
     color: #626366;
     margin-bottom: 20px;
 }
 
-.create-user-button {
+.create-prize-button {
     background-color: #FFA500;
     color: white;
     border: none;
@@ -21,45 +21,88 @@
     font-weight: bold;
 }
 
-.create-user-button:hover {
+.create-prize-button:hover {
     background-color: #ff8c00;
 }
 
-.users-table {
-    overflow-x: auto;
-}
-
-.users-table table {
-    width: 100%;
-    border-collapse: collapse;
+.prizes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
     margin-top: 20px;
 }
 
-.users-table th,
-.users-table td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
+.prize-card {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid #ddd;
+    transition: transform 0.2s ease;
 }
 
-.users-table th {
-    background-color: #f8f9fa;
+.prize-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.prize-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-bottom: 15px;
+}
+
+.image-preview {
+    width: 200px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+.prize-content h3 {
     color: #626366;
+    margin: 0 0 10px 0;
+}
+
+.prize-content .description {
+    color: #666;
+    margin: 0 0 15px 0;
+    line-height: 1.4;
+}
+
+.prize-details {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.prize-details .cost {
+    color: #FFA500;
     font-weight: bold;
 }
 
-.users-table tr:hover {
-    background-color: #f8f9fa;
+.prize-details .stock {
+    color: #626366;
+}
+
+.prize-actions {
+    display: flex;
+    gap: 10px;
 }
 
 .edit-button {
     background-color: #4CAF50;
     color: white;
     border: none;
-    padding: 6px 12px;
+    padding: 8px 16px;
     border-radius: 4px;
     cursor: pointer;
-    margin-right: 8px;
+    flex: 1;
 }
 
 .edit-button:hover {
@@ -70,23 +113,24 @@
     background-color: #ff4444;
     color: white;
     border: none;
-    padding: 6px 12px;
+    padding: 8px 16px;
     border-radius: 4px;
     cursor: pointer;
+    flex: 1;
 }
 
 .delete-button:hover {
     background-color: #cc0000;
 }
 
-.create-user-form {
+.prize-form {
     background-color: #f8f9fa;
     padding: 20px;
     border-radius: 8px;
     margin-bottom: 20px;
 }
 
-.create-user-form h3 {
+.prize-form h3 {
     color: #626366;
     margin-bottom: 20px;
 }
@@ -103,11 +147,21 @@
 }
 
 .form-group input,
-.form-group select {
+.form-group textarea {
     width: 100%;
     padding: 8px;
     border: 1px solid #ddd;
     border-radius: 4px;
+}
+
+.form-group input[type="file"] {
+    padding: 0;
+    border: none;
+}
+
+.form-group textarea {
+    min-height: 100px;
+    resize: vertical;
 }
 
 .form-buttons {
@@ -122,6 +176,7 @@
     border-radius: 4px;
     cursor: pointer;
     font-weight: bold;
+    flex: 1;
 }
 
 .form-buttons button[type="submit"] {
@@ -148,18 +203,4 @@
     padding: 10px;
     background-color: #ffe5e5;
     border-radius: 4px;
-}
-
-.back-button {
-    background-color: transparent;
-    color: #626366;
-    border: none;
-    padding: 10px 0;
-    cursor: pointer;
-    font-weight: bold;
-    margin-bottom: 20px;
-}
-
-.back-button:hover {
-    color: #FFA500;
 }
