@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../../styles/PrizesGrid.css';
 import { useAuth } from '../../context/AuthContext';
+import confetti from 'canvas-confetti';
 
 function PrizesGrid() {
     const [prizes, setPrizes] = useState([]);
@@ -29,6 +30,34 @@ function PrizesGrid() {
         }
     };
 
+    const triggerConfetti = () => {
+        // Configuración del confeti
+        const defaults = {
+            spread: 360,
+            ticks: 100,
+            gravity: 0.5,
+            decay: 0.94,
+            startVelocity: 30,
+            shapes: ['star'],
+            colors: ['FFE400', 'FFBD00', 'E89400', 'FFCA6C', 'FDFFB8']
+        };
+
+        // Lanzar confeti desde diferentes ángulos
+        confetti({
+            ...defaults,
+            particleCount: 40,
+            scalar: 1.2,
+            shapes: ['star']
+        });
+
+        confetti({
+            ...defaults,
+            particleCount: 25,
+            scalar: 0.75,
+            shapes: ['circle']
+        });
+    };
+
     const handleExchange = async (prizeId, costoPuntos) => {
         if (user.saldo_puntos_canjeables < costoPuntos) {
             setError('No tienes suficientes puntos para canjear este premio');
@@ -47,6 +76,8 @@ function PrizesGrid() {
                 }
             );
             setError(null);
+            // Activar animación de confeti
+            triggerConfetti();
             // Recargar los premios para actualizar el stock
             loadPrizes();
         } catch (err) {
