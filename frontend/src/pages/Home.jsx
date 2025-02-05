@@ -10,9 +10,7 @@ import MyExchanges from '../components/exchanges/MyExchanges';
 function Home() {
     const { user, logout } = useAuth();
     const navigate = useNavigate();
-    const [showTransferForm, setShowTransferForm] = useState(false);
-    const [showPrizes, setShowPrizes] = useState(false);
-    const [showExchanges, setShowExchanges] = useState(false);
+    const [currentSection, setCurrentSection] = useState('dashboard');
 
     useEffect(() => {
         if (!user) {
@@ -22,63 +20,92 @@ function Home() {
 
     if (!user) return null;
 
+    const renderSection = () => {
+        switch(currentSection) {
+            case 'transfers':
+                return (
+                    <>
+                        <TransferForm />
+                        <TransferHistory />
+                    </>
+                );
+            case 'prizes':
+                return <PrizesGrid />;
+            case 'exchanges':
+                return <MyExchanges />;
+            default:
+                return (
+                    <div className="dashboard-stats">
+                        <h2>Mis Puntos</h2>
+                        <div className="points-container">
+                            <div className="points-card">
+                                <h3>Puntos a transferir</h3>
+                                <div className="points-progress">
+                                    <progress 
+                                        value={user.saldo_puntos_transferibles} 
+                                        max={user.saldo_puntos_transferibles}
+                                    />
+                                    <span>{user.saldo_puntos_transferibles}/{user.saldo_puntos_transferibles}</span>
+                                </div>
+                                <p>Tienes {user.saldo_puntos_transferibles} puntos para transferir</p>
+                            </div>
+                            <div className="points-card">
+                                <h3>Puntos para canjear</h3>
+                                <div className="points-value">
+                                    <span className="texto-puntos">{user.saldo_puntos_canjeables}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                );
+        }
+    };
+
     return (
         <div className='home-container'>
-            <h1>¡Hola, {user.nombre}!</h1>
-            <h2>Puntos a transferir:</h2>
-            <label>{user.saldo_puntos_transferibles}/500</label>
-           
-            <progress 
-                className='barra-puntos-transferibles'
-                value={user.saldo_puntos_transferibles} 
-                max='500'
-            >
-                {user.saldo_puntos_transferibles}/500
-            </progress>
-            <label>Tienes {500 - user.saldo_puntos_transferibles} puntos por transferir</label>
-            
-            <button 
-                className='boton-home'
-                onClick={() => setShowTransferForm(!showTransferForm)}
-            >
-                {showTransferForm ? 'Ocultar formulario' : 'Transferir puntos'}
-            </button>
+            <header className="home-header">
+                <h1>¡Hola, {user.nombre}!</h1>
+                <button 
+                    className='logout-button' 
+                    onClick={() => {
+                        logout();
+                        navigate('/');
+                    }}
+                >
+                    Cerrar sesión
+                </button>
+            </header>
 
-            {showTransferForm && <TransferForm />}
-            
-            <h2 style={{marginBottom:"0px"}}>
-                Puntos para canjear: <span className="texto-puntos">{user.saldo_puntos_canjeables}</span>
-            </h2>
-            <button 
-                className='boton-home'
-                onClick={() => setShowPrizes(!showPrizes)}
-            >
-                {showPrizes ? 'Ocultar premios' : 'Ver premios'}
-            </button>
+            <nav className="home-nav">
+                <button 
+                    className={`nav-button ${currentSection === 'dashboard' ? 'active' : ''}`}
+                    onClick={() => setCurrentSection('dashboard')}
+                >
+                    Dashboard
+                </button>
+                <button 
+                    className={`nav-button ${currentSection === 'transfers' ? 'active' : ''}`}
+                    onClick={() => setCurrentSection('transfers')}
+                >
+                    Transferencias
+                </button>
+                <button 
+                    className={`nav-button ${currentSection === 'prizes' ? 'active' : ''}`}
+                    onClick={() => setCurrentSection('prizes')}
+                >
+                    Premios
+                </button>
+                <button 
+                    className={`nav-button ${currentSection === 'exchanges' ? 'active' : ''}`}
+                    onClick={() => setCurrentSection('exchanges')}
+                >
+                    Mis Canjes
+                </button>
+            </nav>
 
-            {showPrizes && <PrizesGrid />}
-
-            <button 
-                className='boton-home'
-                onClick={() => setShowExchanges(!showExchanges)}
-            >
-                {showExchanges ? 'Ocultar mis canjes' : 'Ver mis canjes'}
-            </button>
-
-            {showExchanges && <MyExchanges />}
-
-            <TransferHistory />
-
-            <button 
-                className='boton-home' 
-                onClick={() => {
-                    logout();
-                    navigate('/');
-                }}
-                style={{backgroundColor: '#ff4444'}}
-            >
-                Cerrar sesión
-            </button>
+            <main className="home-content">
+                {renderSection()}
+            </main>
         </div>
     );
 }

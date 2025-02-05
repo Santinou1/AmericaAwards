@@ -1,12 +1,44 @@
-import { createContext, useState, useContext } from 'react';
+import { createContext, useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  // Función para cargar el usuario usando el token almacenado
+  const loadUser = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        setLoading(false);
+        return;
+      }
+
+      const response = await axios.get('http://localhost:3000/api/auth', {
+        headers: {
+          'x-auth-token': token
+        }
+      });
+      
+      setUser(response.data.usuario);
+      setError(null);
+    } catch (err) {
+      console.error('Error al cargar usuario:', err);
+      localStorage.removeItem('token');
+      setUser(null);
+      setError('Sesión expirada');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Cargar usuario al montar el componente
+  useEffect(() => {
+    loadUser();
+  }, []);
 
   const login = async (email, password) => {
     try {
@@ -20,14 +52,7 @@ export const AuthProvider = ({ children }) => {
       const { token } = response.data;
       localStorage.setItem('token', token);
       
-      // Obtener información del usuario
-      const userResponse = await axios.get('http://localhost:3000/api/auth', {
-        headers: {
-          'x-auth-token': token
-        }
-      });
-      
-      setUser(userResponse.data.usuario);
+      await loadUser(); // Cargar la información del usuario después del login
       return true;
     } catch (err) {
       setError(err.response?.data?.msg || 'Error al iniciar sesión');
