@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../../styles/UsersSection.css';
+import Swal from 'sweetalert2';
+import { motion } from 'framer-motion';
 
 function UsersSection() {
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
     const [showCreateForm, setShowCreateForm] = useState(false);
     const [showEditForm, setShowEditForm] = useState(false);
     const [selectedUser, setSelectedUser] = useState(null);
@@ -25,11 +26,14 @@ function UsersSection() {
                 headers: { 'x-auth-token': token }
             });
             setUsers(response.data);
-            setError(null);
+            setLoading(false);
         } catch (err) {
-            setError('Error al cargar usuarios');
-            console.error(err);
-        } finally {
+            Swal.fire({
+                title: 'Error',
+                text: 'Error al cargar usuarios',
+                icon: 'error',
+                confirmButtonColor: '#FFA500'
+            });
             setLoading(false);
         }
     };
@@ -45,6 +49,14 @@ function UsersSection() {
             await axios.post('http://localhost:3000/api/usuarios', newUser, {
                 headers: { 'x-auth-token': token }
             });
+            
+            await Swal.fire({
+                title: '¡Usuario creado!',
+                text: 'El usuario ha sido creado exitosamente',
+                icon: 'success',
+                confirmButtonColor: '#FFA500'
+            });
+
             setShowCreateForm(false);
             setNewUser({
                 nombre: '',
@@ -56,8 +68,12 @@ function UsersSection() {
             });
             loadUsers();
         } catch (err) {
-            setError('Error al crear usuario');
-            console.error(err);
+            Swal.fire({
+                title: 'Error',
+                text: err.response?.data?.msg || 'Error al crear usuario',
+                icon: 'error',
+                confirmButtonColor: '#FFA500'
+            });
         }
     };
 
@@ -66,50 +82,106 @@ function UsersSection() {
         try {
             const token = localStorage.getItem('token');
             const updateData = { ...selectedUser };
-            delete updateData._id; // Remove _id from update data
+            delete updateData._id;
             
             await axios.put(`http://localhost:3000/api/usuarios/${selectedUser._id}`, updateData, {
                 headers: { 'x-auth-token': token }
             });
+
+            await Swal.fire({
+                title: '¡Usuario actualizado!',
+                text: 'Los cambios han sido guardados exitosamente',
+                icon: 'success',
+                confirmButtonColor: '#FFA500'
+            });
+
             setShowEditForm(false);
             setSelectedUser(null);
             loadUsers();
         } catch (err) {
-            setError('Error al actualizar usuario');
-            console.error(err);
+            Swal.fire({
+                title: 'Error',
+                text: err.response?.data?.msg || 'Error al actualizar usuario',
+                icon: 'error',
+                confirmButtonColor: '#FFA500'
+            });
         }
     };
 
     const handleDeleteUser = async (userId) => {
-        if (window.confirm('¿Estás seguro de que deseas eliminar este usuario?')) {
+        const result = await Swal.fire({
+            title: '¿Estás seguro?',
+            text: "Esta acción no se puede deshacer",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#FFA500',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar'
+        });
+
+        if (result.isConfirmed) {
             try {
                 const token = localStorage.getItem('token');
                 await axios.delete(`http://localhost:3000/api/usuarios/${userId}`, {
                     headers: { 'x-auth-token': token }
                 });
+
+                await Swal.fire({
+                    title: '¡Eliminado!',
+                    text: 'El usuario ha sido eliminado',
+                    icon: 'success',
+                    confirmButtonColor: '#FFA500'
+                });
+
                 loadUsers();
             } catch (err) {
-                setError('Error al eliminar usuario');
-                console.error(err);
+                Swal.fire({
+                    title: 'Error',
+                    text: err.response?.data?.msg || 'Error al eliminar usuario',
+                    icon: 'error',
+                    confirmButtonColor: '#FFA500'
+                });
             }
         }
     };
 
-    if (loading) return <div>Cargando usuarios...</div>;
-    if (error) return <div className="error-message">{error}</div>;
+    if (loading) {
+        return (
+            <div className="loading-container">
+                <motion.div
+                    className="loading-spinner"
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                />
+                <p>Cargando usuarios...</p>
+            </div>
+        );
+    }
 
     return (
-        <div className="users-section">
+        <motion.div 
+            className="users-section"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+        >
             <h2>Gestión de Usuarios</h2>
-            <button 
+            <motion.button 
                 className="create-user-button"
                 onClick={() => setShowCreateForm(true)}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
             >
                 Crear Nuevo Usuario
-            </button>
+            </motion.button>
 
             {showCreateForm && (
-                <div className="create-user-form">
+                <motion.div 
+                    className="create-user-form"
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                >
                     <h3>Crear Nuevo Usuario</h3>
                     <form onSubmit={handleCreateUser}>
                         <div className="form-group">
@@ -168,21 +240,33 @@ function UsersSection() {
                             />
                         </div>
                         <div className="form-buttons">
-                            <button type="submit">Crear Usuario</button>
-                            <button 
+                            <motion.button 
+                                type="submit"
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                            >
+                                Crear Usuario
+                            </motion.button>
+                            <motion.button 
                                 type="button" 
                                 onClick={() => setShowCreateForm(false)}
                                 className="cancel-button"
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
                             >
                                 Cancelar
-                            </button>
+                            </motion.button>
                         </div>
                     </form>
-                </div>
+                </motion.div>
             )}
 
             {showEditForm && selectedUser && (
-                <div className="create-user-form">
+                <motion.div 
+                    className="create-user-form"
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                >
                     <h3>Editar Usuario</h3>
                     <form onSubmit={handleEditUser}>
                         <div className="form-group">
@@ -232,23 +316,36 @@ function UsersSection() {
                             />
                         </div>
                         <div className="form-buttons">
-                            <button type="submit">Guardar Cambios</button>
-                            <button 
+                            <motion.button 
+                                type="submit"
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                            >
+                                Guardar Cambios
+                            </motion.button>
+                            <motion.button 
                                 type="button" 
                                 onClick={() => {
                                     setShowEditForm(false);
                                     setSelectedUser(null);
                                 }}
                                 className="cancel-button"
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
                             >
                                 Cancelar
-                            </button>
+                            </motion.button>
                         </div>
                     </form>
-                </div>
+                </motion.div>
             )}
 
-            <div className="users-table">
+            <motion.div 
+                className="users-table"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+            >
                 <table>
                     <thead>
                         <tr>
@@ -261,36 +358,45 @@ function UsersSection() {
                         </tr>
                     </thead>
                     <tbody>
-                        {users.map(user => (
-                            <tr key={user._id}>
+                        {users.map((user, index) => (
+                            <motion.tr 
+                                key={user._id}
+                                initial={{ opacity: 0, x: -20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ delay: index * 0.1 }}
+                            >
                                 <td>{user.nombre}</td>
                                 <td>{user.email}</td>
                                 <td>{user.rol}</td>
                                 <td>{user.saldo_puntos_canjeables}</td>
                                 <td>{user.saldo_puntos_transferibles}</td>
                                 <td>
-                                    <button 
+                                    <motion.button 
                                         className="edit-button"
                                         onClick={() => {
                                             setSelectedUser(user);
                                             setShowEditForm(true);
                                         }}
+                                        whileHover={{ scale: 1.1 }}
+                                        whileTap={{ scale: 0.9 }}
                                     >
                                         Editar
-                                    </button>
-                                    <button 
+                                    </motion.button>
+                                    <motion.button 
                                         className="delete-button"
                                         onClick={() => handleDeleteUser(user._id)}
+                                        whileHover={{ scale: 1.1 }}
+                                        whileTap={{ scale: 0.9 }}
                                     >
                                         Eliminar
-                                    </button>
+                                    </motion.button>
                                 </td>
-                            </tr>
+                            </motion.tr>
                         ))}
                     </tbody>
                 </table>
-            </div>
-        </div>
+            </motion.div>
+        </motion.div>
     );
 }
 

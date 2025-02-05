@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../../styles/MyExchanges.css';
+import Swal from 'sweetalert2';
+import { motion } from 'framer-motion';
 
 function MyExchanges() {
     const [exchanges, setExchanges] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
 
     useEffect(() => {
         loadExchanges();
@@ -17,12 +18,14 @@ function MyExchanges() {
             const response = await axios.get('http://localhost:3000/api/canjes/mis-canjes', {
                 headers: { 'x-auth-token': token }
             });
-            setExchanges(response.data.canjes || []); // Asegurar que siempre sea un array
-            setError(null);
+            setExchanges(response.data.canjes || []);
         } catch (err) {
-            setError('Error al cargar tus canjes');
-            console.error(err);
-            setExchanges([]); // Establecer un array vacío en caso de error
+            Swal.fire({
+                title: 'Error',
+                text: 'Error al cargar tus canjes',
+                icon: 'error',
+                confirmButtonColor: '#FFA500'
+            });
         } finally {
             setLoading(false);
         }
@@ -37,31 +40,45 @@ function MyExchanges() {
 
     if (loading) {
         return (
-            <div className="my-exchanges-container">
-                <h2>Mis Canjes</h2>
-                <div className="loading-message">Cargando tus canjes...</div>
-            </div>
-        );
-    }
-
-    if (error) {
-        return (
-            <div className="my-exchanges-container">
-                <h2>Mis Canjes</h2>
-                <div className="error-message">{error}</div>
+            <div className="loading-container">
+                <motion.div
+                    className="loading-spinner"
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                />
+                <p>Cargando tus canjes...</p>
             </div>
         );
     }
 
     return (
-        <div className="my-exchanges-container">
+        <motion.div 
+            className="my-exchanges-container"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+        >
             <h2>Mis Canjes</h2>
             {exchanges.length === 0 ? (
-                <p className="no-exchanges">No has realizado ningún canje todavía</p>
+                <motion.p 
+                    className="no-exchanges"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.2 }}
+                >
+                    No has realizado ningún canje todavía
+                </motion.p>
             ) : (
                 <div className="exchanges-list">
-                    {exchanges.map(exchange => (
-                        <div key={exchange._id || Math.random()} className="exchange-card">
+                    {exchanges.map((exchange, index) => (
+                        <motion.div 
+                            key={exchange._id || Math.random()} 
+                            className="exchange-card"
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: index * 0.1 }}
+                            whileHover={{ scale: 1.02 }}
+                        >
                             <div className="exchange-header">
                                 <span className="exchange-date">
                                     {exchange.fecha ? new Date(exchange.fecha).toLocaleDateString() : 'Fecha no disponible'}
@@ -77,12 +94,22 @@ function MyExchanges() {
                                     <span>Cantidad: {exchange.cantidad || 0}</span>
                                     <span>Total: {calculateTotalPoints(exchange)} puntos</span>
                                 </div>
+                                {exchange.premio_id?.imagen_url && (
+                                    <motion.img 
+                                        src={exchange.premio_id.imagen_url}
+                                        alt={exchange.premio_id.nombre}
+                                        className="prize-image"
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        transition={{ delay: 0.3 }}
+                                    />
+                                )}
                             </div>
-                        </div>
+                        </motion.div>
                     ))}
                 </div>
             )}
-        </div>
+        </motion.div>
     );
 }
 
