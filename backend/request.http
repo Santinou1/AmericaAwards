@@ -10,9 +10,9 @@ POST http://localhost:3000/api/usuarios/primer-admin
 Content-Type: application/json
 
 {
-    "nombre": "Admin Principal",
-    "email": "admin@empresa.com",
-    "password": "admin123456"
+    "nombre": "Yael Bowerman",
+    "email": "ybowerman@americagroupsrl.com",
+    "password": "americaAG01"
 }
 
 ## Autenticación
