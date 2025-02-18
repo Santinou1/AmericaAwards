@@ -17,7 +17,7 @@ const Empleado = sequelize.define('Empleado',{
         allowNull: false
     },
     area:{
-        type:DataTypes.INTEGER,
+        type:DataTypes.STRING(50),
         allowNull: false,
         references:{
             model: Area,

@@ -19,7 +19,7 @@ const Usuario = sequelize.define('Usuario',{
     },
     rol: {
         type: DataTypes.ENUM('empleado', 'administrador'),
-        defaultValue: 'user'
+        defaultValue: 'empleado'
     },
     saldo_puntos_canjeables: {
         type: DataTypes.INTEGER,
