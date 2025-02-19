@@ -1,5 +1,5 @@
 const { validationResult } = require('express-validator');
-const Premio = require('../models/Premio');
+const Premio = require('../SQLmodels/Premio')
 
 // Crear nuevo premio
 exports.crearPremio = async (req, res) => {
@@ -9,8 +9,7 @@ exports.crearPremio = async (req, res) => {
   }
 
   try {
-    const premio = new Premio(req.body);
-    await premio.save();
+    const premio = new Premio.create(req.body);
 
     res.status(201).json({
       msg: 'Premio creado exitosamente',
@@ -25,7 +24,7 @@ exports.crearPremio = async (req, res) => {
 // Obtener todos los premios
 exports.obtenerPremios = async (req, res) => {
   try {
-    const premios = await Premio.find().sort({ costo_puntos: 'asc' });
+    const premios = await Premio.findAll({order:[['costo_puntos', 'ASC']]});
     res.json({ premios });
   } catch (error) {
     console.error(error);

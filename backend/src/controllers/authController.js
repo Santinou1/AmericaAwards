@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { validationResult } = require('express-validator');
-const Usuario = require('../models/Usuario');
+const Usuario = require('../SQLmodels/Usuario');
 
 exports.autenticarUsuario = async (req, res) => {
   // Revisar si hay errores
@@ -14,7 +14,7 @@ exports.autenticarUsuario = async (req, res) => {
 
   try {
     // Revisar que el usuario esté registrado
-    let usuario = await Usuario.findOne({ email });
+    let usuario = await Usuario.findOne({ where:{email} });
     if (!usuario) {
       return res.status(400).json({ msg: 'El usuario no existe' });
     }
@@ -56,7 +56,9 @@ exports.autenticarUsuario = async (req, res) => {
 // Obtiene el usuario autenticado
 exports.usuarioAutenticado = async (req, res) => {
   try {
-    const usuario = await Usuario.findById(req.usuario.id).select('-password');
+    const usuario = await Usuario.findByPk(req.usuario.id, {
+      attributes: { exclude: ['password'] }
+    });
     res.json({ usuario });
   } catch (error) {
     console.log(error);

@@ -1,6 +1,7 @@
-const bcrypt = require('bcryptjs');
+ const bcrypt = require('bcryptjs');
 const { validationResult } = require('express-validator');
-const Usuario = require('../models/Usuario');
+//const Usuario = require('../models/Usuario');
+const Usuario = require('../SQLmodels/Usuario');
 const jwt = require('jsonwebtoken');
 
 
@@ -8,7 +9,7 @@ const jwt = require('jsonwebtoken');
 exports.crearPrimerAdmin = async (req, res) => {
   try {
     // Verificar si ya existe algún usuario
-    const existenUsuarios = await Usuario.countDocuments();
+    const existenUsuarios = await Usuario.count();
     if (existenUsuarios > 0) {
       return res.status(400).json({ msg: 'Ya existe al menos un usuario. Use la ruta normal de registro.' });
     }
@@ -20,23 +21,19 @@ exports.crearPrimerAdmin = async (req, res) => {
     }
 
     const { nombre, email, password } = req.body;
-
+    // Encriptar contraseña
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
     // Crear nuevo usuario administrador
-    const usuario = new Usuario({
+    const usuario = await Usuario.create({
       nombre,
       email,
-      password,
+      password: hashedPassword, // Aquí ya deberías pasar la contraseña encriptada
       rol: 'administrador',
       saldo_puntos_canjeables: 0,
       saldo_puntos_transferibles: 0
     });
 
-    // Encriptar contraseña
-    const salt = await bcrypt.genSalt(10);
-    usuario.password = await bcrypt.hash(password, salt);
-
-    // Guardar usuario
-    await usuario.save();
 
     // Crear y firmar el JWT
     const payload = {
@@ -82,40 +79,35 @@ exports.crearUsuario = async (req, res) => {
     const { nombre, email, password, rol, saldo_puntos_canjeables, saldo_puntos_transferibles } = req.body;
 
     // Verificar si el usuario ya existe
-    let usuario = await Usuario.findOne({ email });
+    let usuario = await Usuario.findOne({ where: { email } });
     if (usuario) {
       return res.status(400).json({ msg: 'El usuario ya existe' });
     }
 
+    // Encriptar contraseña
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
     // Crear nuevo usuario
-    usuario = new Usuario({
+    usuario = await Usuario.create({
       nombre,
       email,
-      password,
+      password: hashedPassword,
       rol: rol || 'empleado',
       saldo_puntos_canjeables: saldo_puntos_canjeables || 0,
       saldo_puntos_transferibles: saldo_puntos_transferibles || 0
     });
 
-    // Encriptar contraseña
-    const salt = await bcrypt.genSalt(10);
-    usuario.password = await bcrypt.hash(password, salt);
-
-    // Guardar usuario
-    await usuario.save();
-
     // Enviar respuesta
     res.status(201).json({
       msg: 'Usuario creado exitosamente',
       usuario: {
-        id: usuario._id,
+        id: usuario.id,
         nombre: usuario.nombre,
         email: usuario.email,
         rol: usuario.rol,
         saldo_puntos_canjeables: usuario.saldo_puntos_canjeables,
-        saldo_puntos_transferibles: usuario.saldo_puntos_transferibles,
-        fecha_creacion: usuario.fecha_creacion,
-        fecha_actualizacion: usuario.fecha_actualizacion
+        saldo_puntos_transferibles: usuario.saldo_puntos_transferibles
       }
     });
   } catch (error) {
@@ -126,10 +118,10 @@ exports.crearUsuario = async (req, res) => {
 
 exports.obtenerUsuarios = async (req, res) => {
   try {
-    const usuarios = await Usuario.find()
-      .select('-password') // Excluir el campo password
-      .sort({ fecha_creacion: -1 }); // Ordenar por fecha de creación descendente
-
+    const usuarios = await Usuario.findAll({
+      attributes: { exclude: ['password'] }, // Excluir el campo password
+       // Ordenar por fecha de creación descendente
+    });
     res.json(usuarios);
   } catch (error) {
     console.error(error);
@@ -139,7 +131,9 @@ exports.obtenerUsuarios = async (req, res) => {
 
 exports.obtenerUsuario = async (req, res) => {
   try {
-    const usuario = await Usuario.findById(req.params.id).select('-password');
+    const usuario = await Usuario.findByPk(req.params.id,{
+      attributes: {exclude: ['password']}
+    });
     
     if (!usuario) {
       return res.status(404).json({ msg: 'Usuario no encontrado' });
@@ -148,9 +142,6 @@ exports.obtenerUsuario = async (req, res) => {
     res.json(usuario);
   } catch (error) {
     console.error(error);
-    if (error.kind === 'ObjectId') {
-      return res.status(404).json({ msg: 'Usuario no encontrado' });
-    }
     res.status(500).json({ msg: 'Error en el servidor' });
   }
 };
@@ -165,7 +156,7 @@ exports.actualizarUsuario = async (req, res) => {
     const { nombre, email, rol, saldo_puntos_canjeables, saldo_puntos_transferibles, password } = req.body;
     
     // Verificar si el usuario existe
-    let usuario = await Usuario.findById(req.params.id);
+    let usuario = await Usuario.findByPk(req.params.id);
     if (!usuario) {
       return res.status(404).json({ msg: 'Usuario no encontrado' });
     }
@@ -178,27 +169,28 @@ exports.actualizarUsuario = async (req, res) => {
       }
     }
 
+    const updatedFields = {};
     // Actualizar campos
-    if (nombre) usuario.nombre = nombre;
-    if (email) usuario.email = email;
-    if (rol) usuario.rol = rol;
+    if (nombre) updatedFields.nombre = nombre;
+    if (email) updatedFields.email = email;
+    if (rol) updatedFields.rol = rol;
     if (typeof saldo_puntos_canjeables !== 'undefined') {
-      usuario.saldo_puntos_canjeables = saldo_puntos_canjeables;
+      updatedFields.saldo_puntos_canjeables = saldo_puntos_canjeables;
     }
     if (typeof saldo_puntos_transferibles !== 'undefined') {
-      usuario.saldo_puntos_transferibles = saldo_puntos_transferibles;
+      updatedFields.saldo_puntos_transferibles = saldo_puntos_transferibles;
     }
 
     // Si se proporciona nueva contraseña, encriptarla
     if (password) {
       const salt = await bcrypt.genSalt(10);
-      usuario.password = await bcrypt.hash(password, salt);
+      updatedFields.password = await bcrypt.hash(password, salt);
     }
 
-    await usuario.save();
+    await usuario.update(updatedFields);
 
     // Enviar respuesta sin incluir password
-    const usuarioActualizado = usuario.toObject();
+    const usuarioActualizado = usuario.toJSON();
     delete usuarioActualizado.password;
 
     res.json({
@@ -207,22 +199,19 @@ exports.actualizarUsuario = async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    if (error.kind === 'ObjectId') {
-      return res.status(404).json({ msg: 'Usuario no encontrado' });
-    }
     res.status(500).json({ msg: 'Error en el servidor' });
   }
 };
 
 exports.eliminarUsuario = async (req, res) => {
   try {
-    const usuario = await Usuario.findById(req.params.id);
+    const usuario = await Usuario.findBypK(req.params.id);
     
     if (!usuario) {
       return res.status(404).json({ msg: 'Usuario no encontrado' });
     }
 
-    await Usuario.findByIdAndDelete(req.params.id);
+    await Usuario.destroy({where:{idUsuario: req.params.id}});
 
     res.json({ msg: 'Usuario eliminado exitosamente' });
   } catch (error) {

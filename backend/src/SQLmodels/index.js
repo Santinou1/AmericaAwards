@@ -8,7 +8,7 @@ const Premio = require('./Premio');
 const Canje = require('./Canje');
 
 Usuario.belongsTo(Empleado, {foreignKey: 'empleado'});
-Empleado.hasOne(Usuario, {foreignKey: 'empleado', onDelete: 'CASCADE'});
+
 Empleado.belongsTo(Area, {foreignKey: 'area'});
 Area.hasMany(Empleado, {foreignKey: 'area', onDelete: 'CASCADE'});
 Transferencia.belongsTo(Empleado, {foreignKey: 'emisor_id'});
@@ -27,7 +27,7 @@ sequelize.sync({alter: true})
     .then(()=> console.log('Tablas sincronizadas'))
     .catch(error => console.log('Error al sincronizar las tablas', error));
 
-
+/*
 const queryInterface = sequelize.getQueryInterface();
 queryInterface.addConstraint('Premios', {
     fields:['stock'],
@@ -38,4 +38,5 @@ queryInterface.addConstraint('Premios', {
         }
     }
 });
+*/
 module.exports = {sequelize, Usuario, Empleado, Area, Transferencia, Premio, Canje};

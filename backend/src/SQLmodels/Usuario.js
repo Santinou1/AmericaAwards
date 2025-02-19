@@ -1,6 +1,6 @@
 const {DataTypes} = require('sequelize');
 const sequelize = require('../config/sqlDB');
-const Empleado = require('./Empleado');
+
 
 const Usuario = sequelize.define('Usuario',{
     idUsuario: {
@@ -17,6 +17,9 @@ const Usuario = sequelize.define('Usuario',{
         type: DataTypes.STRING(200),
         allowNull: false
     },
+    nombre: {
+        type: DataTypes.STRING(100),
+        allowNull: false},
     rol: {
         type: DataTypes.ENUM('empleado', 'administrador'),
         defaultValue: 'empleado'
@@ -29,14 +32,7 @@ const Usuario = sequelize.define('Usuario',{
         type: DataTypes.INTEGER,
         defaultValue: 0
     },
-    empleado:{
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        references:{
-            model: Empleado,
-            key: 'idEmpleado'
-        },onDelete: 'CASCADE'
-    }
+    
 },{
     TableName: 'usuario',
     timestamps: false,
