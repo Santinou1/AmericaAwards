@@ -1,7 +1,7 @@
 const {DataTypes} = require('sequelize')
 const sequelize = require('../config/sqlDB'); 
 
-const Empleado = require('./Empleado');;
+const Usuario = require('./Usuario');;
 
 const Transferencia = sequelize.define('Transferencia',{
     transferencia_id:{
@@ -11,7 +11,8 @@ const Transferencia = sequelize.define('Transferencia',{
     },
     fecha:{
         type: DataTypes.DATE,
-        allowNull: false
+        allowNull: false,
+        defaultValue: DataTypes.NOW
     },
     puntos:{
         type: DataTypes.INTEGER,
@@ -21,8 +22,8 @@ const Transferencia = sequelize.define('Transferencia',{
         type: DataTypes.INTEGER,
         allowNull: false,
         references:{
-            model: Empleado,
-            key: 'idEmpleado'
+            model: Usuario,
+            key: 'idUsuario'
         },
         onDelete: 'CASCADE'
     },	
@@ -30,8 +31,8 @@ const Transferencia = sequelize.define('Transferencia',{
         type: DataTypes.INTEGER,
         allowNull: false,
         references:{
-            model: Empleado,
-            key: 'idEmpleado'
+            model: Usuario,
+            key: 'idUsuario'
         },
         onDelete: 'CASCADE'
     },

@@ -1,7 +1,7 @@
 const { validationResult } = require('express-validator');
-const Canje = require('../models/Canje');
-const Premio = require('../models/Premio');
-const Usuario = require('../models/Usuario');
+const Canje = require('../SQLmodels/Canje');
+const Premio = require('../SQLmodels/Premio');
+const Usuario = require('../SQLmodels/Usuario');
 
 exports.realizarCanje = async (req, res) => {
   const errores = validationResult(req);

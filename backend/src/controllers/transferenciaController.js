@@ -1,7 +1,8 @@
 const { validationResult } = require('express-validator');
 const Usuario = require('../SQLmodels/Usuario');
 const Transferencia = require('../SQLmodels/Transferencia');
-const {sequelize} = require('../SQLmodels')
+const {sequelize} = require('../SQLmodels');
+const { Op } = require('sequelize');
 exports.realizarTransferencia = async (req, res) => {
   const errores = validationResult(req);
   if (!errores.isEmpty()) {
@@ -62,29 +63,35 @@ exports.realizarTransferencia = async (req, res) => {
 
 exports.obtenerTransferenciasUsuario = async (req, res) => {
   try {
-    const usuario_id = req.usuario.id;
+    const usuario_id = req.params.id;
 
-    const transferencias = await Transferencia.find({
-      $or: [{ emisor_id: usuario_id }, { receptor_id: usuario_id }],
-    })
-      .populate({
-        path: "emisor_id",
-        match: { _id: { $exists: true } },
-        select: "nombre email",
-      })
-      .populate({
-        path: "receptor_id",
-        match: { _id: { $exists: true } },
-        select: "nombre email",
-      })
-      .sort({ fecha: -1 });
+    const transferencias = await Transferencia.findAll({
+      where:{
+        [Op.or]: [{emisor_id: usuario_id}, {receptor_id: usuario_id}]
+      },
+      include:[
+        {
+          model: Usuario,
+          as: 'emisor',
+          attributes: ['idUsuario','nombre', 'email'],
+          required: false
+        },
+        {
+          model: Usuario,
+          as: 'receptor',
+          attributes: ['idUsuario','nombre', 'email'],
+          required:false
+        },
+      ],
+      order: [['fecha', 'DESC']],
+    });
+    
 
     // Filtrar transferencias con usuarios eliminados
+    
     const transferenciasFiltradas = transferencias.filter(
-      (transferencia) =>
-        transferencia.emisor_id !== null && transferencia.receptor_id !== null
+      (transferencia) => transferencia.emisor !== null && transferencia.receptor !== null
     );
-
     res.json({ transferencias: transferenciasFiltradas });
   } catch (error) {
     console.error(error);
@@ -94,23 +101,29 @@ exports.obtenerTransferenciasUsuario = async (req, res) => {
 
 exports.obtenerTodasTransferencias = async (req, res) => {
   try {
-    const transferencias = await Transferencia.find()
-      .populate({
-        path: "emisor_id",
-        match: { _id: { $exists: true } },
-        select: "nombre email",
-      })
-      .populate({
-        path: "receptor_id",
-        match: { _id: { $exists: true } },
-        select: "nombre email",
-      })
-      .sort({ fecha: -1 });
+    const transferencias = await Transferencia.findAll({
+      include: [
+        {
+          model: Usuario,
+          as: 'emisor',
+          attributes: ['idUsuario','nombre', 'email'],
+          required: false
+        },
+        {
+          model: Usuario,
+          as: 'receptor',
+          attributes: ['idUsuario','nombre', 'email'],
+          required: false,
+        },
+      ],
+      order: [['fecha', 'DESC']],
+    });
+      
 
     // Filtrar transferencias con usuarios eliminados
     const transferenciasFiltradas = transferencias.filter(
       (transferencia) =>
-        transferencia.emisor_id !== null && transferencia.receptor_id !== null
+        transferencia.emisor !== null && transferencia.receptor !== null
     );
 
     res.json({ transferencias: transferenciasFiltradas });

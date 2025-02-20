@@ -16,7 +16,7 @@ router.post('/', [
 ], transferenciaController.realizarTransferencia);
 
 // Obtener transferencias del usuario autenticado
-router.get('/mis-transferencias', auth, transferenciaController.obtenerTransferenciasUsuario);
+router.get('/mis-transferencias/:id', auth, transferenciaController.obtenerTransferenciasUsuario);
 
 // Obtener todas las transferencias (solo admin)
 router.get('/', [auth, isAdmin], transferenciaController.obtenerTodasTransferencias);

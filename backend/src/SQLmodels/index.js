@@ -11,8 +11,8 @@ Usuario.belongsTo(Empleado, {foreignKey: 'empleado'});
 
 Empleado.belongsTo(Area, {foreignKey: 'area'});
 Area.hasMany(Empleado, {foreignKey: 'area', onDelete: 'CASCADE'});
-Transferencia.belongsTo(Empleado, {foreignKey: 'emisor_id'});
-Transferencia.belongsTo(Empleado, {foreignKey: 'receptor_id'});
+Transferencia.belongsTo(Usuario, {foreignKey: 'emisor_id', as: 'emisor'});
+Transferencia.belongsTo(Usuario, {foreignKey: 'receptor_id', as: 'receptor'});
 Empleado.hasMany(Transferencia, {foreignKey: 'emisor_id', onDelete: 'CASCADE'});
 Empleado.hasMany(Transferencia, {foreignKey: 'receptor_id', onDelete: 'CASCADE'});
 Canje.belongsTo(Usuario, {foreignKey: 'usuario_id'});
