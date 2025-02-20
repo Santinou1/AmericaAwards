@@ -1,5 +1,5 @@
 const { validationResult } = require('express-validator');
-const Premio = require('../models/Premio');
+const Premio = require('../SQLmodels/Premio')
 
 // Crear nuevo premio
 exports.crearPremio = async (req, res) => {
@@ -9,8 +9,13 @@ exports.crearPremio = async (req, res) => {
   }
 
   try {
-    const premio = new Premio(req.body);
-    await premio.save();
+    const premio = await Premio.create({
+      nombre: req.body.nombre,
+      descripcion: req.body.descripcion,
+      imagen_url: req.body.imagen_url,
+      costo_puntos: req.body.costo_puntos,
+      stock: req.body.stock,
+    });
 
     res.status(201).json({
       msg: 'Premio creado exitosamente',
@@ -25,7 +30,7 @@ exports.crearPremio = async (req, res) => {
 // Obtener todos los premios
 exports.obtenerPremios = async (req, res) => {
   try {
-    const premios = await Premio.find().sort({ costo_puntos: 'asc' });
+    const premios = await Premio.findAll({order:[['costo_puntos', 'ASC']]});
     res.json({ premios });
   } catch (error) {
     console.error(error);
@@ -36,7 +41,7 @@ exports.obtenerPremios = async (req, res) => {
 // Obtener premio por ID
 exports.obtenerPremio = async (req, res) => {
   try {
-    const premio = await Premio.findById(req.params.id);
+    const premio = await Premio.findByPk(req.params.id);
     if (!premio) {
       return res.status(404).json({ msg: 'Premio no encontrado' });
     }
@@ -55,17 +60,12 @@ exports.actualizarPremio = async (req, res) => {
   }
 
   try {
-    let premio = await Premio.findById(req.params.id);
+    let premio = await Premio.findByPk(req.params.id);
     if (!premio) {
       return res.status(404).json({ msg: 'Premio no encontrado' });
     }
 
-    premio = await Premio.findByIdAndUpdate(
-      req.params.id,
-      { $set: req.body },
-      { new: true }
-    );
-
+    await premio.update(req.body);
     res.json({
       msg: 'Premio actualizado exitosamente',
       premio
@@ -79,12 +79,12 @@ exports.actualizarPremio = async (req, res) => {
 // Eliminar premio
 exports.eliminarPremio = async (req, res) => {
   try {
-    const premio = await Premio.findById(req.params.id);
+    const premio = await Premio.findByPk(req.params.id);
     if (!premio) {
       return res.status(404).json({ msg: 'Premio no encontrado' });
     }
 
-    await Premio.findByIdAndDelete(req.params.id);
+    await premio.destroy();
     res.json({ msg: 'Premio eliminado exitosamente' });
   } catch (error) {
     console.error(error);

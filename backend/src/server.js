@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 const conectarDB = require('./config/db');
-
+const { sequelize } = require('./SQLmodels/index');
 const app = express();
 
 // Middleware
@@ -11,6 +11,7 @@ app.use(express.json());
 
 // Conectar a MongoDB
 conectarDB();
+
 
 // Rutas
 app.use('/api/usuarios', require('./routes/usuarioRoutes'));

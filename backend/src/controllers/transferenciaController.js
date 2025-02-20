@@ -1,16 +1,16 @@
-const { validationResult } = require("express-validator");
-const Usuario = require("../models/Usuario");
-const Transferencia = require("../models/Transferencia");
-
+const { validationResult } = require('express-validator');
+const Usuario = require('../SQLmodels/Usuario');
+const Transferencia = require('../SQLmodels/Transferencia');
+const {sequelize} = require('../SQLmodels')
 exports.realizarTransferencia = async (req, res) => {
   const errores = validationResult(req);
   if (!errores.isEmpty()) {
     return res.status(400).json({ errores: errores.array() });
   }
-
+  const t = await sequelize.transaction();
   try {
     const { receptor_id, puntos, mensaje } = req.body;
-    const emisor_id = req.usuario.id;
+    const emisor_id = req.body.usuario;
 
     // Verificar que no se transfiera a sí mismo
     if (emisor_id === receptor_id) {
@@ -20,34 +20,36 @@ exports.realizarTransferencia = async (req, res) => {
     }
 
     // Obtener emisor y verificar saldo
-    const emisor = await Usuario.findById(emisor_id);
-    if (emisor.saldo_puntos_transferibles < puntos) {
-      return res
-        .status(400)
-        .json({ msg: "Saldo insuficiente para realizar la transferencia" });
+    const emisor = await Usuario.findByPk(emisor_id, { transaction: t });
+    if (!emisor || emisor.saldo_puntos_transferibles < puntos) {
+      console.log('SALDO EMISOR: ', emisor.saldo_puntos_transferibles)
+      await t.rollback();
+      return res.status(400).json({ msg: 'Saldo insuficiente para realizar la transferencia' });
     }
 
     // Verificar que el receptor existe
-    const receptor = await Usuario.findById(receptor_id);
+    const receptor = await Usuario.findByPk(receptor_id,{ transaction: t });
     if (!receptor) {
-      return res.status(400).json({ msg: "Usuario receptor no encontrado" });
+      await t.rollback();
+      return res.status(400).json({ msg: 'Usuario receptor no encontrado' });
     }
 
     // Crear la transferencia
-    const transferencia = new Transferencia({
+    const transferencia = await Transferencia.create({
       emisor_id,
       receptor_id,
       puntos,
-      mensaje,
-    });
+      mensaje
+    }, { transaction: t });
 
     // Actualizar saldos
     emisor.saldo_puntos_transferibles -= puntos;
     receptor.saldo_puntos_canjeables += puntos;
 
     // Guardar cambios en una transacción
-    await Promise.all([transferencia.save(), emisor.save(), receptor.save()]);
-
+    await emisor.update({saldo_puntos_transferibles: emisor.saldo_puntos_transferibles- puntos},{transaction: t});
+    await receptor.update({saldo_puntos_canjeables: receptor.saldo_puntos_canjeables + puntos},{transaction: t});
+    await t.commit();
     res.json({
       msg: "Transferencia realizada con éxito",
       transferencia,
