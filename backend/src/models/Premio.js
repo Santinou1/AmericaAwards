@@ -9,6 +9,10 @@ const premioSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  imagen_url: {
+    type: String,
+    default: 'https://via.placeholder.com/300x200'
+  },
   costo_puntos: {
     type: Number,
     required: true

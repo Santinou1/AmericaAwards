@@ -10,9 +10,9 @@ POST http://localhost:3000/api/usuarios/primer-admin
 Content-Type: application/json
 
 {
-    "nombre": "Admin Principal",
-    "email": "admin@empresa.com",
-    "password": "admin123456"
+    "nombre": "Yael Bowerman",
+    "email": "ybowerman@americagroupsrl.com",
+    "password": "americaAG01"
 }
 
 ## Autenticación
@@ -28,13 +28,21 @@ Content-Type: application/json
 
 ### Obtener Usuario Autenticado
 GET http://localhost:3000/api/auth
+<<<<<<< HEAD
 x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7Im5vbWJyZSI6IkFkbWluIFByaW5jaXBhbCIsImVtYWlsIjoiYWRtaW5AZW1wcmVzYS5jb20iLCJyb2wiOiJhZG1pbmlzdHJhZG9yIn0sImlhdCI6MTczOTk5NzAxOCwiZXhwIjoxNzQwMDI1ODE4fQ.dPaBZaDFGkE9DPlPHK7Ubfle6dZ8Wd6nCcb19Sq86HM
+=======
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoiNjc5Y2Q0Njk1ZThjYWNiNTBhYjQ5NTRkIiwibm9tYnJlIjoiQWRtaW4gUHJpbmNpcGFsIiwiZW1haWwiOiJhZG1pbkBlbXByZXNhLmNvbSIsInJvbCI6ImFkbWluaXN0cmFkb3IifSwiaWF0IjoxNzM4NzAwNTIzLCJleHAiOjE3Mzg3MjkzMjN9.xhAe_iR1h00xPws1npld9UHssWIVZTEL0vq6gLQFEd8
+>>>>>>> 52c5e5d4a0006af590390b79911c0263df6c97f7
 
 ## Usuarios (Requieren autenticación)
 
 ### Obtener Todos los Usuarios (Solo Admin)
 GET http://localhost:3000/api/usuarios
+<<<<<<< HEAD
 x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7Im5vbWJyZSI6IkFkbWluIFByaW5jaXBhbCIsImVtYWlsIjoiYWRtaW5AZW1wcmVzYS5jb20iLCJyb2wiOiJhZG1pbmlzdHJhZG9yIn0sImlhdCI6MTczOTk5MTU3NCwiZXhwIjoxNzQwMDIwMzc0fQ.FRziTC_poUsndi2Ft2VG0c8sLOpBavXEfiW1_y67ADA
+=======
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoiNjc5Y2Q0Njk1ZThjYWNiNTBhYjQ5NTRkIiwibm9tYnJlIjoiQWRtaW4gUHJpbmNpcGFsIiwiZW1haWwiOiJhZG1pbkBlbXByZXNhLmNvbSIsInJvbCI6ImFkbWluaXN0cmFkb3IifSwiaWF0IjoxNzM4NzAwNTIzLCJleHAiOjE3Mzg3MjkzMjN9.xhAe_iR1h00xPws1npld9UHssWIVZTEL0vq6gLQFEd8
+>>>>>>> 52c5e5d4a0006af590390b79911c0263df6c97f7
 
 ### Obtener Usuario por ID (Admin o mismo usuario)
 GET http://localhost:3000/api/usuarios/1
@@ -91,7 +99,11 @@ x-auth-token: {{authToken}}
 
 ### Obtener Todos los Premios
 GET http://localhost:3000/api/premios
+<<<<<<< HEAD
 x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7Im5vbWJyZSI6IkFkbWluIFByaW5jaXBhbCIsImVtYWlsIjoiYWRtaW5AZW1wcmVzYS5jb20iLCJyb2wiOiJhZG1pbmlzdHJhZG9yIn0sImlhdCI6MTczOTk5NzAxOCwiZXhwIjoxNzQwMDI1ODE4fQ.dPaBZaDFGkE9DPlPHK7Ubfle6dZ8Wd6nCcb19Sq86HM
+=======
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoiNjc5Y2Q0Njk1ZThjYWNiNTBhYjQ5NTRkIiwibm9tYnJlIjoiQWRtaW4gUHJpbmNpcGFsIiwiZW1haWwiOiJhZG1pbkBlbXByZXNhLmNvbSIsInJvbCI6ImFkbWluaXN0cmFkb3IifSwiaWF0IjoxNzM4NzAwNTIzLCJleHAiOjE3Mzg3MjkzMjN9.xhAe_iR1h00xPws1npld9UHssWIVZTEL0vq6gLQFEd8
+>>>>>>> 52c5e5d4a0006af590390b79911c0263df6c97f7
 
 
 #GET http://localhost:3000/api/premios/679d1b4c1a2afe8bb321870f
