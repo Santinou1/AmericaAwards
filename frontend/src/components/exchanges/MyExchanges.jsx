@@ -15,11 +15,14 @@ function MyExchanges() {
     const loadExchanges = async () => {
         try {
             const token = localStorage.getItem('token');
+            console.log('Cargando mis canjes...');
             const response = await axios.get('http://localhost:3000/api/canjes/mis-canjes', {
                 headers: { 'x-auth-token': token }
             });
-            setExchanges(response.data.canjes || []);
+            console.log('Respuesta de mis canjes:', response.data);
+            setExchanges(Array.isArray(response.data) ? response.data : []);
         } catch (err) {
+            console.error('Error al cargar canjes:', err);
             Swal.fire({
                 title: 'Error',
                 text: 'Error al cargar tus canjes',
@@ -32,10 +35,30 @@ function MyExchanges() {
     };
 
     const calculateTotalPoints = (exchange) => {
-        if (!exchange?.premio_id?.costo_puntos || !exchange?.cantidad) {
+        if (!exchange?.Premio?.costo_puntos || !exchange?.cantidad) {
             return 0;
         }
-        return exchange.premio_id.costo_puntos * exchange.cantidad;
+        return exchange.Premio.costo_puntos * exchange.cantidad;
+    };
+
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('es-ES', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+    };
+
+    const getStatusText = (status) => {
+        const statusMap = {
+            'pendiente': 'Pendiente',
+            'aprobado': 'Aprobado',
+            'rechazado': 'Rechazado'
+        };
+        return statusMap[status] || 'Pendiente';
     };
 
     if (loading) {
@@ -72,7 +95,7 @@ function MyExchanges() {
                 <div className="exchanges-list">
                     {exchanges.map((exchange, index) => (
                         <motion.div 
-                            key={exchange._id || Math.random()} 
+                            key={exchange.canje_id} 
                             className="exchange-card"
                             initial={{ opacity: 0, x: -20 }}
                             animate={{ opacity: 1, x: 0 }}
@@ -81,23 +104,23 @@ function MyExchanges() {
                         >
                             <div className="exchange-header">
                                 <span className="exchange-date">
-                                    {exchange.fecha ? new Date(exchange.fecha).toLocaleDateString() : 'Fecha no disponible'}
+                                    {formatDate(exchange.fecha)}
                                 </span>
                                 <span className={`status-badge ${exchange.estado || 'pendiente'}`}>
-                                    {exchange.estado || 'pendiente'}
+                                    {getStatusText(exchange.estado)}
                                 </span>
                             </div>
                             <div className="exchange-content">
-                                <h3>{exchange.premio_id?.nombre || 'Premio no disponible'}</h3>
-                                <p className="description">{exchange.premio_id?.descripcion || 'Sin descripción'}</p>
+                                <h3>{exchange.Premio?.nombre || 'Premio no disponible'}</h3>
+                                <p className="description">{exchange.Premio?.descripcion || 'Sin descripción'}</p>
                                 <div className="exchange-details">
-                                    <span>Cantidad: {exchange.cantidad || 0}</span>
+                                    <span>Cantidad: {exchange.cantidad}</span>
                                     <span>Total: {calculateTotalPoints(exchange)} puntos</span>
                                 </div>
-                                {exchange.premio_id?.imagen_url && (
+                                {exchange.Premio?.imagen_url && (
                                     <motion.img 
-                                        src={exchange.premio_id.imagen_url}
-                                        alt={exchange.premio_id.nombre}
+                                        src={exchange.Premio.imagen_url}
+                                        alt={exchange.Premio.nombre}
                                         className="prize-image"
                                         initial={{ opacity: 0 }}
                                         animate={{ opacity: 1 }}

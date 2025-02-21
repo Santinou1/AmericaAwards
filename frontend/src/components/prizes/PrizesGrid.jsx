@@ -96,7 +96,7 @@ function PrizesGrid() {
                 const token = localStorage.getItem('token');
                 await axios.post('http://localhost:3000/api/canjes', 
                     {
-                        premio_id: prize._id,
+                        premio_id: prize.premio_id,
                         cantidad: 1
                     },
                     {

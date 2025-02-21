@@ -26,7 +26,7 @@ function TransferForm() {
                 headers: { 'x-auth-token': token }
             });
             const filteredUsers = response.data
-                .filter(u => u._id !== user.id)
+                .filter(u => u.idUsuario !== user.id)
                 .sort((a, b) => a.nombre.localeCompare(b.nombre));
             setUsers(filteredUsers);
         } catch (err) {
@@ -97,9 +97,9 @@ function TransferForm() {
                         onChange={(e) => setTransfer({...transfer, receptor_id: e.target.value})}
                         required
                     >
-                        <option value="">Selecciona un usuario</option>
+                        <option value="" key="default">Selecciona un usuario</option>
                         {users.map(user => (
-                            <option key={user._id} value={user._id}>
+                            <option key={user.idUsuario} value={user.idUsuario}>
                                 {user.nombre}
                             </option>
                         ))}

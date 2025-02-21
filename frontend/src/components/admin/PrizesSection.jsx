@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../../styles/PrizesSection.css';
 
+// Crear una instancia de axios específica para imgbb sin interceptores
+const imgbbAxios = axios.create();
+
 function PrizesSection() {
     const [prizes, setPrizes] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -16,6 +19,7 @@ function PrizesSection() {
         stock: 0,
         imagen_url: ''
     });
+    const [imageLoading, setImageLoading] = useState(false);
 
     const loadPrizes = async () => {
         try {
@@ -46,16 +50,26 @@ function PrizesSection() {
             return;
         }
 
+        setImageLoading(true);
+        setError(null);
+
         try {
             const formData = new FormData();
             formData.append('image', file);
 
-            // Aquí deberías usar tu servicio de almacenamiento de imágenes preferido
-            // Este es solo un ejemplo usando imgbb.com
-            const imgbbKey = '640d4373dc78019c9c51174d48930d79'; // Reemplaza con tu API key
-            formData.append('key', imgbbKey);
+            const imgbbKey = '640d4373dc78019c9c51174d48930d79';
+            const url = `https://api.imgbb.com/1/upload?key=${imgbbKey}`;
 
-            const response = await axios.post('https://api.imgbb.com/1/upload', formData);
+            const response = await imgbbAxios.post(url, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+
+            if (!response.data || !response.data.data || !response.data.data.url) {
+                throw new Error('No se recibió la URL de la imagen');
+            }
+
             const imageUrl = response.data.data.url;
 
             if (isEdit) {
@@ -64,8 +78,10 @@ function PrizesSection() {
                 setNewPrize(prev => ({ ...prev, imagen_url: imageUrl }));
             }
         } catch (err) {
-            setError('Error al subir la imagen');
-            console.error(err);
+            console.error('Error detallado al subir imagen:', err.response || err);
+            setError('Error al subir la imagen. Por favor, intenta nuevamente.');
+        } finally {
+            setImageLoading(false);
         }
     };
 
@@ -156,6 +172,7 @@ function PrizesSection() {
                                     className="image-preview"
                                 />
                             )}
+                            {imageLoading && <p>Cargando imagen...</p>}
                         </div>
                         <div className="form-group">
                             <label>Nombre:</label>
@@ -226,6 +243,7 @@ function PrizesSection() {
                                     className="image-preview"
                                 />
                             )}
+                            {imageLoading && <p>Cargando imagen...</p>}
                         </div>
                         <div className="form-group">
                             <label>Nombre:</label>

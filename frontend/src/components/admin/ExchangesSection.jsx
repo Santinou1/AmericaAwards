@@ -14,14 +14,16 @@ function ExchangesSection() {
     const loadExchanges = async () => {
         try {
             const token = localStorage.getItem('token');
+            console.log('Cargando canjes...');
             const response = await axios.get('http://localhost:3000/api/canjes', {
                 headers: { 'x-auth-token': token }
             });
-            setExchanges(response.data.canjes || []);
+            console.log('Respuesta de canjes:', response.data);
+            setExchanges(Array.isArray(response.data) ? response.data : []);
             setError(null);
         } catch (err) {
+            console.error('Error al cargar los canjes:', err);
             setError('Error al cargar los canjes');
-            console.error(err);
         } finally {
             setLoading(false);
         }
@@ -30,6 +32,7 @@ function ExchangesSection() {
     const handleStatusChange = async (exchangeId, newStatus) => {
         try {
             const token = localStorage.getItem('token');
+            console.log(`Actualizando estado del canje ${exchangeId} a ${newStatus}`);
             await axios.put(
                 `http://localhost:3000/api/canjes/${exchangeId}/estado`,
                 { estado: newStatus },
@@ -37,20 +40,46 @@ function ExchangesSection() {
             );
             loadExchanges(); // Recargar la lista después de actualizar
         } catch (err) {
+            console.error('Error al actualizar el estado:', err);
             setError('Error al actualizar el estado del canje');
-            console.error(err);
         }
     };
 
     const calculateTotalPoints = (exchange) => {
-        if (!exchange?.premio_id?.costo_puntos || !exchange?.cantidad) {
+        if (!exchange?.Premio?.costo_puntos || !exchange?.cantidad) {
             return 0;
         }
-        return exchange.premio_id.costo_puntos * exchange.cantidad;
+        return exchange.Premio.costo_puntos * exchange.cantidad;
     };
 
-    if (loading) return <div>Cargando canjes...</div>;
-    if (error) return <div className="error-message">{error}</div>;
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('es-ES', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+    };
+
+    if (loading) {
+        return (
+            <div className="exchanges-section">
+                <h2>Gestión de Canjes</h2>
+                <div className="loading-message">Cargando canjes...</div>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="exchanges-section">
+                <h2>Gestión de Canjes</h2>
+                <div className="error-message">{error}</div>
+            </div>
+        );
+    }
 
     return (
         <div className="exchanges-section">
@@ -74,11 +103,11 @@ function ExchangesSection() {
                         </thead>
                         <tbody>
                             {exchanges.map(exchange => (
-                                <tr key={exchange._id || Math.random()} className={`status-${exchange.estado || 'pendiente'}`}>
-                                    <td>{exchange.fecha ? new Date(exchange.fecha).toLocaleString() : 'Fecha no disponible'}</td>
-                                    <td>{exchange.usuario_id?.nombre || 'Usuario desconocido'}</td>
-                                    <td>{exchange.premio_id?.nombre || 'Premio no disponible'}</td>
-                                    <td>{exchange.cantidad || 0}</td>
+                                <tr key={exchange.canje_id} className={`status-${exchange.estado || 'pendiente'}`}>
+                                    <td>{formatDate(exchange.fecha)}</td>
+                                    <td>{exchange.Usuario?.nombre || 'Usuario eliminado'}</td>
+                                    <td>{exchange.Premio?.nombre || 'Premio no disponible'}</td>
+                                    <td>{exchange.cantidad}</td>
                                     <td className="points-cell">
                                         {calculateTotalPoints(exchange)}
                                     </td>
@@ -92,13 +121,13 @@ function ExchangesSection() {
                                             <div className="action-buttons">
                                                 <button
                                                     className="approve-button"
-                                                    onClick={() => handleStatusChange(exchange._id, 'aprobado')}
+                                                    onClick={() => handleStatusChange(exchange.canje_id, 'aprobado')}
                                                 >
                                                     Aprobar
                                                 </button>
                                                 <button
                                                     className="reject-button"
-                                                    onClick={() => handleStatusChange(exchange._id, 'rechazado')}
+                                                    onClick={() => handleStatusChange(exchange.canje_id, 'rechazado')}
                                                 >
                                                     Rechazar
                                                 </button>

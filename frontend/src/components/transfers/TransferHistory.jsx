@@ -16,22 +16,43 @@ function TransferHistory() {
     const loadTransfers = async () => {
         try {
             const token = localStorage.getItem('token');
-            const endpoint = user.rol === 'administrador' 
-                ? '/transferencias'
-                : '/transferencias/mis-transferencias';
+            const endpoint = user?.rol === 'administrador' 
+                ? '/api/transferencias'
+                : '/api/transferencias/mis-transferencias';
             
-            const response = await axios.get(`http://localhost:3000/api${endpoint}`, {
+            console.log('Cargando transferencias desde:', endpoint);
+            console.log('Usuario actual:', user);
+            
+            const response = await axios.get(`http://localhost:3000${endpoint}`, {
                 headers: { 'x-auth-token': token }
             });
-            setTransfers(response.data.transferencias || []); // Asegurar que siempre sea un array
+            
+            console.log('Respuesta de transferencias:', response.data);
+            
+            // Asegurarnos de que siempre trabajamos con un array
+            const transfersData = Array.isArray(response.data) ? response.data : 
+                                response.data.transferencias || [];
+            
+            setTransfers(transfersData);
             setError(null);
         } catch (err) {
+            console.error('Error al cargar transferencias:', err);
             setError('Error al cargar el historial de transferencias');
-            console.error(err);
-            setTransfers([]); // Establecer un array vacío en caso de error
+            setTransfers([]);
         } finally {
             setLoading(false);
         }
+    };
+
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('es-ES', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
     };
 
     if (loading) {
@@ -54,16 +75,20 @@ function TransferHistory() {
 
     return (
         <div className="transfer-history-container">
-            <h2>Historial de Transferencias</h2>
+            <h2>
+                {user?.rol === 'administrador' 
+                    ? 'Todas las Transferencias' 
+                    : 'Mis Transferencias'}
+            </h2>
             {transfers.length === 0 ? (
                 <p className="no-transfers">No hay transferencias para mostrar</p>
             ) : (
                 <div className="transfers-list">
                     {transfers.map(transfer => (
-                        <div key={transfer._id} className="transfer-card">
+                        <div key={transfer.transferencia_id} className="transfer-card">
                             <div className="transfer-header">
                                 <span className="transfer-date">
-                                    {new Date(transfer.fecha).toLocaleDateString()}
+                                    {formatDate(transfer.fecha)}
                                 </span>
                                 <span className="transfer-points">
                                     {transfer.puntos} puntos
@@ -71,11 +96,11 @@ function TransferHistory() {
                             </div>
                             <div className="transfer-users">
                                 <div className="transfer-user">
-                                    <strong>De:</strong> {transfer.emisor_id?.nombre || 'Usuario desconocido'}
+                                    <strong>De:</strong> {transfer.emisor?.nombre || 'Usuario eliminado'}
                                 </div>
                                 <div className="transfer-arrow">→</div>
                                 <div className="transfer-user">
-                                    <strong>Para:</strong> {transfer.receptor_id?.nombre || 'Usuario desconocido'}
+                                    <strong>Para:</strong> {transfer.receptor?.nombre || 'Usuario eliminado'}
                                 </div>
                             </div>
                             {transfer.mensaje && (
@@ -91,4 +116,4 @@ function TransferHistory() {
     );
 }
 
-export default TransferHistory
+export default TransferHistory;

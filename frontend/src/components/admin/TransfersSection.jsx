@@ -14,18 +14,31 @@ function TransfersSection() {
     const loadTransfers = async () => {
         try {
             const token = localStorage.getItem('token');
+            console.log('Cargando transferencias de admin...');
             const response = await axios.get('http://localhost:3000/api/transferencias', {
                 headers: { 'x-auth-token': token }
             });
-            setTransfers(response.data.transferencias || []);
+            console.log('Respuesta de transferencias:', response.data);
+            setTransfers(Array.isArray(response.data) ? response.data : []);
             setError(null);
         } catch (err) {
+            console.error('Error al cargar transferencias:', err);
             setError('Error al cargar las transferencias');
-            console.error(err);
             setTransfers([]);
         } finally {
             setLoading(false);
         }
+    };
+
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('es-ES', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
     };
 
     if (loading) {
@@ -66,10 +79,10 @@ function TransfersSection() {
                         </thead>
                         <tbody>
                             {transfers.map(transfer => (
-                                <tr key={transfer._id}>
-                                    <td>{new Date(transfer.fecha).toLocaleString()}</td>
-                                    <td>{transfer.emisor_id?.nombre || 'Usuario desconocido'}</td>
-                                    <td>{transfer.receptor_id?.nombre || 'Usuario desconocido'}</td>
+                                <tr key={transfer.transferencia_id}>
+                                    <td>{formatDate(transfer.fecha)}</td>
+                                    <td>{transfer.emisor?.nombre || 'Usuario eliminado'}</td>
+                                    <td>{transfer.receptor?.nombre || 'Usuario eliminado'}</td>
                                     <td className="points-cell">{transfer.puntos}</td>
                                     <td>{transfer.mensaje || '-'}</td>
                                 </tr>

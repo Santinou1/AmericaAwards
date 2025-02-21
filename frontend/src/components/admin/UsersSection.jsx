@@ -82,9 +82,9 @@ function UsersSection() {
         try {
             const token = localStorage.getItem('token');
             const updateData = { ...selectedUser };
-            delete updateData._id;
+            delete updateData.idUsuario;
             
-            await axios.put(`http://localhost:3000/api/usuarios/${selectedUser._id}`, updateData, {
+            await axios.put(`http://localhost:3000/api/usuarios/${selectedUser.idUsuario}`, updateData, {
                 headers: { 'x-auth-token': token }
             });
 
@@ -360,7 +360,7 @@ function UsersSection() {
                     <tbody>
                         {users.map((user, index) => (
                             <motion.tr 
-                                key={user._id}
+                                key={user.idUsuario}
                                 initial={{ opacity: 0, x: -20 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ delay: index * 0.1 }}
@@ -384,7 +384,7 @@ function UsersSection() {
                                     </motion.button>
                                     <motion.button 
                                         className="delete-button"
-                                        onClick={() => handleDeleteUser(user._id)}
+                                        onClick={() => handleDeleteUser(user.idUsuario)}
                                         whileHover={{ scale: 1.1 }}
                                         whileTap={{ scale: 0.9 }}
                                     >
