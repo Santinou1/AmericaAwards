@@ -5,7 +5,8 @@ const Premio = sequelize.define('Premio',{
     premio_id:{
         type: DataTypes.INTEGER,
         primaryKey: true,
-        autoIncrement: true
+        autoIncrement: true,
+        field: 'premio_id'
     },
     nombre:{
         type: DataTypes.STRING(200),
@@ -22,12 +23,18 @@ const Premio = sequelize.define('Premio',{
     },
     costo_puntos: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        allowNull: false,
+        validate: {
+            min: 0
+        }
     },
     stock:{
         type: DataTypes.INTEGER,
         allowNull: false,
-        
+        defaultValue: 0,
+        validate: {
+            min: 0
+        }
     }
 },{tableName: 'Premios', timestamps: false});
 

@@ -1,49 +1,50 @@
 const {DataTypes} = require('sequelize')
 const sequelize = require('../config/sqlDB'); 
+const Usuario = require('./Usuario');
 
-const Usuario = require('./Usuario');;
-
-const Transferencia = sequelize.define('Transferencia',{
-    transferencia_id:{
+const Transferencia = sequelize.define('Transferencia', {
+    id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-    fecha:{
+    fecha: {
         type: DataTypes.DATE,
         allowNull: false,
         defaultValue: DataTypes.NOW
     },
-    puntos:{
-        type: DataTypes.INTEGER,
-        allowNull: false
-    },
-    emisor_id:{
+    puntos: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        references:{
+        validate: {
+            min: 1
+        }
+    },
+    emisor_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
             model: Usuario,
             key: 'idUsuario'
         },
         onDelete: 'CASCADE'
     },	
-    receptor_id:{
+    receptor_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        references:{
+        references: {
             model: Usuario,
             key: 'idUsuario'
         },
         onDelete: 'CASCADE'
     },
-    mensaje:{
+    mensaje: {
         type: DataTypes.STRING(500),
-        allowNull: false
-    },
-
-},{
-    TableName: 'Transferencia',
-    timestamps: false,
-})
+        allowNull: true
+    }
+}, {
+    tableName: 'Transferencias',
+    timestamps: false
+});
 
 module.exports = Transferencia;

@@ -69,12 +69,13 @@ exports.crearPrimerAdmin = async (req, res) => {
 
 exports.obtenerUsuariosParaTransferencias = async (req, res) => {
   try {
-    const usuarios = await Usuario.find()
-      .select('nombre email _id') // Solo devolver campos necesarios
-      .sort({ nombre: 1 }); // Ordenar por nombre
+    const usuarios = await Usuario.findAll({
+      attributes: ['idUsuario', 'nombre', 'email'],
+      order: [['nombre', 'ASC']]
+    });
     res.json(usuarios);
   } catch (error) {
-    console.error(error);
+    console.error('Error al obtener usuarios para transferencias:', error);
     res.status(500).json({ msg: 'Error al obtener usuarios' });
   }
 };
@@ -216,20 +217,17 @@ exports.actualizarUsuario = async (req, res) => {
 
 exports.eliminarUsuario = async (req, res) => {
   try {
-    const usuario = await Usuario.findBypK(req.params.id);
+    const usuario = await Usuario.findByPk(req.params.id);
     
     if (!usuario) {
       return res.status(404).json({ msg: 'Usuario no encontrado' });
     }
 
-    await Usuario.destroy({where:{idUsuario: req.params.id}});
+    await usuario.destroy(); // Es mejor usar el método destroy() de la instancia
 
     res.json({ msg: 'Usuario eliminado exitosamente' });
   } catch (error) {
-    console.error(error);
-    if (error.kind === 'ObjectId') {
-      return res.status(404).json({ msg: 'Usuario no encontrado' });
-    }
-    res.status(500).json({ msg: 'Error en el servidor' });
+    console.error('Error al eliminar usuario:', error);
+    res.status(500).json({ msg: 'Error al eliminar el usuario' });
   }
 };

@@ -8,7 +8,8 @@ const Canje = sequelize.define('Canje',{
     canje_id:{
         type: DataTypes.INTEGER,
         primaryKey: true,
-        autoIncrement: true
+        autoIncrement: true,
+        field: 'canje_id'
     },
     usuario_id:{
         type: DataTypes.INTEGER,
@@ -27,6 +28,14 @@ const Canje = sequelize.define('Canje',{
             key: 'premio_id'
         },
         onDelete: 'CASCADE'
+    },
+    cantidad:{
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 1,
+        validate: {
+            min: 1
+        }
     },
     fecha:{
         type: DataTypes.DATE,
