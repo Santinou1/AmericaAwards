@@ -32,15 +32,20 @@ function Login() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log('Iniciando login con:', credentials.email);
         const success = await login(credentials.email, credentials.password);
+        console.log('Resultado del login:', success);
         
         if (!success) {
+            console.error('Error durante el login:', error);
             Swal.fire({
                 title: 'Error',
                 text: error || 'Error al iniciar sesión',
                 icon: 'error',
                 confirmButtonColor: '#FFA500'
             });
+        } else {
+            console.log('Login exitoso, esperando redirección...');
         }
     };
 

@@ -14,7 +14,11 @@ exports.autenticarUsuario = async (req, res) => {
 
   try {
     // Revisar que el usuario esté registrado
-    let usuario = await Usuario.findOne({ where:{email} });
+    let usuario = await Usuario.findOne({ 
+      where: { email },
+      attributes: ['idUsuario', 'email', 'password', 'nombre', 'rol'] 
+    });
+
     if (!usuario) {
       return res.status(400).json({ msg: 'El usuario no existe' });
     }
@@ -28,7 +32,7 @@ exports.autenticarUsuario = async (req, res) => {
     // Si todo es correcto, crear y firmar el JWT
     const payload = {
       usuario: {
-        id: usuario.id,
+        id: usuario.idUsuario,
         nombre: usuario.nombre,
         email: usuario.email,
         rol: usuario.rol
@@ -40,7 +44,7 @@ exports.autenticarUsuario = async (req, res) => {
       payload,
       process.env.JWT_SECRET,
       {
-        expiresIn: '8h' // Token expira en 8 horas
+        expiresIn: '8h'
       },
       (error, token) => {
         if (error) throw error;
@@ -48,8 +52,8 @@ exports.autenticarUsuario = async (req, res) => {
       }
     );
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ msg: 'Hubo un error' });
+    console.error('Error en autenticación:', error);
+    res.status(500).json({ msg: 'Hubo un error en el servidor' });
   }
 };
 
@@ -57,11 +61,25 @@ exports.autenticarUsuario = async (req, res) => {
 exports.usuarioAutenticado = async (req, res) => {
   try {
     const usuario = await Usuario.findByPk(req.usuario.id, {
-      attributes: { exclude: ['password'] }
+      attributes: ['idUsuario', 'email', 'nombre', 'rol', 'saldo_puntos_canjeables', 'saldo_puntos_transferibles']
     });
-    res.json({ usuario });
+
+    if (!usuario) {
+      return res.status(404).json({ msg: 'Usuario no encontrado' });
+    }
+
+    res.json({ 
+      usuario: {
+        id: usuario.idUsuario,
+        nombre: usuario.nombre,
+        email: usuario.email,
+        rol: usuario.rol,
+        saldo_puntos_canjeables: usuario.saldo_puntos_canjeables,
+        saldo_puntos_transferibles: usuario.saldo_puntos_transferibles
+      } 
+    });
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ msg: 'Hubo un error' });
+    console.error('Error al obtener usuario:', error);
+    res.status(500).json({ msg: 'Error al obtener información del usuario' });
   }
 };
