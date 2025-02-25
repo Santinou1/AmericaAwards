@@ -46,7 +46,7 @@ const Canje = sequelize.define('Canje',{
         type: DataTypes.ENUM('pendiente','aprobado','rechazado'),
         defaultValue: 'pendiente'
     }
-},{tableName: 'Canjes', timestamps: false
+},{freezeTableName:true, timestamps: false
 });
 
 module.exports = Canje;

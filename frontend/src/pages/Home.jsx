@@ -43,9 +43,9 @@ function Home() {
                                 <div className="points-progress">
                                     <progress 
                                         value={user.saldo_puntos_transferibles} 
-                                        max={user.saldo_puntos_transferibles}
+                                        max={1000}
                                     />
-                                    <span>{user.saldo_puntos_transferibles}/{user.saldo_puntos_transferibles}</span>
+                                    <span>{user.saldo_puntos_transferibles}/{1000}</span>
                                 </div>
                                 <p>Tienes {user.saldo_puntos_transferibles} puntos para transferir</p>
                             </div>

@@ -43,7 +43,7 @@ const Transferencia = sequelize.define('Transferencia', {
         allowNull: true
     }
 }, {
-    tableName: 'Transferencias',
+    freezeTableName: true,
     timestamps: false
 });
 

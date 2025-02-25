@@ -26,7 +26,7 @@ const Empleado = sequelize.define('Empleado',{
         onDelete: 'CASCADE'
     }
 },{
-    TableName: 'Empleado',
+    freezeTableName:true,
     timestamps: false,
 });
 

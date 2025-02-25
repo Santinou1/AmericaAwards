@@ -36,6 +36,6 @@ const Premio = sequelize.define('Premio',{
             min: 0
         }
     }
-},{tableName: 'Premios', timestamps: false});
+},{freezeTableName: true, timestamps: false});
 
 module.exports = Premio;
