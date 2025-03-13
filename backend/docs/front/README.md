@@ -55,7 +55,7 @@ const verificarAuth = async () => {
 
 ### Permisos y Roles
 ```javascript
-const isAdmin = (user) => user?.rol === 'administrador';
+const isAdmin = (user) => user?.rol === 'admin';
 const canEditUser = (currentUser, targetUserId) => 
   isAdmin(currentUser) || currentUser.id === targetUserId;
 ```

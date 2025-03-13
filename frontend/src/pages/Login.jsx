@@ -15,7 +15,7 @@ function Login() {
 
     useEffect(() => {
         if (user) {
-            if (user.rol === 'administrador') {
+            if (user.rol === 'admin') {
                 navigate('/admin');
             } else {
                 navigate('/home');

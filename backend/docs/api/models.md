@@ -22,7 +22,7 @@ Gestiona la información de los usuarios del sistema.
   },
   rol: {
     type: String,
-    enum: ['empleado', 'administrador'],
+    enum: ['empleado', 'admin'],
     default: 'empleado'
   },
   saldo_puntos_canjeables: {
@@ -47,7 +47,7 @@ Gestiona la información de los usuarios del sistema.
   - Debe ser único
   - Se almacena en minúsculas
 - **password**: Campo requerido, se almacena encriptado
-- **rol**: Solo puede ser 'empleado' o 'administrador'
+- **rol**: Solo puede ser 'empleado' o 'admin'
 - **saldos**: No pueden ser negativos
 
 ## Transferencia

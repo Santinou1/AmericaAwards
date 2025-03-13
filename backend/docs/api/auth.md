@@ -8,7 +8,7 @@
 
 ## Roles y Permisos
 
-### Administrador
+### admin
 - Gestión completa de usuarios
 - Gestión del catálogo de premios
 - Acceso a reportes y estadísticas
@@ -42,7 +42,7 @@ const auth = (req, res, next) => {
 ```javascript
 // Verificar admin
 const isAdmin = (req, res, next) => {
-  if (req.usuario.rol !== 'administrador') {
+  if (req.usuario.rol !== 'admin') {
     return res.status(403).json({ msg: 'Acceso denegado' });
   }
   next();
@@ -50,7 +50,7 @@ const isAdmin = (req, res, next) => {
 
 // Verificar propiedad o admin
 const isSameUserOrAdmin = (req, res, next) => {
-  if (req.usuario.rol === 'administrador' || 
+  if (req.usuario.rol === 'admin' || 
       req.usuario.id === req.params.id) {
     next();
   } else {

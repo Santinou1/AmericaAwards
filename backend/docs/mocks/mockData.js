@@ -5,7 +5,7 @@ const mockData = {
       {
         nombre: "Admin Principal",
         email: "admin@empresa.com",
-        rol: "administrador",
+        rol: "admin",
         saldo_puntos_canjeables: 5000,
         saldo_puntos_transferibles: 1000,
         fecha_creacion: "2023-01-01T00:00:00.000Z",

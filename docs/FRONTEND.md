@@ -16,7 +16,7 @@
 
 #### 3. Dashboard
 - **UserDashboard**: Panel principal para usuarios
-- **AdminDashboard**: Panel principal para administradores
+- **AdminDashboard**: Panel principal para admines
 - **Statistics**: Componente de estadísticas
 
 #### 4. Transferencias

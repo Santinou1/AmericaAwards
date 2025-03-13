@@ -70,7 +70,7 @@ proyecto/
 
 ### 1. Gestión de Usuarios
 - Registro y autenticación
-- Roles (administrador y empleado)
+- Roles (admin y empleado)
 - Gestión de saldos de puntos
 
 ### 2. Sistema de Transferencias
@@ -87,12 +87,12 @@ proyecto/
 - Canje de puntos por premios
 - Verificación de saldo y stock
 - Historial de canjes
-- Proceso de aprobación/rechazo por administradores
+- Proceso de aprobación/rechazo por admines
 - Gestión automática de devoluciones en caso de rechazo
 
 ## Roles y Permisos
 
-### Administrador
+### admin
 - Gestión completa de usuarios
 - Gestión del catálogo de premios
 - Acceso a todos los historiales

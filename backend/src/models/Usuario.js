@@ -17,7 +17,7 @@ const usuarioSchema = new mongoose.Schema({
   },
   rol: {
     type: String,
-    enum: ['empleado', 'administrador'],
+    enum: ['empleado', 'admin'],
     default: 'empleado'
   },
   saldo_puntos_canjeables: {

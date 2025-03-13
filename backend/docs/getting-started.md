@@ -1,6 +1,6 @@
 # Primeros Pasos
 
-## 1. Crear Primer Administrador
+## 1. Crear Primer admin
 
 ```http
 POST /api/usuarios/primer-admin
@@ -27,12 +27,12 @@ Content-Type: application/json
 
 ## 3. Flujo de Trabajo
 
-1. El administrador crea usuarios
+1. El admin crea usuarios
 2. Los usuarios pueden:
    - Transferir puntos
    - Canjear premios
    - Ver su historial
-3. El administrador gestiona:
+3. El admin gestiona:
    - Usuarios
    - Catálogo de premios
    - Reportes

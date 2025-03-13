@@ -13,7 +13,7 @@ function UsersSection() {
     const [newUser, setNewUser] = useState({
         nombre: '',
         email: '',
-        password: '',
+        usuarioPassword: '',
         rol: 'empleado',
         saldo_puntos_canjeables: 0,
         saldo_puntos_transferibles: 0
@@ -61,7 +61,7 @@ function UsersSection() {
             setNewUser({
                 nombre: '',
                 email: '',
-                password: '',
+                usuarioPassword: '',
                 rol: 'empleado',
                 saldo_puntos_canjeables: 0,
                 saldo_puntos_transferibles: 0
@@ -218,7 +218,7 @@ function UsersSection() {
                                 onChange={(e) => setNewUser({...newUser, rol: e.target.value})}
                             >
                                 <option value="empleado">Empleado</option>
-                                <option value="administrador">Administrador</option>
+                                <option value="admin">admin</option>
                             </select>
                         </div>
                         <div className="form-group">
@@ -294,7 +294,7 @@ function UsersSection() {
                                 onChange={(e) => setSelectedUser({...selectedUser, rol: e.target.value})}
                             >
                                 <option value="empleado">Empleado</option>
-                                <option value="administrador">Administrador</option>
+                                <option value="admin">admin</option>
                             </select>
                         </div>
                         <div className="form-group">

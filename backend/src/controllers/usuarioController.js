@@ -5,7 +5,7 @@ const Usuario = require('../SQLmodels/Usuario');
 const jwt = require('jsonwebtoken');
 
 
-// Nuevo método para crear el primer administrador
+// Nuevo método para crear el primer admin
 exports.crearPrimerAdmin = async (req, res) => {
   try {
     // Verificar si ya existe algún usuario
@@ -24,12 +24,12 @@ exports.crearPrimerAdmin = async (req, res) => {
     // Encriptar contraseña
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
-    // Crear nuevo usuario administrador
+    // Crear nuevo usuario admin
     const usuario = await Usuario.create({
       nombre,
       email,
       password: hashedPassword, // Aquí ya deberías pasar la contraseña encriptada
-      rol: 'administrador',
+      rol: 'admin',
       saldo_puntos_canjeables: 0,
       saldo_puntos_transferibles: 0
     });
@@ -52,7 +52,7 @@ exports.crearPrimerAdmin = async (req, res) => {
 
     // Enviar respuesta
     res.status(201).json({
-      msg: 'Administrador creado exitosamente',
+      msg: 'admin creado exitosamente',
       token,
       usuario: {
         id: usuario._id,
@@ -131,7 +131,7 @@ exports.crearUsuario = async (req, res) => {
 exports.obtenerUsuarios = async (req, res) => {
   try {
     const usuarios = await Usuario.findAll({
-      attributes: { exclude: ['password'] }, // Excluir el campo password
+      attributes: { exclude: ['usuarioPassword'] }, // Excluir el campo password
        // Ordenar por fecha de creación descendente
     });
     res.json(usuarios);
@@ -144,7 +144,7 @@ exports.obtenerUsuarios = async (req, res) => {
 exports.obtenerUsuario = async (req, res) => {
   try {
     const usuario = await Usuario.findByPk(req.params.id,{
-      attributes: {exclude: ['password']}
+      attributes: {exclude: ['usuarioPassword']}
     });
     
     if (!usuario) {

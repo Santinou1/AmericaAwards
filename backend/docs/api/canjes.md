@@ -69,7 +69,7 @@ Sistema de canje de premios que permite a los usuarios intercambiar sus puntos p
 - **URL**: `/api/canjes`
 - **Método**: `GET`
 - **Autenticación**: Requerida
-- **Rol**: Administrador
+- **Rol**: admin
 - **Respuesta**:
   ```json
   {
@@ -99,7 +99,7 @@ Sistema de canje de premios que permite a los usuarios intercambiar sus puntos p
 - **URL**: `/api/canjes/:id/estado`
 - **Método**: `PUT`
 - **Autenticación**: Requerida
-- **Rol**: Administrador
+- **Rol**: admin
 - **Body**:
   ```json
   {
@@ -162,7 +162,7 @@ Sistema de canje de premios que permite a los usuarios intercambiar sus puntos p
 - **403**: No autorizado
   ```json
   {
-    "msg": "Acceso denegado. Se requiere rol de administrador."
+    "msg": "Acceso denegado. Se requiere rol de admin."
   }
   ```
 - **404**: Premio o canje no encontrado

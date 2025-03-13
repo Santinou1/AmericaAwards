@@ -20,7 +20,7 @@
 
 ## Usuarios
 
-### Crear Primer Administrador
+### Crear Primer admin
 - **URL**: `/api/usuarios/primer-admin`
 - **Método**: `POST`
 - **Acceso**: Público (solo funciona una vez)

@@ -57,7 +57,7 @@ Sistema de gestión de premios que pueden ser canjeados por los usuarios usando 
 - **URL**: `/api/premios`
 - **Método**: `POST`
 - **Autenticación**: Requerida
-- **Rol**: Administrador
+- **Rol**: admin
 - **Body**:
   ```json
   {
@@ -92,7 +92,7 @@ Sistema de gestión de premios que pueden ser canjeados por los usuarios usando 
 - **URL**: `/api/premios/:id`
 - **Método**: `PUT`
 - **Autenticación**: Requerida
-- **Rol**: Administrador
+- **Rol**: admin
 - **Parámetros URL**: 
   - `id`: ID del premio
 - **Body** (todos los campos son opcionales):
@@ -124,7 +124,7 @@ Sistema de gestión de premios que pueden ser canjeados por los usuarios usando 
 - **URL**: `/api/premios/:id`
 - **Método**: `DELETE`
 - **Autenticación**: Requerida
-- **Rol**: Administrador
+- **Rol**: admin
 - **Parámetros URL**: 
   - `id`: ID del premio
 - **Respuesta Exitosa**:

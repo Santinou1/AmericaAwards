@@ -8,7 +8,7 @@ Gestiona la información de los usuarios registrados en el sistema.
 - **nombre** (`varchar`): Nombre completo del usuario.
 - **email** (`varchar`): Dirección de correo electrónico del usuario. Debe ser único.
 - **password** (`varchar`): Contraseña del usuario almacenada de forma encriptada.
-- **rol** (`enum`): Rol del usuario en el sistema. Puede ser `empleado` o `administrador`.
+- **rol** (`enum`): Rol del usuario en el sistema. Puede ser `empleado` o `admin`.
 - **saldo_puntos_canjeables** (`integer`): Cantidad de puntos disponibles para canje.
 - **saldo_puntos_transferibles** (`integer`): Cantidad de puntos que el usuario puede transferir.
 - **fecha_creacion** (`timestamp`): Fecha y hora de creación del registro.

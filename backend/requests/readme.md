@@ -16,7 +16,7 @@ Esta guía explica cómo realizar pruebas de los diferentes endpoints de la API 
 
 1. **Crear Primer Admin**
    - Usar `auth.http`
-   - Ejecutar la petición "Crear Primer Usuario Administrador"
+   - Ejecutar la petición "Crear Primer Usuario admin"
    - Este paso solo funciona una vez cuando la base de datos está vacía
 
 2. **Login**

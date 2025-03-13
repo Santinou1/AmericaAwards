@@ -13,7 +13,7 @@ router.get('/', auth, premioController.obtenerPremios);
 // Obtener premio específico - accesible para todos los usuarios autenticados
 router.get('/:id', auth, premioController.obtenerPremio);
 
-// Las siguientes rutas son solo para administradores
+// Las siguientes rutas son solo para admines
 router.post('/', [auth, isAdmin, validarPremio], premioController.crearPremio);
 router.put('/:id', [auth, isAdmin, validarPremio], premioController.actualizarPremio);
 router.delete('/:id', [auth, isAdmin], premioController.eliminarPremio);

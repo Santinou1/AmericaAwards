@@ -21,7 +21,7 @@ exports.validarCreacionUsuario = [
   
   check('rol')
     .optional()
-    .isIn(['empleado', 'administrador'])
+    .isIn(['empleado', 'admin'])
     .withMessage('Rol no válido'),
   
   check('saldo_puntos_canjeables')
@@ -59,7 +59,7 @@ exports.validarActualizacionUsuario = [
   
   check('rol')
     .optional()
-    .isIn(['empleado', 'administrador'])
+    .isIn(['empleado', 'admin'])
     .withMessage('Rol no válido'),
   
   check('saldo_puntos_canjeables')

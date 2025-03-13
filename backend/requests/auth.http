@@ -1,7 +1,7 @@
 @baseUrl = http://localhost:3000/api
 @authToken = {{login.response.body.token}}
 
-### Crear Primer Usuario Administrador (Solo funciona una vez)
+### Crear Primer Usuario admin (Solo funciona una vez)
 # @name createAdmin
 POST {{baseUrl}}/usuarios/primer-admin
 Content-Type: application/json

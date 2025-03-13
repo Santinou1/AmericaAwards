@@ -51,7 +51,7 @@ Este proyecto implementa una plataforma de gamificación laboral que transforma 
 - Pueden canjear sus puntos por premios
 - Acceso a su historial de transferencias y canjes
 
-### Administradores
+### admines
 - Gestión del catálogo de premios
 - Administración de usuarios
 - Configuración de asignaciones de puntos

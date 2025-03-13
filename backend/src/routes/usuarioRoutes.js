@@ -5,13 +5,13 @@ const { validarCreacionUsuario, validarActualizacionUsuario } = require('../midd
 const auth = require('../middleware/auth');
 const { isAdmin, isSameUserOrAdmin } = require('../middleware/checkRole');
 
-// Ruta pública para crear el primer usuario administrador
+// Ruta pública para crear el primer usuario admin
 router.post('/primer-admin', validarCreacionUsuario, usuarioController.crearPrimerAdmin);
 
 // Ruta para obtener usuarios para transferencias (accesible para todos los usuarios autenticados)
 router.get('/para-transferencias', auth, usuarioController.obtenerUsuariosParaTransferencias);
 
-// Rutas protegidas que requieren ser administrador
+// Rutas protegidas que requieren ser admin
 router.post('/', [auth, isAdmin, validarCreacionUsuario], usuarioController.crearUsuario);
 router.get('/', [auth, isAdmin], usuarioController.obtenerUsuarios);
 router.get('/:id', [auth, isSameUserOrAdmin], usuarioController.obtenerUsuario);

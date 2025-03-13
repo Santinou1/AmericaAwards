@@ -67,7 +67,7 @@ Sistema de transferencia de puntos entre usuarios que permite el reconocimiento 
 - **URL**: `/api/transferencias`
 - **Método**: `GET`
 - **Autenticación**: Requerida
-- **Rol**: Administrador
+- **Rol**: admin
 - **Respuesta**: Similar a "Mis Transferencias" pero incluye todas las transferencias del sistema
 
 ## Manejo de Errores

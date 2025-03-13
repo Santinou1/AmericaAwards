@@ -111,7 +111,7 @@ npm run dev
 - **Canjes**: Permite canjear puntos por premios
 - **Historial**: Muestra historial de transferencias y canjes
 
-### 3. Panel de Administrador
+### 3. Panel de admin
 - **Gestión de Usuarios**: CRUD de usuarios
 - **Gestión de Premios**: CRUD de premios
 - **Gestión de Áreas**: CRUD de áreas

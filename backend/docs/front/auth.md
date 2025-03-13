@@ -117,7 +117,7 @@ const AuthGuard = ({ children, requireAdmin }) => {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
-  if (requireAdmin && user.rol !== 'administrador') {
+  if (requireAdmin && user.rol !== 'admin') {
     return <Navigate to="/unauthorized" replace />;
   }
 
@@ -132,8 +132,8 @@ export const usePermissions = () => {
   const { user } = useAuth();
 
   return {
-    isAdmin: user?.rol === 'administrador',
-    canEditUser: (userId) => user?.rol === 'administrador' || user?.id === userId,
+    isAdmin: user?.rol === 'admin',
+    canEditUser: (userId) => user?.rol === 'admin' || user?.id === userId,
     canTransferPoints: () => user?.saldo_puntos_transferibles > 0,
     canRedeemPrize: (prizePoints) => user?.saldo_puntos_canjeables >= prizePoints
   };

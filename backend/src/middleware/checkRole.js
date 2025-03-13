@@ -1,16 +1,16 @@
-// Middleware para verificar rol de administrador
+// Middleware para verificar rol de admin
 exports.isAdmin = (req, res, next) => {
-    if (req.usuario && req.usuario.rol === 'administrador') {
+    if (req.usuario && req.usuario.rol === 'admin') {
       next();
     } else {
-      res.status(403).json({ msg: 'Acceso denegado. Se requiere rol de administrador.' });
+      res.status(403).json({ msg: 'Acceso denegado. Se requiere rol de admin.'+ req.usuario.rol });
     }
   };
   
-  // Middleware para verificar si es el mismo usuario o un administrador
+  // Middleware para verificar si es el mismo usuario o un admin
   exports.isSameUserOrAdmin = (req, res, next) => {
     if (
-      req.usuario.rol === 'administrador' || 
+      req.usuario.rol === 'admin' || 
       req.usuario.id === req.params.id
     ) {
       next();

@@ -16,7 +16,7 @@ function TransferHistory() {
     const loadTransfers = async () => {
         try {
             const token = localStorage.getItem('token');
-            const endpoint = user?.rol === 'administrador' 
+            const endpoint = user?.rol === 'admin' 
                 ? '/api/transferencias'
                 : '/api/transferencias/mis-transferencias';
             
@@ -76,7 +76,7 @@ function TransferHistory() {
     return (
         <div className="transfer-history-container">
             <h2>
-                {user?.rol === 'administrador' 
+                {user?.rol === 'admin' 
                     ? 'Todas las Transferencias' 
                     : 'Mis Transferencias'}
             </h2>

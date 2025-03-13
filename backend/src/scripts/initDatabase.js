@@ -24,7 +24,7 @@ async function initDatabase() {
 
         // Crear empleados
         const empleadosData = [
-            { nombre: 'Admin', apellido: 'Sistema', area: 'Tecnología', puesto: 'Administrador' },
+            { nombre: 'Admin', apellido: 'Sistema', area: 'Tecnología', puesto: 'admin' },
             { nombre: 'Juan', apellido: 'Pérez', area: 'Tecnología', puesto: 'Desarrollador' },
             { nombre: 'María', apellido: 'García', area: 'Marketing', puesto: 'Marketing Manager' },
             { nombre: 'Carlos', apellido: 'López', area: 'Ventas', puesto: 'Vendedor' }
@@ -42,10 +42,10 @@ async function initDatabase() {
 
         const usuariosData = [
             {
-                nombre: 'Administrador',
+                nombre: 'admin',
                 email: 'admin@test.com',
                 password: adminPassword,
-                rol: 'administrador',
+                rol: 'admin',
                 empleado: 1,
                 saldo_puntos_canjeables: 1000
             },
