@@ -8,7 +8,7 @@ const auth = require('../middleware/auth');
 // /api/auth
 router.post('/', [
   check('email', 'Agrega un email válido').isEmail(),
-  check('password', 'El password es obligatorio').not().isEmpty()
+  check('usuarioPassword', 'El password es obligatorio').not().isEmpty()
 ], authController.autenticarUsuario);
 
 // Obtiene el usuario autenticado

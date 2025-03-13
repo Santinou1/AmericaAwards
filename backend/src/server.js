@@ -10,7 +10,6 @@ app.use(cors());
 app.use(express.json());
 
 // Conectar a MongoDB
-conectarDB();
 
 
 // Rutas

@@ -66,7 +66,7 @@ export const AuthProvider = ({ children }) => {
     loadUser();
   }, []);
 
-  const login = async (email, password) => {
+  const login = async (email, usuarioPassword) => {
     try {
       setLoading(true);
       setError(null);
@@ -74,7 +74,7 @@ export const AuthProvider = ({ children }) => {
       
       const response = await axios.post('http://localhost:3000/api/auth', {
         email,
-        password
+        usuarioPassword
       });
       
       console.log('Respuesta del login:', response.data);

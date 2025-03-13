@@ -10,7 +10,7 @@ function Login() {
     const { login, loading, error, user } = useAuth();
     const [credentials, setCredentials] = useState({
         email: '',
-        password: ''
+        usuarioPassword: ''
     });
 
     useEffect(() => {
@@ -33,7 +33,7 @@ function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log('Iniciando login con:', credentials.email);
-        const success = await login(credentials.email, credentials.password);
+        const success = await login(credentials.email, credentials.usuarioPassword);
         console.log('Resultado del login:', success);
         
         if (!success) {
@@ -93,8 +93,8 @@ function Login() {
                         <label>Contraseña:</label>
                         <input
                             type="password"
-                            name="password"
-                            value={credentials.password}
+                            name="usuarioPassword"
+                            value={credentials.usuarioPassword}
                             onChange={handleChange}
                             required
                         />

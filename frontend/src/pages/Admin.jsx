@@ -13,12 +13,12 @@ function Admin() {
     const [activeSection, setActiveSection] = useState(null);
 
     useEffect(() => {
-        if (!user || user.rol !== 'administrador') {
+        if (!user || user.rol !== 'admin') {
             navigate('/');
         }
     }, [user, navigate]);
 
-    if (!user || user.rol !== 'administrador') return null;
+    if (!user || user.rol !== 'admin') return null;
 
     return (
         <div className='admin-container'>
