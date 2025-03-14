@@ -165,7 +165,7 @@ exports.actualizarUsuario = async (req, res) => {
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { nombre, email, rol, saldo_puntos_canjeables, saldo_puntos_transferibles, password } = req.body;
+    const { saldo_puntos_canjeables, saldo_puntos_transferibles } = req.body;
     
     // Verificar si el usuario existe
     let usuario = await Usuario.findByPk(req.params.id);
@@ -173,19 +173,9 @@ exports.actualizarUsuario = async (req, res) => {
       return res.status(404).json({ msg: 'Usuario no encontrado' });
     }
 
-    // Verificar si el nuevo email ya está en uso por otro usuario
-    if (email && email !== usuario.email) {
-      const existeEmail = await Usuario.findOne({ email });
-      if (existeEmail) {
-        return res.status(400).json({ msg: 'El email ya está en uso' });
-      }
-    }
-
     const updatedFields = {};
-    // Actualizar campos
-    if (nombre) updatedFields.nombre = nombre;
-    if (email) updatedFields.email = email;
-    if (rol) updatedFields.rol = rol;
+    
+    // Solo permitir actualizar los puntos
     if (typeof saldo_puntos_canjeables !== 'undefined') {
       updatedFields.saldo_puntos_canjeables = saldo_puntos_canjeables;
     }
@@ -193,10 +183,9 @@ exports.actualizarUsuario = async (req, res) => {
       updatedFields.saldo_puntos_transferibles = saldo_puntos_transferibles;
     }
 
-    // Si se proporciona nueva contraseña, encriptarla
-    if (password) {
-      const salt = await bcrypt.genSalt(10);
-      updatedFields.password = await bcrypt.hash(password, salt);
+    // Si no hay campos para actualizar, retornar error
+    if (Object.keys(updatedFields).length === 0) {
+      return res.status(400).json({ msg: 'No se proporcionaron campos válidos para actualizar. Solo se pueden actualizar los puntos.' });
     }
 
     await usuario.update(updatedFields);

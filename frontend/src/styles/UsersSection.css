@@ -102,12 +102,30 @@
     font-weight: bold;
 }
 
-.form-group input,
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="password"],
+.form-group input[type="number"],
 .form-group select {
     width: 100%;
-    padding: 8px;
+    padding: 10px;
     border: 1px solid #ddd;
     border-radius: 4px;
+    font-size: 14px;
+}
+
+.readonly-input {
+    background-color: #f0f0f0;
+    color: #666;
+    cursor: not-allowed;
+    border: 1px solid #ddd;
+}
+
+.form-group input:read-only {
+    background-color: #f0f0f0;
+    color: #666;
+    cursor: not-allowed;
+    border: 1px solid #ddd;
 }
 
 .form-buttons {
