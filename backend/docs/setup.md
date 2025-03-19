@@ -17,7 +17,7 @@ JWT_SECRET=tu_secreto_jwt
 
 ### Frontend (.env)
 ```env
-VITE_API_URL=http://172.31.50.155:3000/api
+VITE_API_URL=http://172.31.50.156:3000/api
 ```
 
 ## Instalación

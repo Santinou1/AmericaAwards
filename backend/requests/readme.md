@@ -8,7 +8,7 @@ Esta guía explica cómo realizar pruebas de los diferentes endpoints de la API 
 
 ## Variables Comunes
 ```http
-@baseUrl = http://172.31.50.155:3000/api
+@baseUrl = http://172.31.50.156:3000/api
 @authToken = {{login.response.body.token}}
 ```
 

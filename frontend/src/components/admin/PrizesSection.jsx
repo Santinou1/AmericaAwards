@@ -24,7 +24,7 @@ function PrizesSection() {
     const loadPrizes = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.get('http://172.31.50.155:3000/api/premios', {
+            const response = await axios.get('http://172.31.50.156:3000/api/premios', {
                 headers: { 'x-auth-token': token }
             });
             setPrizes(response.data.premios);
@@ -89,7 +89,7 @@ function PrizesSection() {
         e.preventDefault();
         try {
             const token = localStorage.getItem('token');
-            await axios.post('http://172.31.50.155:3000/api/premios', newPrize, {
+            await axios.post('http://172.31.50.156:3000/api/premios', newPrize, {
                 headers: { 'x-auth-token': token }
             });
             setShowCreateForm(false);
@@ -114,7 +114,7 @@ function PrizesSection() {
             const updateData = { ...selectedPrize };
             delete updateData.premio_id;
             
-            await axios.put(`http://172.31.50.155:3000/api/premios/${selectedPrize.premio_id}`, updateData, {
+            await axios.put(`http://172.31.50.156:3000/api/premios/${selectedPrize.premio_id}`, updateData, {
                 headers: { 'x-auth-token': token }
             });
             setShowEditForm(false);
@@ -130,7 +130,7 @@ function PrizesSection() {
         if (window.confirm('¿Estás seguro de que deseas eliminar este premio?')) {
             try {
                 const token = localStorage.getItem('token');
-                await axios.delete(`http://172.31.50.155:3000/api/premios/${prizeId}`, {
+                await axios.delete(`http://172.31.50.156:3000/api/premios/${prizeId}`, {
                     headers: { 'x-auth-token': token }
                 });
                 loadPrizes();

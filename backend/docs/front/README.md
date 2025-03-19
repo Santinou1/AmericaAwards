@@ -4,7 +4,7 @@
 
 ### 1. Variables de Entorno
 ```env
-VITE_API_URL=http://172.31.50.155:3000/api
+VITE_API_URL=http://172.31.50.156:3000/api
 ```
 
 ### 2. Cliente HTTP

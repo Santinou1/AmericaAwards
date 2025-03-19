@@ -15,7 +15,7 @@ function ExchangesSection() {
         try {
             const token = localStorage.getItem('token');
             console.log('Cargando canjes...');
-            const response = await axios.get('http://172.31.50.155:3000/api/canjes', {
+            const response = await axios.get('http://172.31.50.156:3000/api/canjes', {
                 headers: { 'x-auth-token': token }
             });
             console.log('Respuesta de canjes:', response.data);
@@ -34,7 +34,7 @@ function ExchangesSection() {
             const token = localStorage.getItem('token');
             console.log(`Actualizando estado del canje ${exchangeId} a ${newStatus}`);
             await axios.put(
-                `http://172.31.50.155:3000/api/canjes/${exchangeId}/estado`,
+                `http://172.31.50.156:3000/api/canjes/${exchangeId}/estado`,
                 { estado: newStatus },
                 { headers: { 'x-auth-token': token } }
             );
