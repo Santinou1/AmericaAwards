@@ -57,11 +57,6 @@ exports.validarActualizacionUsuario = [
     .matches(/\d/)
     .withMessage('La contraseña debe contener al menos un número'),
   
-  check('rol')
-    .optional()
-    .isIn(['empleado', 'admin'])
-    .withMessage('Rol no válido'),
-  
   check('saldo_puntos_canjeables')
     .optional()
     .isInt({ min: 0 })

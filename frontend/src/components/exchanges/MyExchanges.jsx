@@ -16,7 +16,7 @@ function MyExchanges() {
         try {
             const token = localStorage.getItem('token');
             console.log('Cargando mis canjes...');
-            const response = await axios.get('http://localhost:3000/api/canjes/mis-canjes', {
+            const response = await axios.get('http://172.31.50.155:3000/api/canjes/mis-canjes', {
                 headers: { 'x-auth-token': token }
             });
             console.log('Respuesta de mis canjes:', response.data);

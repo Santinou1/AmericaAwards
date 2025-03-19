@@ -24,7 +24,7 @@ function PrizesGrid() {
     const loadPrizes = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.get('http://localhost:3000/api/premios', {
+            const response = await axios.get('http://172.31.50.155:3000/api/premios', {
                 headers: { 'x-auth-token': token }
             });
             setPrizes(response.data.premios);
@@ -94,7 +94,7 @@ function PrizesGrid() {
         if (result.isConfirmed) {
             try {
                 const token = localStorage.getItem('token');
-                await axios.post('http://localhost:3000/api/canjes', 
+                await axios.post('http://172.31.50.155:3000/api/canjes', 
                     {
                         premio_id: prize.premio_id,
                         cantidad: 1

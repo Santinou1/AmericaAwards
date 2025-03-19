@@ -15,7 +15,7 @@ function TransfersSection() {
         try {
             const token = localStorage.getItem('token');
             console.log('Cargando transferencias de admin...');
-            const response = await axios.get('http://localhost:3000/api/transferencias', {
+            const response = await axios.get('http://172.31.50.155:3000/api/transferencias', {
                 headers: { 'x-auth-token': token }
             });
             console.log('Respuesta de transferencias:', response.data);

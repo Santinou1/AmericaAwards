@@ -4,12 +4,14 @@ require('dotenv').config();
 const conectarDB = require('./config/db');
 const { sequelize } = require('./SQLmodels/index');
 const app = express();
+const path = require('path');
 
 // Middleware
 app.use(cors());
 app.use(express.json());
 
 // Conectar a MongoDB
+
 
 
 // Rutas
@@ -20,9 +22,17 @@ app.use('/api/premios', require('./routes/premioRoutes'));
 app.use('/api/canjes', require('./routes/canjeRoutes')); // Nueva ruta de canjes
 
 // Ruta de prueba
-app.get('/', (req, res) => {
+app.get('/api', (req, res) => {
   res.json({ msg: 'API funcionando' });
 });
+
+app.use(express.static(path.join(__dirname, '../../frontend/dist')));
+ 
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../../frontend/dist', 'index.html'));
+});
+
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

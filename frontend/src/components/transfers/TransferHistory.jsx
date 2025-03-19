@@ -23,7 +23,7 @@ function TransferHistory() {
             console.log('Cargando transferencias desde:', endpoint);
             console.log('Usuario actual:', user);
             
-            const response = await axios.get(`http://localhost:3000${endpoint}`, {
+            const response = await axios.get(`http://172.31.50.155:3000${endpoint}`, {
                 headers: { 'x-auth-token': token }
             });
             

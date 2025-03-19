@@ -34,7 +34,7 @@ export const AuthProvider = ({ children }) => {
       }
 
       console.log('Intentando cargar usuario con token:', token);
-      const response = await axios.get('http://localhost:3000/api/auth');
+      const response = await axios.get('http://172.31.50.155:3000/api/auth');
       
       console.log('Respuesta de loadUser:', response.data);
       
@@ -70,9 +70,9 @@ export const AuthProvider = ({ children }) => {
     try {
       setLoading(true);
       setError(null);
-      console.log('Intentando login en:', 'http://localhost:3000/api/auth');
+      console.log('Intentando login en:', 'http://172.31.50.155:3000/api/auth');
       
-      const response = await axios.post('http://localhost:3000/api/auth', {
+      const response = await axios.post('http://172.31.50.155:3000/api/auth', {
         email,
         usuarioPassword
       });

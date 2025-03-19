@@ -22,7 +22,7 @@ function TransferForm() {
     const loadUsers = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.get('http://localhost:3000/api/usuarios/para-transferencias', {
+            const response = await axios.get('http://172.31.50.155:3000/api/usuarios/para-transferencias', {
                 headers: { 'x-auth-token': token }
             });
             const filteredUsers = response.data
@@ -45,7 +45,7 @@ function TransferForm() {
 
         try {
             const token = localStorage.getItem('token');
-            await axios.post('http://localhost:3000/api/transferencias', transfer, {
+            await axios.post('http://172.31.50.155:3000/api/transferencias', transfer, {
                 headers: { 'x-auth-token': token }
             });
             

@@ -1,12 +1,12 @@
 ### API de Sistema de Gamificación Laboral
 
 ### Verificar API
-GET http://localhost:3000/
+GET http://172.31.50.155:3000/
 
 ## Creación Inicial
 
 ### Crear Primer Usuario admin (Solo funciona una vez)
-POST http://localhost:3000/api/usuarios/primer-admin
+POST http://172.31.50.155:3000/api/usuarios/primer-admin
 Content-Type: application/json
 
 {
@@ -18,7 +18,7 @@ Content-Type: application/json
 ## Autenticación
 
 ### Login Usuario
-POST http://localhost:3000/api/auth
+POST http://172.31.50.155:3000/api/auth
 Content-Type: application/json
 
 {
@@ -27,21 +27,21 @@ Content-Type: application/json
 }
 
 ### Obtener Usuario Autenticado
-GET http://localhost:3000/api/auth
+GET http://172.31.50.155:3000/api/auth
 x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7Im5vbWJyZSI6IkFkbWluIFByaW5jaXBhbCIsImVtYWlsIjoiYWRtaW5AZW1wcmVzYS5jb20iLCJyb2wiOiJhZG1pbmlzdHJhZG9yIn0sImlhdCI6MTczOTk5NzAxOCwiZXhwIjoxNzQwMDI1ODE4fQ.dPaBZaDFGkE9DPlPHK7Ubfle6dZ8Wd6nCcb19Sq86HM
 
 ## Usuarios (Requieren autenticación)
 
 ### Obtener Todos los Usuarios (Solo Admin)
-GET http://localhost:3000/api/usuarios
+GET http://172.31.50.155:3000/api/usuarios
 x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7Im5vbWJyZSI6IkFkbWluIFByaW5jaXBhbCIsImVtYWlsIjoiYWRtaW5AZW1wcmVzYS5jb20iLCJyb2wiOiJhZG1pbmlzdHJhZG9yIn0sImlhdCI6MTc0MDA3OTYwNCwiZXhwIjoxNzQwMTA4NDA0fQ.N1ii4uWJYrbLP4DetLHEEQMPB5COTprXUevu7BuylYg
 
 ### Obtener Usuario por ID (Admin o mismo usuario)
-GET http://localhost:3000/api/usuarios/1
+GET http://172.31.50.155:3000/api/usuarios/1
 x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7Im5vbWJyZSI6IkFkbWluIFByaW5jaXBhbCIsImVtYWlsIjoiYWRtaW5AZW1wcmVzYS5jb20iLCJyb2wiOiJhZG1pbmlzdHJhZG9yIn0sImlhdCI6MTczOTk5MTU3NCwiZXhwIjoxNzQwMDIwMzc0fQ.FRziTC_poUsndi2Ft2VG0c8sLOpBavXEfiW1_y67ADA
 
 ### Crear Usuario (Solo Admin)
-POST http://localhost:3000/api/usuarios
+POST http://172.31.50.155:3000/api/usuarios
 Content-Type: application/json
 x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7Im5vbWJyZSI6IllhZWwgQm93ZXJtYW4iLCJlbWFpbCI6Inlib3dlcm1hbkBhbWVyaWNhZ3JvdXBzcmwuY29tIiwicm9sIjoiYWRtaW5pc3RyYWRvciJ9LCJpYXQiOjE3NDAwODAxMTMsImV4cCI6MTc0MDEwODkxM30.KBHOHr8fgl2vz31EZfl3eayG5gWPxj5ehgt2Jjqig14
 
@@ -53,7 +53,7 @@ x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7Im5vbWJyZSI6I
 }
 
 ### Actualizar Usuario (Admin o mismo usuario)
-PUT http://localhost:3000/api/usuarios/1
+PUT http://172.31.50.155:3000/api/usuarios/1
 Content-Type: application/json
 x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7Im5vbWJyZSI6IllhZWwgQm93ZXJtYW4iLCJlbWFpbCI6Inlib3dlcm1hbkBhbWVyaWNhZ3JvdXBzcmwuY29tIiwicm9sIjoiYWRtaW5pc3RyYWRvciJ9LCJpYXQiOjE3NDAwODAxMTMsImV4cCI6MTc0MDEwODkxM30.KBHOHr8fgl2vz31EZfl3eayG5gWPxj5ehgt2Jjqig14
 
@@ -63,13 +63,13 @@ x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7Im5vbWJyZSI6I
 }
 
 ### Eliminar Usuario (Solo Admin)
-DELETE http://localhost:3000/api/usuarios/{{userId}}
+DELETE http://172.31.50.155:3000/api/usuarios/{{userId}}
 x-auth-token: {{authToken}}
 
 ## Transferencias (Requieren autenticación)
 
 ### Realizar Transferencia
-POST http://localhost:3000/api/transferencias
+POST http://172.31.50.155:3000/api/transferencias
 Content-Type: application/json
 x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7Im5vbWJyZSI6IkFkbWluIFByaW5jaXBhbCIsImVtYWlsIjoiYWRtaW5AZW1wcmVzYS5jb20iLCJyb2wiOiJhZG1pbmlzdHJhZG9yIn0sImlhdCI6MTc0MDA3OTYwNCwiZXhwIjoxNzQwMTA4NDA0fQ.N1ii4uWJYrbLP4DetLHEEQMPB5COTprXUevu7BuylYg
 
@@ -81,24 +81,24 @@ x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7Im5vbWJyZSI6I
 }
 
 ### Obtener Mis Transferencias
-GET http://localhost:3000/api/transferencias/mis-transferencias/1
+GET http://172.31.50.155:3000/api/transferencias/mis-transferencias/1
 x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7Im5vbWJyZSI6IllhZWwgQm93ZXJtYW4iLCJlbWFpbCI6Inlib3dlcm1hbkBhbWVyaWNhZ3JvdXBzcmwuY29tIiwicm9sIjoiYWRtaW5pc3RyYWRvciJ9LCJpYXQiOjE3NDAwODAzNTYsImV4cCI6MTc0MDEwOTE1Nn0.JAw1RyuyjS7Byk6AhBb-u-lbsr3EFa5IDdxhbbnoOZs
 
 ### Obtener Todas las Transferencias (Solo Admin)
-GET http://localhost:3000/api/transferencias
+GET http://172.31.50.155:3000/api/transferencias
 x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7Im5vbWJyZSI6IllhZWwgQm93ZXJtYW4iLCJlbWFpbCI6Inlib3dlcm1hbkBhbWVyaWNhZ3JvdXBzcmwuY29tIiwicm9sIjoiYWRtaW5pc3RyYWRvciJ9LCJpYXQiOjE3NDAwODAzNTYsImV4cCI6MTc0MDEwOTE1Nn0.JAw1RyuyjS7Byk6AhBb-u-lbsr3EFa5IDdxhbbnoOZs
 ## Premios (Requieren autenticación)
 
 ### Obtener Todos los Premios
-GET http://localhost:3000/api/premios
+GET http://172.31.50.155:3000/api/premios
 x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7Im5vbWJyZSI6IkFkbWluIFByaW5jaXBhbCIsImVtYWlsIjoiYWRtaW5AZW1wcmVzYS5jb20iLCJyb2wiOiJhZG1pbmlzdHJhZG9yIn0sImlhdCI6MTczOTk5NzAxOCwiZXhwIjoxNzQwMDI1ODE4fQ.dPaBZaDFGkE9DPlPHK7Ubfle6dZ8Wd6nCcb19Sq86HM
 
 
-#GET http://localhost:3000/api/premios/679d1b4c1a2afe8bb321870f
+#GET http://172.31.50.155:3000/api/premios/679d1b4c1a2afe8bb321870f
 #x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoiNjc5Y2Q1ZDJiNWQzMjZiZmE3ZTJmNGM4Iiwibm9tYnJlIjoiQWRtaW4gUHJpbmNpcGFsIiwiZW1haWwiOiJhZG1pbkBlbXByZXNhLmNvbSIsInJvbCI6ImFkbWluaXN0cmFkb3IifSwiaWF0IjoxNzM4MzMxNjAyLCJleHAiOjE3MzgzNjA0MDJ9.3Yc973SOryyrrNEa8atDKSIMbx_LPgGxdFXfeAE0484
 
 ### Crear Premio (Solo Admin)
-POST http://localhost:3000/api/premios
+POST http://172.31.50.155:3000/api/premios
 Content-Type: application/json
 x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7Im5vbWJyZSI6IkFkbWluIFByaW5jaXBhbCIsImVtYWlsIjoiYWRtaW5AZW1wcmVzYS5jb20iLCJyb2wiOiJhZG1pbmlzdHJhZG9yIn0sImlhdCI6MTczOTk5NzAxOCwiZXhwIjoxNzQwMDI1ODE4fQ.dPaBZaDFGkE9DPlPHK7Ubfle6dZ8Wd6nCcb19Sq86HM
 
@@ -110,7 +110,7 @@ x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7Im5vbWJyZSI6I
 }
 
 ### Actualizar Premio (Solo Admin)
-PUT http://localhost:3000/api/premios/679d1b4c1a2afe8bb321870f
+PUT http://172.31.50.155:3000/api/premios/679d1b4c1a2afe8bb321870f
 Content-Type: application/json
 x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoiNjc5ZDE5NmIxYTJhZmU4YmIzMjE4NmYyIiwibm9tYnJlIjoiQWRtaW4gUHJpbmNpcGFsIiwiZW1haWwiOiJhZG1pbkBlbXByZXNhLmNvbSIsInJvbCI6ImFkbWluaXN0cmFkb3IifSwiaWF0IjoxNzM4MzQ4OTkxLCJleHAiOjE3MzgzNzc3OTF9.1jynEdseBWabFKkyFyV8woruaWigSxJCvwfa3REMFDA
 
@@ -122,13 +122,13 @@ x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoiNjc5Z
 }
 
 ### Eliminar Premio (Solo Admin)
-DELETE http://localhost:3000/api/premios/{{premioId}}
+DELETE http://172.31.50.155:3000/api/premios/{{premioId}}
 x-auth-token: {authToken}
 
 ## Canjes (Requieren autenticación)
 
 ### Realizar Canje de Premio
-POST http://localhost:3000/api/canjes
+POST http://172.31.50.155:3000/api/canjes
 Content-Type: application/json
 x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoiNjc5ZDFhYmExYTJhZmU4YmIzMjE4NzAxIiwibm9tYnJlIjoibHVpcyIsImVtYWlsIjoibHVpc0BlbXByZXNhLmNvbSIsInJvbCI6ImVtcGxlYWRvIn0sImlhdCI6MTczODM1MDEyNywiZXhwIjoxNzM4Mzc4OTI3fQ.WR_7LG5GJXs0aFBklR0l2SxQI_eqFmq7AM166BT-0Pc
 
@@ -138,15 +138,15 @@ x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoiNjc5Z
 }
 
 ### Obtener Mis Canjes
-GET http://localhost:3000/api/canjes/mis-canjes
+GET http://172.31.50.155:3000/api/canjes/mis-canjes
 x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoiNjc5ZDFhYmExYTJhZmU4YmIzMjE4NzAxIiwibm9tYnJlIjoibHVpcyIsImVtYWlsIjoibHVpc0BlbXByZXNhLmNvbSIsInJvbCI6ImVtcGxlYWRvIn0sImlhdCI6MTczODM1MDEyNywiZXhwIjoxNzM4Mzc4OTI3fQ.WR_7LG5GJXs0aFBklR0l2SxQI_eqFmq7AM166BT-0Pc
 
 ### Obtener Todos los Canjes (Solo Admin)
-GET http://localhost:3000/api/canjes
+GET http://172.31.50.155:3000/api/canjes
 x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoiNjc5ZDE5NmIxYTJhZmU4YmIzMjE4NmYyIiwibm9tYnJlIjoiQWRtaW4gUHJpbmNpcGFsIiwiZW1haWwiOiJhZG1pbkBlbXByZXNhLmNvbSIsInJvbCI6ImFkbWluaXN0cmFkb3IifSwiaWF0IjoxNzM4MzQ4OTkxLCJleHAiOjE3MzgzNzc3OTF9.1jynEdseBWabFKkyFyV8woruaWigSxJCvwfa3REMFDA
 
 ### Aprobar Canje (Solo Admin)
-PUT http://localhost:3000/api/canjes/679d1e3d1a2afe8bb3218723/estado
+PUT http://172.31.50.155:3000/api/canjes/679d1e3d1a2afe8bb3218723/estado
 Content-Type: application/json
 x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoiNjc5ZDE5NmIxYTJhZmU4YmIzMjE4NmYyIiwibm9tYnJlIjoiQWRtaW4gUHJpbmNpcGFsIiwiZW1haWwiOiJhZG1pbkBlbXByZXNhLmNvbSIsInJvbCI6ImFkbWluaXN0cmFkb3IifSwiaWF0IjoxNzM4MzQ4OTkxLCJleHAiOjE3MzgzNzc3OTF9.1jynEdseBWabFKkyFyV8woruaWigSxJCvwfa3REMFDA
 
@@ -155,7 +155,7 @@ x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoiNjc5Z
 }
 
 ### Rechazar Canje (Solo Admin)
-PUT http://localhost:3000/api/canjes/679ce552b013fc3d63f78df9/estado
+PUT http://172.31.50.155:3000/api/canjes/679ce552b013fc3d63f78df9/estado
 Content-Type: application/json
 x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoiNjc5Y2Q1ZDJiNWQzMjZiZmE3ZTJmNGM4Iiwibm9tYnJlIjoiQWRtaW4gUHJpbmNpcGFsIiwiZW1haWwiOiJhZG1pbkBlbXByZXNhLmNvbSIsInJvbCI6ImFkbWluaXN0cmFkb3IifSwiaWF0IjoxNzM4MzMxNjAyLCJleHAiOjE3MzgzNjA0MDJ9.3Yc973SOryyrrNEa8atDKSIMbx_LPgGxdFXfeAE0484
 
@@ -166,7 +166,7 @@ x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoiNjc5Y
 ### Ejemplos de Errores
 
 ### Intento de Transferencia sin Saldo Suficiente
-POST http://localhost:3000/api/transferencias
+POST http://172.31.50.155:3000/api/transferencias
 Content-Type: application/json
 x-auth-token: {{authToken}}
 
@@ -177,7 +177,7 @@ x-auth-token: {{authToken}}
 }
 
 ### Intento de Transferencia a Sí Mismo
-POST http://localhost:3000/api/transferencias
+POST http://172.31.50.155:3000/api/transferencias
 Content-Type: application/json
 x-auth-token: {{authToken}}
 
@@ -188,7 +188,7 @@ x-auth-token: {{authToken}}
 }
 
 ### Intento de Crear Premio sin ser Admin
-POST http://localhost:3000/api/premios
+POST http://172.31.50.155:3000/api/premios
 Content-Type: application/json
 x-auth-token: {{tokenUsuarioNoAdmin}}
 
@@ -200,7 +200,7 @@ x-auth-token: {{tokenUsuarioNoAdmin}}
 }
 
 ### Intento de Canje sin Saldo Suficiente
-POST http://localhost:3000/api/canjes
+POST http://172.31.50.155:3000/api/canjes
 Content-Type: application/json
 x-auth-token: {{authToken}}
 
@@ -211,7 +211,7 @@ x-auth-token: {{authToken}}
 }
 
 ### Intento de Canje con Stock Insuficiente
-POST http://localhost:3000/api/canjes
+POST http://172.31.50.155:3000/api/canjes
 Content-Type: application/json
 x-auth-token: {{authToken}}
 
@@ -222,7 +222,7 @@ x-auth-token: {{authToken}}
 }
 
 ### Intento de Actualizar Estado de Canje sin ser Admin
-PUT http://localhost:3000/api/canjes/{{canjeId}}/estado
+PUT http://172.31.50.155:3000/api/canjes/{{canjeId}}/estado
 Content-Type: application/json
 x-auth-token: {{tokenUsuarioNoAdmin}}
 
@@ -231,7 +231,7 @@ x-auth-token: {{tokenUsuarioNoAdmin}}
 }
 
 ### Intento de Actualizar Estado con Valor Inválido
-PUT http://localhost:3000/api/canjes/{{canjeId}}/estado
+PUT http://172.31.50.155:3000/api/canjes/{{canjeId}}/estado
 Content-Type: application/json
 x-auth-token: {{authToken}}
 
@@ -240,7 +240,7 @@ x-auth-token: {{authToken}}
 }
 
 ### Intento de Actualizar Estado de Canje ya Procesado
-PUT http://localhost:3000/api/canjes/{{canjeId}}/estado
+PUT http://172.31.50.155:3000/api/canjes/{{canjeId}}/estado
 Content-Type: application/json
 x-auth-token: {{authToken}}
 

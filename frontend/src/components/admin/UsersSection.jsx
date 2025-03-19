@@ -14,7 +14,7 @@ function UsersSection() {
     const loadUsers = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.get('http://localhost:3000/api/usuarios', {
+            const response = await axios.get('http://172.31.50.155:3000/api/usuarios', {
                 headers: { 'x-auth-token': token }
             });
             setUsers(response.data);
@@ -38,10 +38,12 @@ function UsersSection() {
         e.preventDefault();
         try {
             const token = localStorage.getItem('token');
-            const updateData = { ...selectedUser };
-            delete updateData.idUsuario;
+            const updateData = {
+                saldo_puntos_canjeables: selectedUser.saldo_puntos_canjeables,
+                saldo_puntos_transferibles: selectedUser.saldo_puntos_transferibles
+            };
             
-            await axios.put(`http://localhost:3000/api/usuarios/${selectedUser.idUsuario}`, updateData, {
+            await axios.put(`http://172.31.50.155:3000/api/usuarios/${selectedUser.idUsuario}`, updateData, {
                 headers: { 'x-auth-token': token }
             });
 
@@ -80,7 +82,7 @@ function UsersSection() {
         if (result.isConfirmed) {
             try {
                 const token = localStorage.getItem('token');
-                await axios.delete(`http://localhost:3000/api/usuarios/${userId}`, {
+                await axios.delete(`http://172.31.50.155:3000/api/usuarios/${userId}`, {
                     headers: { 'x-auth-token': token }
                 });
 
